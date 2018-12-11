@@ -3,4 +3,4 @@ project(SimServer)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(SimServer main.cpp Hey.cpp Hey.h)
+add_executable(SimServer main.cpp)
