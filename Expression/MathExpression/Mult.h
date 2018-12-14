@@ -1,7 +1,7 @@
 #ifndef SIMSERVER_MULT_H
 #define SIMSERVER_MULT_H
 
-#include "BinaryExpression.h"
+#include "../BinaryExpression.h"
 
 class Mult : protected BinaryExpression{
 public:

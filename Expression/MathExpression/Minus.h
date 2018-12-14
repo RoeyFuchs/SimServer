@@ -2,7 +2,7 @@
 #define SIMSERVER_MINUS_H
 
 
-#include "BinaryExpression.h"
+#include "../BinaryExpression.h"
 
 class Minus : protected BinaryExpression {
 public:

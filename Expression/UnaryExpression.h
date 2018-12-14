@@ -6,14 +6,14 @@
 #endif //SIMSERVER_UNARYEXPRESSION_H
 
 class UnaryExpression : public Expression {
-    Expression* leaf;
+    const Expression* leaf;
 protected:
     explicit UnaryExpression(Expression* leaf) {
         this->leaf = leaf;
     }
     virtual double Execute() = 0;
 
-    Expression* GetLeaf() {
+    const Expression* GetLeaf() {
         return this->leaf;
     }
 };

@@ -1,13 +1,13 @@
 #ifndef SIMSERVER_PLUS_H
 #define SIMSERVER_PLUS_H
 
-#include "BinaryExpression.h"
+#include "../BinaryExpression.h"
 
 class Plus : protected BinaryExpression {
 public:
     Plus(Expression* left, Expression* right) : BinaryExpression(left, right) {}
 
-     double Execute() override {
+     double Execute() override  {
         return BinaryExpression::GetLeft()->Execute() + BinaryExpression::GetRight()->Execute();
     }
 

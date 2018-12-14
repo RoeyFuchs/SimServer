@@ -3,7 +3,7 @@
 
 #include <string>
 #include <stdexcept>
-#include "BinaryExpression.h"
+#include "../BinaryExpression.h"
 
 using namespace std;
 

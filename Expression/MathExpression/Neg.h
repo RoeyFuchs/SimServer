@@ -1,8 +1,8 @@
 #ifndef SIMSERVER_NEG_H
 #define SIMSERVER_NEG_H
 
-#include "Expression.h"
-#include "UnaryExpression.h"
+#include "../Expression.h"
+#include "../UnaryExpression.h"
 
 class Neg : protected UnaryExpression {
 public:

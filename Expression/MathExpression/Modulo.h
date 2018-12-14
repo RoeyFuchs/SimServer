@@ -4,7 +4,7 @@
 
 #include <cmath>
 
-#include "BinaryExpression.h"
+#include "../BinaryExpression.h"
 
 class Modulo : protected BinaryExpression {
 public:
