@@ -2,6 +2,7 @@
 #define SIMSERVER_EXPRESSION_H
 
 class Expression {
+public:
     virtual double execute() = 0;
 };
 
