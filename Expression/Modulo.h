@@ -10,8 +10,8 @@ class Modulo : protected BinaryExpression {
 public:
     Modulo(Expression* left, Expression* right) : BinaryExpression(left, right) {}
 
-    double execute() override {
-        return fmod(BinaryExpression::GetLeft()->execute(), BinaryExpression::GetRight()->execute());
+    double Execute() override {
+        return fmod(BinaryExpression::GetLeft()->Execute(), BinaryExpression::GetRight()->Execute());
     }
 
 };

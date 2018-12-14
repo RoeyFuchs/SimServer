@@ -7,8 +7,8 @@ class Plus : protected BinaryExpression {
 public:
     Plus(Expression* left, Expression* right) : BinaryExpression(left, right) {}
 
-     double execute() override {
-        return BinaryExpression::GetLeft()->execute() + BinaryExpression::GetRight()->execute();
+     double Execute() override {
+        return BinaryExpression::GetLeft()->Execute() + BinaryExpression::GetRight()->Execute();
     }
 
 };

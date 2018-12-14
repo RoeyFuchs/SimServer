@@ -10,7 +10,7 @@ public:
     explicit Number(double num) {
         this->value = num;
     }
-    virtual double execute() {
+    virtual double Execute() {
         return this->value;
     }
 };

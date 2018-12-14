@@ -3,7 +3,7 @@
 
 class Expression {
 public:
-    virtual double execute() = 0;
+    virtual double Execute() = 0;
 };
 
 #endif //SIMSERVER_EXPRESSION_H
