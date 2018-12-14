@@ -4,7 +4,7 @@
 #include "../Expression.h"
 #include "../UnaryExpression.h"
 
-class Neg : protected UnaryExpression {
+class Neg : public UnaryExpression {
 public:
     Neg(Expression* exp) : UnaryExpression(exp) {}
 

@@ -24,17 +24,16 @@ static void NumTest() {
     string failed = "test" + to_string(counter) + " failed";
     string msg;
 
-    auto *l = new vector<Expression>;
-    l->push_back(Number(5.5));  // 1
-    l->push_back(Number(6));  // 2
-    l->push_back(Number(9));  // 3
-    l->push_back(Number(150.2)); // 4
-    l->push_back(Number(39.3)); // 5
-    l->push_back(Number(-5.0)); // 6
-
+    auto *l = new vector<Expression *>;
+    l->push_back(new Number(5.5));  // 1
+    l->push_back(new Number(6));  // 2
+    l->push_back(new Number(9));  // 3
+    l->push_back(new Number(150.2)); // 4
+    l->push_back(new Number(39.3)); // 5
+    l->push_back(new Number(-5.0)); // 6
 
 //test 1
-    Plus(Number(6), Number(1)).Execute() == (11.5) ? msg = success : msg = failed;
+    Plus(l->at(0), l->at(1)).Execute() == (11.5) ? msg = success : msg = failed;
     cout << msg << endl;
     ++counter;
 //test 2
@@ -50,22 +49,12 @@ static void NumTest() {
     cout << msg << endl;
     ++counter;
 
-    Number A(5);
-    auto B = &A;
 
+//test5
 
-
-
-/*//test5
-Mult(Number(5), Number(5));
-
-Plus(Mult(l->at(3), l->at(4)), Mult(l->at(4), l->at(5)))) == (6062.06) ? msg = success : msg = failed;
-cout << msg << endl;
-++counter;
-
-Plus(new Number(5), new Number(5));
-Mult* A = new Mult(new Number(5), new Number(1));
-Plus(A, new Number(5));*/
+    cout << Plus(new Mult(l->at(3), l->at(4)), new Mult(l->at(4), l->at(5))).Execute() << endl;
+    cout << msg << endl;
+    ++counter;
 
 }
 

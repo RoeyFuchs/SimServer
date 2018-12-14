@@ -9,9 +9,11 @@ using namespace std;
 #include "Expression/MathExpression/Mult.h"
 #include "Expression/MathExpression/Mult.h"
 #include "Expression/MathExpression/Div.h"
+#include "Tests/NumberTest.h"
 
 int main() {
    cout << "Hello World :)" << endl;
 
+   //NumTest();
 
 }

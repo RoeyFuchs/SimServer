@@ -6,7 +6,7 @@
 
 #include "../BinaryExpression.h"
 
-class Modulo : protected BinaryExpression {
+class Modulo : public BinaryExpression {
 public:
     Modulo(Expression* left, Expression* right) : BinaryExpression(left, right) {}
 

@@ -4,7 +4,7 @@
 
 #include "../BinaryExpression.h"
 
-class Minus : protected BinaryExpression {
+class Minus : public BinaryExpression {
 public:
     Minus(Expression* left, Expression* right) : BinaryExpression(left, right) {}
 

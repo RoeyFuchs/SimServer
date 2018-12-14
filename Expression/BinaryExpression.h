@@ -8,9 +8,7 @@ class BinaryExpression : public Expression {
     Expression* rightLeaf;
 protected:
     //will use for +,-,*,/ ...
-    BinaryExpression(Expression* left, Expression* right){
-        this->leftLeaf = left;
-        this->rightLeaf = right;
+    BinaryExpression(Expression* left, Expression* right) : leftLeaf(left), rightLeaf(right){
     }
 
     Expression* GetLeft() {
