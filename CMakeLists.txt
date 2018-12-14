@@ -3,4 +3,4 @@ project(SimServer)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(SimServer main.cpp Expression.h)
+add_executable(SimServer main.cpp Expression/Expression.h Expression/Number.h)

@@ -1,7 +1,3 @@
-//
-// Created by roey on 12/14/18.
-//
-
 #ifndef SIMSERVER_EXPRESSION_H
 #define SIMSERVER_EXPRESSION_H
 
