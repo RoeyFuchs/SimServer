@@ -15,7 +15,7 @@
 #include "../Expression/PrintExpression.h"
 #include "../Expression/OpenDataServerExpression.h"
 class Parser {
-    Expression ParseLine(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
+    Expression* ParseLine(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
     void ParseVar(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
     Expression* ParseConnectDataServer(std::vector<std::string> tokens);
     Expression* ParsePrint(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
