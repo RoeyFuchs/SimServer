@@ -6,7 +6,6 @@
 #define SIMSERVER_OPENDATASERVEREXPRESSION_H
 #include "Expression.h"
 
-#endif //SIMSERVER_OPENDATASERVEREXPRESSION_H
 class OpenDataServerExpression: public Expression{
     double  port;
     double samplingRate;
@@ -19,3 +18,4 @@ public:
         return 1;
     }
 };
+#endif //SIMSERVER_OPENDATASERVEREXPRESSION_H
