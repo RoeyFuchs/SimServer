@@ -91,7 +91,8 @@ bool ShuntingYard::isMinus(string &str) {
 }
 
 bool ShuntingYard::isGreaterPrecedence(string &str, string &other) {
-    return (((str == "*" || str == "/") && (other == "+" || other == "-")) || (str=="-" && other =="-"));
+    return (((str == "*" || str == "/") && (other == "+" || other == "-")) ||
+    (str=="-" && other =="-") || (str=="-" && other=="+"));
 }
 //this function will receive a queue with expressions in postfix, and return one expression
 Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que, map<string, VarExpression*> &stringVarMap) {

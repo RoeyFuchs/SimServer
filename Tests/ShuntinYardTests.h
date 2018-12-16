@@ -20,6 +20,8 @@ static void SYTest() {
     string success =  " passed";
     string failed =  " failed";
     string msg;
+    int successCounter = 0;
+    int failedCounter = 0;
 
     ShuntingYard *A = new ShuntingYard();
     auto vec = new vector<string>;
@@ -30,7 +32,7 @@ static void SYTest() {
     vec->emplace_back("3");
 
 
-    A->MakeExpression(*vec, *mapp)->Execute() == 8 ? msg = success : msg = failed;
+    A->MakeExpression(*vec, *mapp)->Execute() == 8 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
     vec->clear();
@@ -41,7 +43,7 @@ static void SYTest() {
     vec->emplace_back("*");
     vec->emplace_back("0");
 
-    A->MakeExpression(*vec, *mapp)->Execute() == 5 ? msg = success : msg = failed;
+    A->MakeExpression(*vec, *mapp)->Execute() == 5 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
     vec->clear();
@@ -54,7 +56,7 @@ static void SYTest() {
     vec->emplace_back("*");
     vec->emplace_back("0");
 
-    A->MakeExpression(*vec, *mapp)->Execute() == 0 ? msg = success : msg = failed;
+    A->MakeExpression(*vec, *mapp)->Execute() == 0 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
     vec->clear();
@@ -71,7 +73,7 @@ static void SYTest() {
     vec->emplace_back("+");
     vec->emplace_back("5");
 
-    A->MakeExpression(*vec, *mapp)->Execute() == 5 ? msg = success : msg = failed;
+    A->MakeExpression(*vec, *mapp)->Execute() == 5 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
     vec->clear();
@@ -83,7 +85,7 @@ static void SYTest() {
 
 
 
-    A->MakeExpression(*vec, *mapp)->Execute() == 1 ? msg = success : msg = failed;
+    A->MakeExpression(*vec, *mapp)->Execute() == 1 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
     vec->clear();
@@ -103,7 +105,7 @@ static void SYTest() {
      * or
      * (9-8)-1 = 0
      */
-    A->MakeExpression(*vec, *mapp)->Execute() == 0 ? msg = success : msg = failed;
+    A->MakeExpression(*vec, *mapp)->Execute() == 0 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
     vec->clear();
@@ -114,7 +116,7 @@ static void SYTest() {
 
 
 
-    A->MakeExpression(*vec, *mapp)->Execute() == 9 ? msg = success : msg = failed;
+    A->MakeExpression(*vec, *mapp)->Execute() == 9 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
     vec->clear();
@@ -124,10 +126,176 @@ static void SYTest() {
     vec->emplace_back("6");
 
 
-    A->MakeExpression(*vec, *mapp)->Execute() == -6 ? msg = success : msg = failed;
+    A->MakeExpression(*vec, *mapp)->Execute() == -6 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
     vec->clear();
+
+    //test 9
+    vec->emplace_back("-");
+    vec->emplace_back("0");
+    vec->emplace_back("-");
+    vec->emplace_back("0");
+    vec->emplace_back("-");
+    vec->emplace_back("5");
+    vec->emplace_back("*");
+    vec->emplace_back("3");
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == -15 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 10
+    vec->emplace_back("0");
+    vec->emplace_back("-");
+    vec->emplace_back("0");
+    vec->emplace_back("-");
+    vec->emplace_back("5");
+    vec->emplace_back("*");
+    vec->emplace_back("3");
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == -15 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 11
+    vec->emplace_back("0");
+    vec->emplace_back("-");
+    vec->emplace_back("(");
+    vec->emplace_back("5");
+    vec->emplace_back("-");
+    vec->emplace_back("5");
+    vec->emplace_back("*");
+    vec->emplace_back("3");
+    vec->emplace_back(")");
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == 10 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 12
+    vec->emplace_back("(");
+    vec->emplace_back("0");
+    vec->emplace_back("-");
+    vec->emplace_back("(");
+    vec->emplace_back("5");
+    vec->emplace_back("-");
+    vec->emplace_back("5");
+    vec->emplace_back("*");
+    vec->emplace_back("3");
+    vec->emplace_back(")");
+    vec->emplace_back(")");
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == 10 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 13
+    vec->emplace_back("5");
+    vec->emplace_back("+");
+    vec->emplace_back("-");
+    vec->emplace_back("8");
+
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == -3 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 14
+    vec->emplace_back("5");
+    vec->emplace_back("+");
+    vec->emplace_back("-");
+    vec->emplace_back("8");
+
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == -3 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 15
+    vec->emplace_back("5");
+    vec->emplace_back("-");
+    vec->emplace_back("8");
+    vec->emplace_back("+");
+    vec->emplace_back("8");
+
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == 5 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 16
+    vec->emplace_back("5");
+    vec->emplace_back("-");
+    vec->emplace_back("8");
+    vec->emplace_back("+");
+    vec->emplace_back("8");
+    vec->emplace_back("-");
+    vec->emplace_back("(");
+    vec->emplace_back("-");
+    vec->emplace_back("8");
+    vec->emplace_back(")");
+
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == 13 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 17
+    vec->emplace_back("5");
+    vec->emplace_back("-");
+    vec->emplace_back("8");
+    vec->emplace_back("+");
+    vec->emplace_back("8");
+    vec->emplace_back("-");
+    vec->emplace_back("(");
+    vec->emplace_back("8");
+    vec->emplace_back(")");
+
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == -3 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 18
+    vec->emplace_back("5");
+    vec->emplace_back("-");
+    vec->emplace_back("8");
+    vec->emplace_back("+");
+    vec->emplace_back("8");
+    vec->emplace_back("-");
+    vec->emplace_back("(");
+    vec->emplace_back("8");
+    vec->emplace_back(")");
+
+
+
+    A->MakeExpression(*vec, *mapp)->Execute() == -3 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+
+
+    cout << "success: " << successCounter << " failed: " << failedCounter <<endl;
 
 }
 
