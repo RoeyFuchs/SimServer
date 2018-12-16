@@ -10,15 +10,14 @@ using namespace std;
 #include "Expression/MathExpression/Mult.h"
 #include "Expression/MathExpression/Div.h"
 #include "Tests/NumberTest.h"
+#include "Tests/ShuntinYardTests.h"
 #include "Expression/ShuntingYard.h"
+#include <stack>
 
 int main() {
    cout << "Hello World :)" << endl;
 
-
-   ShuntingYard A;
-   string a = "5";
-   cout << A.isNumber(a) << endl;
+    SYTest();
 
 
 }
