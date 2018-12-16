@@ -281,8 +281,9 @@ static void SYTest() {
     vec->emplace_back("8");
     vec->emplace_back("+");
     vec->emplace_back("8");
-    vec->emplace_back("-");
+    vec->emplace_back("+");
     vec->emplace_back("(");
+    vec->emplace_back("-");
     vec->emplace_back("8");
     vec->emplace_back(")");
 
