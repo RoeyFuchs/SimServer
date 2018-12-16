@@ -5,7 +5,6 @@
 #include <algorithm>
 #include "Parser.h"
 
-
 /**
  * ParseVar
  * @param tokens
@@ -13,13 +12,18 @@
  * The function define a new variable and update varExpressionTable
  */
 void Parser::ParseVar(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable){
+    VarExpression* varExp;
     //check if bind is deifined in line
     if(std::find(tokens.begin(),tokens.end(),"bind")!=tokens.end()){
         //declare new varExpression
-        VarExpression* varExp= new VarExpression(tokens[4]);
-        //add new Expession to varExpressionTable
-        varExpressionTable[tokens[1]]=varExp;
+        varExp= new VarExpression(tokens[4]);
+    } else{
+        std::vector<std::string> subVec= this->utils->Slice(tokens,3, tokens.size()-1);
+        //evaluate expression after '='
+        varExp=new VarExpression(this->shuntingYard->MakeExpression(subVec,varExpressionTable)->Execute());
     }
+    //add new Expession to varExpressionTable
+    varExpressionTable[tokens[1]]=varExp;
 }
 /**
  * ParseConnectDataServer
@@ -28,8 +32,7 @@ void Parser::ParseVar(std::vector<std::string> tokens,std::map<std::string, VarE
  * The function parse openDataServer line into an expression
  */
 Expression* Parser::ParseOpenDataServer(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable) {
-    vector<string> subVec;
-    std::copy(tokens.begin()+1, tokens.end(),subVec.begin());
+    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     Expression *openDataServerExp=new OpenDataServerExpression(std::stoi(tokens[1]),
             this->shuntingYard->MakeExpression(subVec,varExpressionTable)->Execute());
     return openDataServerExp;
@@ -42,8 +45,7 @@ Expression* Parser::ParseOpenDataServer(std::vector<std::string> tokens,std::map
  * The function parse Connect line into an expression
  */
 Expression* Parser::ParseConnect(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable) {
-    vector<string> subVec;
-    std::copy(tokens.begin()+1, tokens.end(),subVec.begin());
+    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     Expression* connectExp= new ConnectExpression(tokens[1],
             this->shuntingYard->MakeExpression(subVec,varExpressionTable)->Execute());
     return connectExp;
@@ -65,8 +67,7 @@ Expression* Parser::ParsePrint(std::vector<std::string> tokens,std::map<std::str
             printExp=new PrintExpression(tokens[1]);
         }
     }
-    vector<string> subVec;
-    std::copy(tokens.begin()+1, tokens.end(),subVec.begin());
+    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     printExp=new PrintExpression(this->shuntingYard->MakeExpression(subVec,varExpressionTable));
     return printExp;
 }
@@ -78,8 +79,7 @@ Expression* Parser::ParsePrint(std::vector<std::string> tokens,std::map<std::str
  */
 Expression* Parser::ParseSleep(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable) {
     Expression* sleepExp;
-    vector<string> subVec;
-    std::copy(tokens.begin()+1, tokens.end(),subVec.begin());
+    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     sleepExp= new SleepExpression(this->shuntingYard->MakeExpression(subVec,varExpressionTable)->Execute());
     return sleepExp;
 }
