@@ -8,7 +8,6 @@
 #include <string>
 #include "Expression.h"
 
-#endif //SIMSERVER_VAREXPRESSION_H
 class VarExpression: public Expression{
     std::string path;
     double  value;
@@ -23,3 +22,5 @@ public:
         return this->value;
     }
 };
+
+#endif //SIMSERVER_VAREXPRESSION_H

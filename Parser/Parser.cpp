@@ -93,9 +93,9 @@ Expression* Parser::ParseLine(std::vector<std::string> tokens,std::map<std::stri
         this->ParseSleep(tokens,varExpressionTable);
     } else if (tokens[0] == "print") {
         this->ParsePrint(tokens, varExpressionTable);
-    } else if (tokens[0] == "OpenDataServer")
+    } else if (tokens[0] == "OpenDataServer") {
         this->ParseOpenDataServer(tokens, varExpressionTable);
-    } else if (tokens[0] == "Connect")
+    } else if (tokens[0] == "Connect") {
             this->ParseConnect(tokens,varExpressionTable);
     }
 }

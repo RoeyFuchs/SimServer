@@ -37,7 +37,7 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec, map<string, VarExp
                 stc->pop();
             }
             //using Minus instand of Neg
-            if (isMinus(token) && (!isNumber(preToken) || isVar(preToken))) {
+            if (isMinus(token) && (!isNumber(preToken) || isVar(preToken, stringVarMap))) {
                 que->push("0");
             }
             stc->push(token);
@@ -91,7 +91,7 @@ bool ShuntingYard::isMinus(string &str) {
 }
 
 bool ShuntingYard::isGreaterPrecedence(string &str, string &other) {
-    return ((str == "*" || str == "/") && (other == "+" || other == "-"));
+    return (((str == "*" || str == "/") && (other == "+" || other == "-")) || (str=="-" && other =="-"));
 }
 //this function will receive a queue with expressions in postfix, and return one expression
 Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que, map<string, VarExpression*> &stringVarMap) {
