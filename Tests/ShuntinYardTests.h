@@ -295,6 +295,20 @@ static void SYTest() {
     ++counter;
     vec->clear();
 
+    //test 19
+    vec->emplace_back("5");
+    vec->emplace_back("*");
+    vec->emplace_back("-");
+    vec->emplace_back("2");
+
+
+
+
+    A->MakeExpression(*vec)->Execute() == -10 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
 
 
     cout << "success: " << successCounter << " failed: " << failedCounter <<endl;

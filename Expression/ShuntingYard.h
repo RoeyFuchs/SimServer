@@ -27,6 +27,8 @@ public:
 
     Expression *MakeExpression(vector<string> &vec);
 
+private:
+
     vector<string> GetMathOperatorVector();
 
     bool isNumber(string &str);

@@ -1,6 +1,11 @@
 #include "ShuntingYard.h"
 
-
+/**
+ * the function recived vector of string, and using the shuting yard algorithm
+ * to change it to expression.
+ * @param vec vector of string
+ * @return pointer to the new expression
+ */
 Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
     auto stc = new stack<string>();
     auto que = new queue<string>();
@@ -53,29 +58,52 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
 
     return MakeExpressionFromQueue(*que);
 }
-
+/**
+ * check if a string is a number
+ * @param str the string to check
+ * @return true or false
+ */
 bool ShuntingYard::isNumber(string &str) {
     return regex_match(str, regex("[0-9]+"));
 }
-
+/**
+ * check if a string is an operator
+ * @param str the string to check
+ * @return true or false
+ */
 bool ShuntingYard::isOperator(string &str) {
     vector<string> mathOperator = GetMathOperatorVector();
     return (find(mathOperator.begin(), mathOperator.end(), str) != mathOperator.end());
 
 }
-
+/**
+ * check if a string is an open bracket
+ * @param str the string to check
+ * @return true or false
+ */
 bool ShuntingYard::isOpenBracket(string &str) {
     return (str == "(");
 }
-
+/**
+ * check if a string is a a close breacket
+ * @param str the string to check
+ * @return true or false
+ */
 bool ShuntingYard::isCloseBracket(string &str) {
     return (str == ")");
 }
-
+/**
+ * check if a string is a var
+ * @param str the string to check
+ * @return true or false
+ */
 bool ShuntingYard::isVar(string& str) {
     return (this->varExpressionMap.count(str) != 0);
 }
-
+/**
+ * the function return a vector with the supported operators.
+ * @return vector of the operators
+ */
 vector<string> ShuntingYard::GetMathOperatorVector() {
     vector<string> A;
     A.emplace_back("+");
@@ -85,16 +113,29 @@ vector<string> ShuntingYard::GetMathOperatorVector() {
     A.emplace_back("%");
     return A;
 }
-
+/**
+ * check if a string is a minus.
+ * @param str the string to check
+ * @return true or false
+ */
 bool ShuntingYard::isMinus(string &str) {
     return (str == "-");
 }
-
+/**
+ * check an operator have a greater precedence with another operator.
+ * @param str first operator
+ * @param other seconde operator
+ * @return true or false
+ */
 bool ShuntingYard::isGreaterPrecedence(string &str, string &other) {
     return (((str == "*" || str == "/") && (other == "+" || other == "-")) ||
     (str=="-" && other =="-") || (str=="-" && other=="+"));
 }
-//this function will receive a queue with expressions in postfix, and return one expression
+/**
+ * this function will receive a queue with expressions in postfix, and return one expression
+ * @param que the queue
+ * @return pointer to new expression
+ */
 Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
     auto stc = stack<Expression *>();
     //do the algorithm to the all expression in the queue
@@ -123,7 +164,13 @@ Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
     return stc.top();
 
 }
-
+/**
+ * the function build an operator expression
+ * @param str the operator
+ * @param right right expression
+ * @param left left expression
+ * @return operator expression
+ */
 Expression *ShuntingYard::BuildOperatorByString(string &str, Expression *right, Expression *left) {
     if (str == "+") {
         return new Plus(left, right);
