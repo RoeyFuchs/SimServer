@@ -19,10 +19,13 @@
 using namespace std;
 
 class ShuntingYard {
+    map<string, VarExpression*>* varExpressionMap;
 public:
-    ShuntingYard() = default;
+    explicit ShuntingYard(map<string, VarExpression*>* stringVarMap) {
+        this->varExpressionMap = stringVarMap;
+    }
 
-    Expression *MakeExpression(vector<string> &vec, map<string, VarExpression*> &stringVarMap);
+    Expression *MakeExpression(vector<string> &vec);
 
     vector<string> GetMathOperatorVector();
 
@@ -35,11 +38,11 @@ public:
 
     bool isCloseBracket(string &str);
 
-    bool isVar(string& str, map<string, VarExpression*>& stringVarMap);
+    bool isVar(string& str);
 
     bool isGreaterPrecedence(string &str, string &other);
 
-    Expression* MakeExpressionFromQueue(queue<string> que, map<string, VarExpression*>& stringVarMap);
+    Expression* MakeExpressionFromQueue(queue<string> que);
 
     Expression* BuildOperatorByString(string& str, Expression* right, Expression* left);
 

@@ -1,7 +1,7 @@
 #include "ShuntingYard.h"
 
 
-Expression *ShuntingYard::MakeExpression(vector<string> &vec, map<string, VarExpression*> &stringVarMap) {
+Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
     auto stc = new stack<string>();
     auto que = new queue<string>();
     //will use to store the previous number (for negative numbers)
@@ -9,7 +9,7 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec, map<string, VarExp
     //for the all token do the shunting yard algorithm.
     for (string &token : vec) {
         //if it's a number or var, push to the queue
-        if (isNumber(token) || isVar(token, stringVarMap)) {
+        if (isNumber(token) || isVar(token)) {
             que->push(token);
             preToken = token;
             continue;
@@ -37,7 +37,7 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec, map<string, VarExp
                 stc->pop();
             }
             //using Minus instand of Neg
-            if (isMinus(token) && (!isNumber(preToken) || isVar(preToken, stringVarMap))) {
+            if (isMinus(token) && (!isNumber(preToken) || isVar(preToken))) {
                 que->push("0");
             }
             stc->push(token);
@@ -51,7 +51,7 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec, map<string, VarExp
         stc->pop();
     }
 
-    return MakeExpressionFromQueue(*que, stringVarMap);
+    return MakeExpressionFromQueue(*que);
 }
 
 bool ShuntingYard::isNumber(string &str) {
@@ -72,8 +72,8 @@ bool ShuntingYard::isCloseBracket(string &str) {
     return (str == ")");
 }
 
-bool ShuntingYard::isVar(string& str, map<string, VarExpression*>& stringVarMap) {
-    return (stringVarMap.count(str) != 0);
+bool ShuntingYard::isVar(string& str) {
+    return (this->varExpressionMap.count(str) != 0);
 }
 
 vector<string> ShuntingYard::GetMathOperatorVector() {
@@ -95,7 +95,7 @@ bool ShuntingYard::isGreaterPrecedence(string &str, string &other) {
     (str=="-" && other =="-") || (str=="-" && other=="+"));
 }
 //this function will receive a queue with expressions in postfix, and return one expression
-Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que, map<string, VarExpression*> &stringVarMap) {
+Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
     auto stc = stack<Expression *>();
     //do the algorithm to the all expression in the queue
     while (!que.empty()) {
@@ -107,8 +107,8 @@ Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que, map<string,
             continue;
         }
         //if it's var, push to the stack
-        if(isVar(que.front(), stringVarMap)) {
-            stc.push(stringVarMap[que.front()]);
+        if(isVar(que.front())) {
+            stc.push((*this->varExpressionMap)[que.front()]);
             que.pop();
         //if it's operator, create the operator with the 2 top expression in the stack
         } else {
