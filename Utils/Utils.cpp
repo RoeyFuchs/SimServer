@@ -3,7 +3,7 @@
 //
 
 #include "Utils.h"
-template <typename T>
+//template <typename T>
 /**
  * Slice
  * @tparam T
@@ -12,9 +12,9 @@ template <typename T>
  * @param endIndex
  * @return sub vector according to given indexes
  */
-std::vector<T> Utils::Slice(std::vector<T> &vec, int beginIndex, int endIndex) {
+/*std::vector<T> Utils::Slice(std::vector<T> &vec, int beginIndex, int endIndex) {
     //copy data to sub vector
     std::vector<T> subVector(endIndex-beginIndex+1);
     std::copy(vec.begin()+beginIndex,vec.begin()+endIndex+1, subVector.begin());
     return subVector;
-}
+}*/

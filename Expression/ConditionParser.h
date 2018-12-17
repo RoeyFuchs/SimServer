@@ -10,27 +10,24 @@
 #include <string>
 class ConditionParser:public Expression{
 protected:
-    ConditionExpression condition;
+    ConditionExpression* condition;
     bool isComplete;
-    std::vector<Expression*> commands;
+    std::vector<Expression*> expressions;
 public:
-    ConditionParser(ConditionExpression condition){
+    ConditionParser(ConditionExpression* condition){
         this->isComplete= false;
         this->condition=condition;
     }
+    virtual double Execute(){
+        if(this->condition->Execute()==1)
+            return 1;
+        return 0;
+    }
     void SetIsComplete(bool isComplete){
-        this->isComplete=isComplete;
+        this->isComplete= isComplete;
     }
     bool GetIsComplete(){
         return this->isComplete;
-    }
-    void AddCommand(Expression* exp){
-        this->commands.push_back(exp);
-    }
-    bool Evaluate(){
-        if(this->condition.Execute()==1)
-            return true;
-        return false;
     }
 };
 #endif //SIMSERVER_CONDITIONEXPRESSION_H

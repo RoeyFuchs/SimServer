@@ -98,7 +98,7 @@ bool ShuntingYard::isCloseBracket(string &str) {
  * @return true or false
  */
 bool ShuntingYard::isVar(string& str) {
-    return (this->varExpressionMap.count(str) != 0);
+    return ((*this->varExpressionMap).count(str) != 0);
 }
 /**
  * the function return a vector with the supported operators.

@@ -21,18 +21,20 @@ class Parser {
 private:
     ShuntingYard* shuntingYard;
     Expression* currentExpression;
+    std::map<std::string, VarExpression*>* varExpressionTable;
     Utils* utils;
-    void ParseVar(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
-    Expression* ParseConnect(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
-    Expression* ParseOpenDataServer(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
-    Expression* ParsePrint(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
-    Expression* ParseSleep(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
+    void ParseVar(std::vector<std::string> tokens);
+    Expression* ParseConnect(std::vector<std::string> tokens);
+    Expression* ParseOpenDataServer(std::vector<std::string> tokens);
+    Expression* ParsePrint(std::vector<std::string> tokens);
+    Expression* ParseSleep(std::vector<std::string> tokens);
 public:
-    Parser(){
-        this->shuntingYard= new ShuntingYard();
+    Parser(std::map<std::string, VarExpression*>* &varExpressionTable){
+        this->varExpressionTable= varExpressionTable;
+        this->shuntingYard= new ShuntingYard(this->varExpressionTable);
         this->utils= new Utils();
     }
-    Expression* ParseLine(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
+    Expression* ParseLine(std::vector<std::string> tokens);
 
 };
 

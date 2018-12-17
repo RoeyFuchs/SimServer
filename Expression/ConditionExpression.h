@@ -14,6 +14,11 @@ private:
     Expression* leftExp;
     Expression* rightExp;
 public:
+    ConditionExpression(std::string conditionOperator, Expression* leftExp, Expression* rightExp){
+        this->conditionOperator= conditionOperator;
+        this->leftExp= leftExp;
+        this->rightExp= rightExp;
+    }
     virtual double Execute();
 };
 

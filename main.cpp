@@ -15,7 +15,7 @@ using namespace std;
 #include <stack>
 
 int main() {
-   cout << "Hello World :)" << endl;
+   SYTest();
 
 
 }
