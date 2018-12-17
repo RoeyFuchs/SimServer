@@ -10,16 +10,16 @@
 
 class VarExpression: public Expression{
     std::string path;
-    double  value;
+    Expression*  exp;
 public:
     VarExpression(std::string path){
         this->path= path;
     }
-    VarExpression(double value){
-        this->value= value;
+    VarExpression(Expression* exp){
+        this->exp= exp;
     }
     virtual double Execute(){
-        return this->value;
+        return this->exp->Execute();
     }
 };
 

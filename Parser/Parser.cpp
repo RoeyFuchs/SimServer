@@ -19,7 +19,7 @@ void Parser::ParseVar(std::vector<std::string> tokens){
     } else{
         std::vector<std::string> subVec= this->utils->Slice(tokens,3, tokens.size()-1);
         //evaluate expression after '='
-        varExp=new VarExpression(this->shuntingYard->MakeExpression(subVec)->Execute());
+        varExp=new VarExpression(this->shuntingYard->MakeExpression(subVec));
     }
     //add new Expession to varExpressionTable
     (*this->varExpressionTable)[tokens[1]]=varExp;
@@ -52,7 +52,6 @@ Expression* Parser::ParseConnect(std::vector<std::string> tokens) {
 /**
  * ParsePrint
  * @param tokens
- * @param varExpressionTable
  * @return Expression
  * The function parse print line into an expression
  */
@@ -71,6 +70,15 @@ Expression* Parser::ParsePrint(std::vector<std::string> tokens) {
     return printExp;
 }
 /**
+ * ParsePrint
+ * @param tokens
+ * @return Expression
+ * The function parse print line into an expression
+ */
+Expression* Parser::ParseIf(std::vector<std::string> tokens) {
+
+}
+/**
  * ParseSleep
  * @param tokens
  * @return  Expression
@@ -79,7 +87,7 @@ Expression* Parser::ParsePrint(std::vector<std::string> tokens) {
 Expression* Parser::ParseSleep(std::vector<std::string> tokens) {
     Expression* sleepExp;
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
-    sleepExp= new SleepExpression(this->shuntingYard->MakeExpression(subVec)->Execute());
+    sleepExp= new SleepExpression(this->shuntingYard->MakeExpression(subVec));
     return sleepExp;
 }
 
@@ -96,6 +104,6 @@ Expression* Parser::ParseLine(std::vector<std::string> tokens) {
         exp=this->ParseOpenDataServer(tokens);
     } else if (tokens[0] == "Connect") {
         exp=this->ParseConnect(tokens);
-    }
+    } else if(tokens[0]==wh)
     exp->Execute();
 }
