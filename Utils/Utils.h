@@ -5,10 +5,12 @@
 #ifndef SIMSERVER_UTILS_H
 #define SIMSERVER_UTILS_H
 
-
+#include "../Expression/ConditionExpression.h"
 #include <vector>
-
+#include <string>
 class Utils {
+private:
+    std::vector <std::string> operators={">","<","==","!=",">=","<="};
 public:
     /**
  * Slice
@@ -26,6 +28,10 @@ public:
         return subVector;
     }
 };
+
+ConditionExpression CreateConditionExpression(std::vector<std::string> &tokens){
+
+}
 
 
 #endif //SIMSERVER_UTILS_H

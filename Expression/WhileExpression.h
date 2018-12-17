@@ -8,7 +8,7 @@
 
 class WhileExpression: ConditionParser{
     virtual double Execute(){
-        while (this->Execute()){
+        while (this->condition->Execute()){
             for (int i = 0; i < this->expressions.size() ; ++i) {
                 this->expressions[i]->Execute();
             }

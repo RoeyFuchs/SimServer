@@ -7,14 +7,13 @@
 #include "Expression.h"
 #include <unistd.h>
 class SleepExpression:public Expression {
-    double sleepingTime;
+    Expression* exp;
 public:
-    SleepExpression(double sleepingTime) {
-        this->sleepingTime = sleepingTime;
+    SleepExpression(Expression* exp) {
+        this->exp = exp;
     }
-
     virtual double Execute() {
-        sleep(sleepingTime);
+        sleep(exp->Execute());
     }
 };
 #endif //SIMSERVER_SLEEPEXPRESSION_H

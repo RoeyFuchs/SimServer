@@ -28,6 +28,7 @@ private:
     Expression* ParseOpenDataServer(std::vector<std::string> tokens);
     Expression* ParsePrint(std::vector<std::string> tokens);
     Expression* ParseSleep(std::vector<std::string> tokens);
+    Expression* ParseIf(std::vector<std::string> tokens);
 public:
     Parser(std::map<std::string, VarExpression*>* &varExpressionTable){
         this->varExpressionTable= varExpressionTable;

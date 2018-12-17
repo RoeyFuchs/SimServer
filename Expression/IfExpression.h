@@ -9,7 +9,7 @@
 
 class IfExpression: ConditionParser{
     virtual double Execute(){
-        if (this->Execute()){
+        if (this->condition->Execute()){
             for (int i = 0; i < this->expressions.size() ; ++i) {
                 this->expressions[i]->Execute();
             }
