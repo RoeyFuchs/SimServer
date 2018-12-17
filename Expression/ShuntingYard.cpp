@@ -65,7 +65,7 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
  * @return true or false
  */
 bool ShuntingYard::isNumber(string &str) {
-    return regex_match(str, regex("[0-9]+"));
+    return regex_match(str, regex("^(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 }
 /**
  * check if a string is an operator
