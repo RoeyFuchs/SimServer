@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 #include "string"
+#include "../Utils/Utils.h"
 #include "../Expression/Expression.h"
 #include "../Expression/ShuntingYard.h"
 #include "../Expression/VarExpression.h"
@@ -19,17 +20,19 @@
 class Parser {
 private:
     ShuntingYard* shuntingYard;
-
-public:
-    Parser(){
-        this->shuntingYard= new ShuntingYard();
-    }
-    Expression* ParseLine(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
+    Expression* currentExpression;
+    Utils* utils;
     void ParseVar(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
     Expression* ParseConnect(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
     Expression* ParseOpenDataServer(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
     Expression* ParsePrint(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
     Expression* ParseSleep(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
+public:
+    Parser(){
+        this->shuntingYard= new ShuntingYard();
+        this->utils= new Utils();
+    }
+    Expression* ParseLine(std::vector<std::string> tokens,std::map<std::string, VarExpression*> &varExpressionTable);
 
 };
 
