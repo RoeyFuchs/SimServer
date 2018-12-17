@@ -1,5 +1,6 @@
 #include "ShuntingYard.h"
 
+
 /**
  * the function recived vector of string, and using the shuting yard algorithm
  * to change it to expression.
@@ -37,13 +38,13 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
         }
         //if it's operator, move by the algorithm
         if (isOperator(token)) {
+            //using Minus instand of Neg
+            if (isMinus(token) && (!isNumber(preToken) || isVar(preToken))) {
+                token = "NEG_SYMBOL"; // negative
+            }
             while (!stc->empty() && isGreaterPrecedence(stc->top(), token)) {
                 que->push(stc->top());
                 stc->pop();
-            }
-            //using Minus instand of Neg
-            if (isMinus(token) && (!isNumber(preToken) || isVar(preToken))) {
-                que->push("0");
             }
             stc->push(token);
             preToken = token;
@@ -111,6 +112,7 @@ vector<string> ShuntingYard::GetMathOperatorVector() {
     A.emplace_back("*");
     A.emplace_back("/");
     A.emplace_back("%");
+    A.emplace_back("NEG_SYMBOL");
     return A;
 }
 /**
@@ -129,7 +131,7 @@ bool ShuntingYard::isMinus(string &str) {
  */
 bool ShuntingYard::isGreaterPrecedence(string &str, string &other) {
     return (((str == "*" || str == "/") && (other == "+" || other == "-")) ||
-    (str=="-" && other =="-") || (str=="-" && other=="+"));
+    (str=="-" && other =="-") || (str=="-" && other=="+") || str=="NEG_SYMBOL");
 }
 /**
  * this function will receive a queue with expressions in postfix, and return one expression
@@ -153,12 +155,19 @@ Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
             que.pop();
         //if it's operator, create the operator with the 2 top expression in the stack
         } else {
-            Expression *right = stc.top();
-            stc.pop();
-            Expression *left = stc.top();
-            stc.pop();
-            stc.push(BuildOperatorByString(que.front(), right, left));
-            que.pop();
+            if (que.front()=="NEG_SYMBOL") {
+                Expression* A = new Neg(stc.top());
+                stc.pop();
+                stc.push(A);
+                que.pop();
+            } else {
+                Expression *right = stc.top();
+                stc.pop();
+                Expression *left = stc.top();
+                stc.pop();
+                stc.push(BuildOperatorByString(que.front(), right, left));
+                que.pop();
+            }
         }
     }
     return stc.top();

@@ -17,5 +17,4 @@ using namespace std;
 int main() {
    SYTest();
 
-
 }

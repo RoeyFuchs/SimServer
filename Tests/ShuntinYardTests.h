@@ -99,13 +99,6 @@ static void SYTest() {
     vec->emplace_back("1");
 
 
-    /* todo
-     * The Bug here:
-     * 9-8-1 equal to:
-     * 9-(8-1) = 2
-     * or
-     * (9-8)-1 = 0
-     */
     A->MakeExpression(*vec)->Execute() == 0 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
@@ -114,7 +107,6 @@ static void SYTest() {
 
     //test 7
     vec->emplace_back("9");
-
 
 
     A->MakeExpression(*vec)->Execute() == 9 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
@@ -300,6 +292,38 @@ static void SYTest() {
     vec->emplace_back("*");
     vec->emplace_back("-");
     vec->emplace_back("2");
+
+
+
+
+    A->MakeExpression(*vec)->Execute() == -10 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 20
+    vec->emplace_back("5");
+    vec->emplace_back("*");
+    vec->emplace_back("-");
+    vec->emplace_back("(");
+    vec->emplace_back("2");
+    vec->emplace_back(")");
+
+
+
+
+    A->MakeExpression(*vec)->Execute() == -10 ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
+    //test 21
+    vec->emplace_back("5");
+    vec->emplace_back("*");
+    vec->emplace_back("(");
+    vec->emplace_back("-");
+    vec->emplace_back("2");
+    vec->emplace_back(")");
 
 
 
