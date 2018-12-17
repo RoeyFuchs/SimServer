@@ -95,6 +95,7 @@ Expression* Parser::ParseLine(std::vector<std::string> tokens) {
     } else if (tokens[0] == "OpenDataServer") {
         exp=this->ParseOpenDataServer(tokens);
     } else if (tokens[0] == "Connect") {
-            exp=this->ParseConnect(tokens);
+        exp=this->ParseConnect(tokens);
     }
+    exp->Execute();
 }
