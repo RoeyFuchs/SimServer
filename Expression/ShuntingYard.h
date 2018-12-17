@@ -15,6 +15,9 @@
 #include "MathExpression/Modulo.h"
 #include "MathExpression/Minus.h"
 #include "MathExpression/Mult.h"
+#include "MathExpression/Neg.h"
+
+#define NEG_SYMBOL "_"
 
 using namespace std;
 
@@ -47,8 +50,6 @@ private:
     Expression* MakeExpressionFromQueue(queue<string> que);
 
     Expression* BuildOperatorByString(string& str, Expression* right, Expression* left);
-
-
 
 };
 
