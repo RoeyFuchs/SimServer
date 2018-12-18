@@ -33,7 +33,6 @@ public:
 private:
 
     vector<string> GetMathOperatorVector();
-
     bool isNumber(string &str);
 
     bool isOperator(string &str);
