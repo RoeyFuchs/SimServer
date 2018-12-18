@@ -33,13 +33,14 @@ private:
     Expression* ParseIf(std::vector<std::string> tokens);
     Expression* ParseWhile(std::vector<std::string> tokens);
     ConditionExpression* CreateCondition(std::vector<std::string> tokens);
+    Expression* MakeAnExpression(std::vector<std::string> tokens);
 public:
     Parser(std::map<std::string, VarExpression*>* &varExpressionTable){
         this->varExpressionTable= varExpressionTable;
         this->shuntingYard= new ShuntingYard(this->varExpressionTable);
         this->utils= new Utils();
     }
-    Expression* ParseLine(std::vector<std::string> tokens);
+    void ParseLine(std::vector<std::string> tokens);
 
 };
 

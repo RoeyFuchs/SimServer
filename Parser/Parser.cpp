@@ -124,8 +124,13 @@ Expression* Parser::ParseSleep(std::vector<std::string> tokens) {
     sleepExp= new SleepExpression(this->shuntingYard->MakeExpression(subVec));
     return sleepExp;
 }
-
-Expression* Parser::ParseLine(std::vector<std::string> tokens) {
+/**
+ * MakeAnExpression
+ * @param tokens
+ * @return Expression
+ * The function translate tokens into an expression
+ */
+Expression* Parser::MakeAnExpression(std::vector<std::string> tokens) {
     Expression *exp;
     //search for key words
     if (tokens[0] == "var") {
@@ -147,7 +152,7 @@ Expression* Parser::ParseLine(std::vector<std::string> tokens) {
         if(this->currentConditionParse!= nullptr){
             //if last expression is a parserCondition type
             if(typeid (this->currentConditionParse->GetLastExp()).name()== typeid(IfExpression).name()||
-                    typeid (this->currentConditionParse->GetLastExp()).name()== typeid(WhileExpression).name()){
+               typeid (this->currentConditionParse->GetLastExp()).name()== typeid(WhileExpression).name()){
                 //TODO maybe downcasting? -> should change its IsComplete member
 
             }else{
@@ -159,9 +164,23 @@ Expression* Parser::ParseLine(std::vector<std::string> tokens) {
             throw runtime_error("Error:Bracket input");
         }
     }
-    //make sure that there is no previes Parse condition exist
-    if(this->currentConditionParse!= nullptr){
-        this->currentConditionParse->AddExpression(exp);
+    return exp;
+}
+/**
+ * ParseLine
+ * @param tokens
+ * The function executes line
+ */
+void Parser::ParseLine(std::vector<std::string> tokens) {
+   Expression* exp =this->MakeAnExpression(tokens);
+    //privies condition is exist
+    if(this->currentConditionParse!= nullptr) {
+        if(this->currentConditionParse->GetIsComplete()== false) {
+            this->currentConditionParse->AddExpression(exp);
+        }else {
+            this->currentConditionParse->Execute();
+            //TODO free memory
+        }
     } else{
         //regular command
         exp->Execute();
