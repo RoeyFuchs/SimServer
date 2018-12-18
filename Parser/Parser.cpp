@@ -151,13 +151,15 @@ Expression* Parser::ParseLine(std::vector<std::string> tokens) {
                 //TODO maybe downcasting? -> should change its IsComplete member
 
             }else{
+                //The current condition is complete
                 this->currentConditionParse->SetIsComplete(true);
-                this->currentConditionParse->Execute();
-                //TODO free memory
             }
+        }else{
+            //bracket error input
+            throw runtime_error("Error:Bracket input");
         }
     }
-    //make sure that there is no previes Parse condition is exist
+    //make sure that there is no previes Parse condition exist
     if(this->currentConditionParse!= nullptr){
         this->currentConditionParse->AddExpression(exp);
     } else{
