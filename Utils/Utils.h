@@ -27,11 +27,25 @@ public:
         std::copy(vec.begin()+beginIndex,vec.begin()+endIndex+1, subVector.begin());
         return subVector;
     }
-};
 
-ConditionExpression CreateConditionExpression(std::vector<std::string> &tokens){
+/**
+ * GetConditionOperatorPosition
+ * @param tokens
+ * @return index
+ * The function search for operator condition position and return its index
+ */
+int GetConditionOperatorPosition(std::vector<std::string> &tokens){
+    for (int i = 0; i < tokens.size(); ++i) {
+        for (int j = 0; j <operators.size() ; ++j) {
+            if(tokens[i]==operators[j]){
+                return i;
+            }
+        }
+    }
 
+    //TODO should it trow run time error?
+    //throw runtime_error("No condition operator found at condition command");
 }
-
+};
 
 #endif //SIMSERVER_UTILS_H

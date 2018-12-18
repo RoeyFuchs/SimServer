@@ -7,7 +7,10 @@
 
 #include "ConditionParser.h"
 
-class IfExpression: ConditionParser{
+class IfExpression: public ConditionParser{
+public:
+    IfExpression(ConditionExpression* condition):ConditionParser(condition){}
+
     virtual double Execute(){
         if (this->condition->Execute()){
             for (int i = 0; i < this->expressions.size() ; ++i) {

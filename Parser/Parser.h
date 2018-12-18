@@ -10,6 +10,8 @@
 #include "string"
 #include "../Utils/Utils.h"
 #include "../Expression/Expression.h"
+#include "../Expression/IfExpression.h"
+#include "../Expression/WhileExpression.h"
 #include "../Expression/ShuntingYard.h"
 #include "../Expression/VarExpression.h"
 #include "../Expression/Number.h"
@@ -20,7 +22,7 @@
 class Parser {
 private:
     ShuntingYard* shuntingYard;
-    Expression* currentExpression;
+    ConditionParser* currentConditionParse;
     std::map<std::string, VarExpression*>* varExpressionTable;
     Utils* utils;
     void ParseVar(std::vector<std::string> tokens);
@@ -29,6 +31,8 @@ private:
     Expression* ParsePrint(std::vector<std::string> tokens);
     Expression* ParseSleep(std::vector<std::string> tokens);
     Expression* ParseIf(std::vector<std::string> tokens);
+    Expression* ParseWhile(std::vector<std::string> tokens);
+    ConditionExpression* CreateCondition(std::vector<std::string> tokens);
 public:
     Parser(std::map<std::string, VarExpression*>* &varExpressionTable){
         this->varExpressionTable= varExpressionTable;

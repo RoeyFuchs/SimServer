@@ -26,8 +26,14 @@ public:
     void SetIsComplete(bool isComplete){
         this->isComplete= isComplete;
     }
-    bool GetIsComplete(){
+    bool GetIsComplete() {
         return this->isComplete;
+    }
+    Expression* GetLastExp(){
+        return this->expressions[expressions.size()-1];
+    }
+    void AddExpression(Expression* exp){
+        this->expressions.push_back(exp);
     }
 };
 #endif //SIMSERVER_CONDITIONEXPRESSION_H
