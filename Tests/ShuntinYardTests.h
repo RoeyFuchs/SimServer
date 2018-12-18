@@ -333,6 +333,23 @@ static void SYTest() {
     ++counter;
     vec->clear();
 
+    //test 22
+    vec->emplace_back("5");
+    vec->emplace_back("*");
+    vec->emplace_back("5");
+    vec->emplace_back("/");
+    vec->emplace_back("5");
+    vec->emplace_back("*");
+    vec->emplace_back("3");
+
+
+
+
+    A->MakeExpression(*vec)->Execute() == (5*5/5*3) ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
+
 
 
 

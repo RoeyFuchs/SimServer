@@ -130,8 +130,7 @@ bool ShuntingYard::isMinus(string &str) {
  * @return true or false
  */
 bool ShuntingYard::isGreaterPrecedence(string &str, string &other) {
-    return (((str == "*" || str == "/") && (other == "+" || other == "-")) ||
-    (str=="-" && other =="-") || (str=="-" && other=="+") || str=="NEG_SYMBOL");
+    return (this->operatorPrecedence[str] <= this->operatorPrecedence[other]);
 }
 /**
  * this function will receive a queue with expressions in postfix, and return one expression
@@ -197,6 +196,23 @@ Expression *ShuntingYard::BuildOperatorByString(string &str, Expression *right, 
         return new Modulo(left, right);
     }
     throw runtime_error(string("Invalid operator"));
+}
+
+/**
+ * the function return a map with orecedence of math operators
+ * @return the map
+ */
+map<string, int> ShuntingYard::operatorPrecedenceMap() {
+    map<string, int> A;
+    A[NEG_SYMBOL] = FIRST_IMPORTANCE;
+    A["*"] = SECOND_IMPORTANCE;
+    A["/"] = SECOND_IMPORTANCE;
+    A["%"] = SECOND_IMPORTANCE;
+    A["+"] = THIRD_IMPORTANCE;
+    A["-"] = THIRD_IMPORTANCE;
+    A["("] = OTHER_IMPORTANCE;
+    A[")"] = OTHER_IMPORTANCE;
+    return A;
 }
 
 

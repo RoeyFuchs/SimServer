@@ -18,14 +18,20 @@
 #include "MathExpression/Neg.h"
 
 #define NEG_SYMBOL "_"
+#define FIRST_IMPORTANCE 1
+#define SECOND_IMPORTANCE 2
+#define THIRD_IMPORTANCE 3
+#define OTHER_IMPORTANCE 4
 
 using namespace std;
 
 class ShuntingYard {
     map<string, VarExpression*>* varExpressionMap;
+    map<string, int> operatorPrecedence;
 public:
     explicit ShuntingYard(map<string, VarExpression*>* stringVarMap) {
         this->varExpressionMap = stringVarMap;
+        this->operatorPrecedence = operatorPrecedenceMap();
     }
 
     Expression *MakeExpression(vector<string> &vec);
@@ -49,6 +55,8 @@ private:
     Expression* MakeExpressionFromQueue(queue<string> que);
 
     Expression* BuildOperatorByString(string& str, Expression* right, Expression* left);
+
+    map<string, int>operatorPrecedenceMap();
 
 };
 
