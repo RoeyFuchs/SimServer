@@ -18,7 +18,7 @@
         }
     }
     void UtilsTest(){
-        std::vector <std::string>  operators={">","<","==","!=",">=","<="};
+     /*   std::vector <std::string>  operators={">","<","==","!=",">=","<="};
         Utils *utilsTest= new Utils(operators);
         std::vector <std::string> tokens;
 
@@ -32,7 +32,7 @@
             PrintResult(1, 1);
         }else{
             PrintResult(1, 0);
-        }
+        }*/
 
     }
 

@@ -48,7 +48,7 @@ public:
         this->operators={">","<","==","!=",">=","<="};
         this->varExpressionTable= varExpressionTable;
         this->shuntingYard= new ShuntingYard(this->varExpressionTable);
-        this->utils= new Utils(this->operators);
+        this->utils= new Utils(this->operators,varExpressionTable);
     }
     void ParseLine(std::vector<std::string> tokens);
 

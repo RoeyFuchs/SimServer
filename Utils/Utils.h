@@ -6,13 +6,17 @@
 #define SIMSERVER_UTILS_H
 
 #include "../Expression/ConditionExpression.h"
+#include "../Expression/VarExpression.h"
 #include <vector>
+#include <map>
 #include <string>
 class Utils {
 private:
     std::vector <std::string> operators;
+    std::map<std::string, VarExpression*>* varExpressionTable;
 public:
-    Utils(std::vector <std::string> operators){
+    Utils(std::vector <std::string> operators, std::map<std::string, VarExpression*>* &varExpressionTable){
+        this->varExpressionTable=varExpressionTable;
         this->operators=operators;
     }
     /**
@@ -36,6 +40,8 @@ int GetConditionOperatorPosition(std::vector<std::string> &tokens);
 std::vector<int> GetPositionsOfExpressions(std::vector<std::string> &tokens);
 
     bool IsNumber(const std::string& s);
+
+    bool IsVar(const std::string& s);
 };
 
 #endif //SIMSERVER_UTILS_H
