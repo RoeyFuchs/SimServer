@@ -9,6 +9,7 @@ using namespace std;
 #include "Expression/MathExpression/Mult.h"
 #include "Expression/MathExpression/Mult.h"
 #include "Expression/MathExpression/Div.h"
+#include "Tests/UtilsTester.h"
 #include "Tests/NumberTest.h"
 #include "Tests/ShuntinYardTests.h"
 #include "Expression/ShuntingYard.h"
@@ -16,8 +17,7 @@ using namespace std;
 
 int main() {
 
-
-
+UtilsTest();
    //SYTest();
 
 }

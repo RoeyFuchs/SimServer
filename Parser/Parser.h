@@ -24,6 +24,8 @@ private:
     ShuntingYard* shuntingYard;
     ConditionParser* currentConditionParse;
     std::map<std::string, VarExpression*>* varExpressionTable;
+    std::vector <std::string> operators;
+    std::map<std::string, int>expressionArguments;
     Utils* utils;
     void ParseVar(std::vector<std::string> tokens);
     Expression* ParseConnect(std::vector<std::string> tokens);
@@ -34,11 +36,19 @@ private:
     Expression* ParseWhile(std::vector<std::string> tokens);
     ConditionExpression* CreateCondition(std::vector<std::string> tokens);
     Expression* MakeAnExpression(std::vector<std::string> tokens);
+
 public:
     Parser(std::map<std::string, VarExpression*>* &varExpressionTable){
+        expressionArguments.insert(std::pair<string, int>("openDataServer",2));
+        expressionArguments.insert(std::pair<string, int>("connect",2));
+        expressionArguments.insert(std::pair<string, int>("var",1));
+        expressionArguments.insert(std::pair<string, int>("while",3));
+        expressionArguments.insert(std::pair<string, int>("print",1));
+        expressionArguments.insert(std::pair<string, int>("sleep",1));
+        this->operators={">","<","==","!=",">=","<="};
         this->varExpressionTable= varExpressionTable;
         this->shuntingYard= new ShuntingYard(this->varExpressionTable);
-        this->utils= new Utils();
+        this->utils= new Utils(this->operators);
     }
     void ParseLine(std::vector<std::string> tokens);
 
