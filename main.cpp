@@ -14,6 +14,7 @@ using namespace std;
 #include "Tests/ShuntinYardTests.h"
 #include "Expression/ShuntingYard.h"
 #include <stack>
+#include "Client/Client.h"
 
 int main() {
 
