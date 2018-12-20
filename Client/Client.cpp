@@ -23,7 +23,7 @@ void Client::ReadFromFile() {
     while (getline(fileStream,str))
     {
         /** ###################
-         * HERE SEND TO LEXAR
+         * HERE SEND TO LEXER
          */
     }
     fileStream.close();
@@ -33,10 +33,21 @@ void Client::ReadFromFile() {
  */
 void Client::ReadFromCommandLine() {
     string str;
-    while(true) {
-        cin >> str;
-        /** ###################
-         * HERE SEND TO LEXAR
+    smatch regMatch;
+    while (true) {
+       getline(cin, str);
+       //check if the user want to run from a file (run "file.txt")
+       regex_search(str, regMatch, regex(REGEX_PATTERN));
+       if(regMatch[1].matched) {
+           this->fileName = regMatch[1];
+           ReadFromFile();
+       } else {
+           /** ###################
+         * HERE SEND TO LEXER
          */
+       }
+
+
+
     }
 }

@@ -4,6 +4,8 @@
 
 #include <fstream>
 #include <iostream>
+#include "regex"
+#define REGEX_PATTERN "run\\s{1,}\"([^\"]+)\""
 
 using namespace std;
 
