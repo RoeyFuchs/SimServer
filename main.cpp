@@ -15,12 +15,16 @@ using namespace std;
 #include "Expression/ShuntingYard.h"
 #include <stack>
 #include "Client/Client.h"
+#include "Tests/ServerTest.h"
 
 int main() {
 
 //UtilsTest();
    //SYTest();
-   //Client * A = new Client();
+   shared_ptr<Expression> A = make_shared<Number>(5);
+
+   Serv();
+
    //A->Read();
 
 }
