@@ -12,11 +12,15 @@ using namespace std;
 #include "Tests/NumberTest.h"
 #include "Tests/ShuntinYardTests.h"
 #include "Expression/ShuntingYard.h"
+#include "Client/Client.h"
 #include <stack>
 
+
 int main() {
-
-
+    /*string str = "test.txt";
+    Client* Cli = new Client();
+    Cli->Read();
+    delete Cli;*/
 
    //SYTest();
 
