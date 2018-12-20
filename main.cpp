@@ -9,19 +9,15 @@ using namespace std;
 #include "Expression/MathExpression/Mult.h"
 #include "Expression/MathExpression/Mult.h"
 #include "Expression/MathExpression/Div.h"
+#include "Tests/UtilsTester.h"
 #include "Tests/NumberTest.h"
 #include "Tests/ShuntinYardTests.h"
 #include "Expression/ShuntingYard.h"
-#include "Client/Client.h"
 #include <stack>
 
-
 int main() {
-    /*string str = "test.txt";
-    Client* Cli = new Client();
-    Cli->Read();
-    delete Cli;*/
 
+UtilsTest();
    //SYTest();
 
 }

@@ -6,12 +6,19 @@
 #define SIMSERVER_UTILS_H
 
 #include "../Expression/ConditionExpression.h"
+#include "../Expression/VarExpression.h"
 #include <vector>
+#include <map>
 #include <string>
 class Utils {
 private:
-    std::vector <std::string> operators={">","<","==","!=",">=","<="};
+    std::vector <std::string> operators;
+    std::map<std::string, VarExpression*>* varExpressionTable;
 public:
+    Utils(std::vector <std::string> operators, std::map<std::string, VarExpression*>* &varExpressionTable){
+        this->varExpressionTable=varExpressionTable;
+        this->operators=operators;
+    }
     /**
  * Slice
  * @tparam T
@@ -28,24 +35,13 @@ public:
         return subVector;
     }
 
-/**
- * GetConditionOperatorPosition
- * @param tokens
- * @return index
- * The function search for operator condition position and return its index
- */
-int GetConditionOperatorPosition(std::vector<std::string> &tokens){
-    for (int i = 0; i < tokens.size(); ++i) {
-        for (int j = 0; j <operators.size() ; ++j) {
-            if(tokens[i]==operators[j]){
-                return i;
-            }
-        }
-    }
+int GetConditionOperatorPosition(std::vector<std::string> &tokens);
 
-    //TODO should it trow run time error?
-    //throw runtime_error("No condition operator found at condition command");
-}
+std::vector<int> GetPositionsOfExpressions(std::vector<std::string> &tokens);
+
+    bool IsNumber(const std::string& s);
+
+    bool IsVar(const std::string& s);
 };
 
 #endif //SIMSERVER_UTILS_H
