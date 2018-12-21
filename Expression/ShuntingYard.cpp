@@ -49,6 +49,8 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
             stc->push(token);
             preToken = token;
             continue;
+        } else {
+            throw runtime_error(string(token + " is Invalid"));
         }
     }
     //move the all operation from the stack to the queue

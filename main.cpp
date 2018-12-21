@@ -20,10 +20,10 @@ using namespace std;
 int main() {
 
 //UtilsTest();
-   //SYTest();
-   shared_ptr<Expression> A = make_shared<Number>(5);
+   SYTest();
+   //shared_ptr<Expression> A = make_shared<Number>(5);
 
-   Serv();
+   //Serv();
 
    //A->Read();
 
