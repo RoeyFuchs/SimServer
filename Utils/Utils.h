@@ -24,7 +24,7 @@ public:
 
     int GetConditionOperatorPosition(std::vector<std::string> &tokens);
 
-    std::vector<int> GetPositionsOfExpressions(std::vector<std::string> &tokens);
+     std::vector<int> GetPositionsOfExpressions(std::vector<std::string> &tokens);
 
     bool IsNumber(const std::string& s);
 

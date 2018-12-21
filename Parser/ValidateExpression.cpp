@@ -43,3 +43,25 @@ void ValidateExpression::ValidateOpenDataServer(std::vector<std::string> &tokens
         throw std::runtime_error("Error:Not enough arguments at OpenDataServer command");
     }
 }
+/**
+ * ValidateOpenDataServer
+ * @param tokens
+ * The function checks for leagl arguments number
+ */
+void ValidateExpression::ValidateConnect(std::vector<std::string> &tokens) {
+    //make sure there is enough arguments
+    if (tokens.size() < this->expressionArguments["connect"]) {
+        throw std::runtime_error("Error:arguments number at connect command is not valid");
+    }
+}
+/**
+ * ValidatePrint
+ * @param tokens
+ * The function checks for leagl arguments number
+ */
+void ValidateExpression::ValidatePrint(std::vector<std::string> &tokens) {
+    //make sure there is enough arguments
+    if (tokens.size() < this->expressionArguments["print"]) {
+        throw std::runtime_error("Error:arguments number at print command is not valid");
+    }
+}

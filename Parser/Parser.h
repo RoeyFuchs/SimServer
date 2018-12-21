@@ -50,7 +50,7 @@ public:
             this->varExpressionTable= varExpressionTable;
             this->shuntingYard= new ShuntingYard(this->varExpressionTable);
             this->utils= new Utils(this->operators,varExpressionTable);
-            this->validateExpression=new ValidateExpression(this->operators,varExpressionTable);
+            this->validateExpression=new ValidateExpression(this->operators,varExpressionTable,this->expressionArguments);
     }
     void ParseLine(std::vector<std::string> &tokens);
     Expression* MakeAnExpression(std::vector<std::string> &tokens);

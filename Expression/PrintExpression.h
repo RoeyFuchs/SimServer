@@ -17,10 +17,11 @@ public:
         this->exp=exp;
     }
     PrintExpression(string str){
+        this->exp= nullptr;
         this->str=str;
     }
     virtual double Execute(){
-        if(this->exp!=NULL) {
+        if(this->exp!= nullptr) {
             cout << this->exp->Execute() << endl;
         } else{
             cout<<this->str<<endl;

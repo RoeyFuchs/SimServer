@@ -207,5 +207,94 @@ static void RunParserTests(){
                 cout<<countTest<<failed<<endl;
                 failedCounter++;
         }
+    //test 13
+    countTest++;
+    vec = new vector<string>{"connect","a"};
+    isExp=0;
+    try {
+        parser->ParseLine(*vec);
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 14
+    countTest++;
+    vec = new vector<string>{"connect","a","b","c"};
+    isExp=0;
+    try {
+        parser->ParseLine(*vec);
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 15
+    countTest++;
+    vec = new vector<string>{"connect","1.2.3","50","+","3"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+    ConnectExpression* connectExp=(ConnectExpression*)expr;
+    if(connectExp!= nullptr && connectExp->GetPort()->Execute()==53
+       && connectExp->GetIp()=="1.2.3"){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 16
+    countTest++;
+    vec = new vector<string>{"print","1.2.3","50","+","3"};
+    isExp=0;
+    PrintExpression* printExpression;
+    try {
+        expr= parser->MakeAnExpression(*vec);
+        printExpression=(PrintExpression*)expr;
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 17
+    countTest++;
+    vec = new vector<string>{"print"};
+    isExp=0;
+    try {
+        expr= parser->MakeAnExpression(*vec);
+        printExpression=(PrintExpression*)expr;
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+
+    //test 18
+    countTest++;
+    vec = new vector<string>{"print","18 passed"};
+    isExp=0;
+     parser->MakeAnExpression(*vec)->Execute();
+
+
 }
 #endif //SIMSERVER_PARSERTESTS_H

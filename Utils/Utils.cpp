@@ -27,7 +27,7 @@ int Utils::GetConditionOperatorPosition(std::vector<std::string> &tokens) {
  * @param tokens
  * @return int vector with expression indexes
  */
-std::vector<int> Utils::GetPositionsOfExpressions(std::vector<std::string> &tokens) {
+ std::vector<int> Utils::GetPositionsOfExpressions(std::vector<std::string> &tokens) {
     std::vector<int> expressionsPositions;
     //first element in vector is also an expression
     expressionsPositions.push_back(0);

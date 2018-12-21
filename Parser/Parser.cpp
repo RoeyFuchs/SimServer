@@ -72,7 +72,9 @@ Expression* Parser::ParseOpenDataServer(std::vector<std::string> &tokens) {
  * The function parse Connect line into an expression
  */
 Expression* Parser::ParseConnect(std::vector<std::string> &tokens) {
-    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
+    //slice connect and its port
+    vector<string>subVec=this->utils->Slice(tokens,2, tokens.size()-1);
+    this->validateExpression->ValidateConnect(subVec);
     Expression* connectExp= new ConnectExpression(tokens[1],
                                                   this->shuntingYard->MakeExpression(subVec));
     return connectExp;
@@ -84,17 +86,19 @@ Expression* Parser::ParseConnect(std::vector<std::string> &tokens) {
  * The function parse print line into an expression
  */
 Expression* Parser::ParsePrint(std::vector<std::string> &tokens) {
+    tokens= this->utils->Slice(tokens,1,tokens.size()-1);
+    this->validateExpression->ValidatePrint(tokens);
     //simple print command, no need to evaluate an expression
     Expression *printExp;
-    if(tokens.size()==2){
+    if(tokens.size()==this->expressionArguments["print"]){
         //check if print's arg is a string
-        if((*this->varExpressionTable).find(tokens[1])==(*this->varExpressionTable).end()){
+        if((*this->varExpressionTable).find(tokens[0])==(*this->varExpressionTable).end()){
             //the second arg is string
-            printExp=new PrintExpression(tokens[1]);
+            printExp=new PrintExpression(tokens[0]);
         }
+    }else{
+        printExp=new PrintExpression(this->shuntingYard->MakeExpression(tokens));
     }
-    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
-    printExp=new PrintExpression(this->shuntingYard->MakeExpression(subVec));
     return printExp;
 }
 /**
