@@ -30,6 +30,10 @@ Expression* Parser::ParseVar(std::vector<std::string> &tokens){
             }
         }
     } else{
+        vector<std::string> argumentVec=this->utils->Slice(tokens,1, tokens.size()-1);
+        if(this->utils->GetPositionsOfExpressions(argumentVec).size()!=this->expressionArguments["var"]){
+            throw runtime_error("Error:arguments number at defined var command is not valid");
+        }
         std::vector<std::string> subVec= this->utils->Slice(tokens,3, tokens.size()-1);
         //get expression after '='
         varExp=new VarExpression(this->shuntingYard->MakeExpression(subVec));
@@ -50,8 +54,8 @@ Expression* Parser::ParseOpenDataServer(std::vector<std::string> &tokens) {
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     vector<int> indexesOfArgs=this->utils->GetPositionsOfExpressions(subVec);
     //make sure there is two arguments
-    if(indexesOfArgs.size()<this->expressionArguments["openDataServer"]){
-        throw runtime_error("Error: not enough arguments at openDataServer command");
+    if(indexesOfArgs.size()!=this->expressionArguments["openDataServer"]){
+        throw runtime_error("Error:arguments number at openDataServer command is not valid");
     }
     vector<string> firstArg=this->utils->Slice(subVec,indexesOfArgs[0], indexesOfArgs[1]-1);
     vector<string> secondArg=this->utils->Slice(subVec,indexesOfArgs[1], subVec.size()-1);
@@ -70,7 +74,7 @@ Expression* Parser::ParseOpenDataServer(std::vector<std::string> &tokens) {
 Expression* Parser::ParseConnect(std::vector<std::string> &tokens) {
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     Expression* connectExp= new ConnectExpression(tokens[1],
-                                                  this->shuntingYard->MakeExpression(subVec)->Execute());
+                                                  this->shuntingYard->MakeExpression(subVec));
     return connectExp;
 }
 /**
