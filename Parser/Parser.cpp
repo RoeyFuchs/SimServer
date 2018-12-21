@@ -10,30 +10,44 @@
  * @param tokens
  * The function define a new variable and update varExpressionTable
  */
-void Parser::ParseVar(std::vector<std::string> tokens){
+Expression* Parser::ParseVar(std::vector<std::string> &tokens){
+    this->validateExpression->ValidateVarDefined(tokens);
     VarExpression* varExp;
     //check if bind is deifined in line
-    if(std::find(tokens.begin(),tokens.end(),"bind")!=tokens.end()){
-        //declare new varExpression
-        varExp= new VarExpression(tokens[4]);
+    if(tokens[3]== "bind"){
+        //check if " is defined
+        if(tokens[4][0]==('\"')) {
+            //declare new varExpression
+            varExp = new VarExpression(tokens[4]);
+        } else{
+            //make sure second arg is a var
+            if(utils->IsVar(tokens[4])){
+                //bind second var path
+                varExp=new VarExpression((*this->varExpressionTable)[tokens[4]]->GetPath());
+            }else{
+                //undefined var
+                throw runtime_error("Error: undefined var");
+            }
+        }
     } else{
         std::vector<std::string> subVec= this->utils->Slice(tokens,3, tokens.size()-1);
-        //evaluate expression after '='
+        //get expression after '='
         varExp=new VarExpression(this->shuntingYard->MakeExpression(subVec));
     }
     //add new Expession to varExpressionTable
     (*this->varExpressionTable)[tokens[1]]=varExp;
+    return varExp;
 }
 /**
- * ParseConnectDataServer
+ * ParseOpenDataServer
  * @param tokens
  * @return Expression
  * The function parse openDataServer line into an expression
  */
-Expression* Parser::ParseOpenDataServer(std::vector<std::string> tokens) {
+Expression* Parser::ParseOpenDataServer(std::vector<std::string> &tokens) {
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     Expression *openDataServerExp=new OpenDataServerExpression(std::stoi(tokens[1]),
-            this->shuntingYard->MakeExpression(subVec)->Execute());
+                                                               this->shuntingYard->MakeExpression(subVec)->Execute());
     return openDataServerExp;
 }
 /**
@@ -43,10 +57,10 @@ Expression* Parser::ParseOpenDataServer(std::vector<std::string> tokens) {
  * @return Expression
  * The function parse Connect line into an expression
  */
-Expression* Parser::ParseConnect(std::vector<std::string> tokens) {
+Expression* Parser::ParseConnect(std::vector<std::string> &tokens) {
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     Expression* connectExp= new ConnectExpression(tokens[1],
-            this->shuntingYard->MakeExpression(subVec)->Execute());
+                                                  this->shuntingYard->MakeExpression(subVec)->Execute());
     return connectExp;
 }
 /**
@@ -55,7 +69,7 @@ Expression* Parser::ParseConnect(std::vector<std::string> tokens) {
  * @return Expression
  * The function parse print line into an expression
  */
-Expression* Parser::ParsePrint(std::vector<std::string> tokens) {
+Expression* Parser::ParsePrint(std::vector<std::string> &tokens) {
     //simple print command, no need to evaluate an expression
     Expression *printExp;
     if(tokens.size()==2){
@@ -75,7 +89,7 @@ Expression* Parser::ParsePrint(std::vector<std::string> tokens) {
  * @return Expression
  * The function parse if line into an expression
  */
-Expression* Parser::ParseIf(std::vector<std::string> tokens) {
+Expression* Parser::ParseIf(std::vector<std::string>& tokens) {
     Expression* ifExp;
     //sub if word and bracket
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-2);
@@ -89,7 +103,7 @@ Expression* Parser::ParseIf(std::vector<std::string> tokens) {
  * @return Expression
  * The function parse while line into an expression
  */
-Expression* Parser::ParseWhile(std::vector<std::string> tokens) {
+Expression* Parser::ParseWhile(std::vector<std::string>& tokens) {
     Expression* whileExp;
     //sub while word and bracket
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-2);
@@ -103,7 +117,7 @@ Expression* Parser::ParseWhile(std::vector<std::string> tokens) {
  * @return ConditionExpression
  * The function devide string's vector into two expression and get its conditon operator
  */
-ConditionExpression* Parser::CreateCondition(std::vector<std::string> tokens) {
+ConditionExpression* Parser::CreateCondition(std::vector<std::string>& tokens) {
     int operatorIndex= this->utils->GetConditionOperatorPosition(tokens);
     vector<string>leftVec=this->utils->Slice(tokens,0, operatorIndex-1);
     vector<string>rightVec=this->utils->Slice(tokens,operatorIndex+1, tokens.size()-1);
@@ -118,7 +132,7 @@ ConditionExpression* Parser::CreateCondition(std::vector<std::string> tokens) {
  * @return  Expression
  * The function parse sleep line into an expression
  */
-Expression* Parser::ParseSleep(std::vector<std::string> tokens) {
+Expression* Parser::ParseSleep(std::vector<std::string> &tokens) {
     Expression* sleepExp;
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     sleepExp= new SleepExpression(this->shuntingYard->MakeExpression(subVec));
@@ -130,11 +144,11 @@ Expression* Parser::ParseSleep(std::vector<std::string> tokens) {
  * @return Expression
  * The function translate tokens into an expression
  */
-Expression* Parser::MakeAnExpression(std::vector<std::string> tokens) {
+Expression* Parser::MakeAnExpression(std::vector<std::string>& tokens) {
     Expression *exp;
     //search for key words
     if (tokens[0] == "var") {
-        this->ParseVar(tokens);
+        exp=this->ParseVar(tokens);
     } else if (tokens[0] == "sleep") {
         exp = this->ParseSleep(tokens);
     } else if (tokens[0] == "print") {
@@ -171,8 +185,8 @@ Expression* Parser::MakeAnExpression(std::vector<std::string> tokens) {
  * @param tokens
  * The function executes line
  */
-void Parser::ParseLine(std::vector<std::string> tokens) {
-   Expression* exp =this->MakeAnExpression(tokens);
+void Parser::ParseLine(std::vector<std::string> &tokens) {
+    Expression* exp =this->MakeAnExpression(tokens);
     //privies condition is exist
     if(this->currentConditionParse!= nullptr) {
         if(this->currentConditionParse->GetIsComplete()== false) {

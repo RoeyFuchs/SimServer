@@ -11,8 +11,7 @@
 #include <regex>
 #include "string"
 #include "../Parser/Parser.h"
-class ParserTest{
-    static void RunParserTests(){
+static void RunParserTests(){
         int counter = 1;
 
         string success =  " passed";
@@ -20,14 +19,133 @@ class ParserTest{
         string msg;
         int successCounter = 0;
         int failedCounter = 0;
-        auto mapp = new map<string, VarExpression*>;
-        Parser* parser= new Parser(mapp);
-        vector<string>* vec = new vector<string>;
+        std::map<std::string, VarExpression*>* varsMap=new std::map<std::string, VarExpression*>();
+        Number* num=new Number(5);
+        VarExpression* roll=new VarExpression("/a/b/c");
+        roll->SetExpression(num);
+        VarExpression* elevator=new VarExpression("/d/e/f");
+        ( *varsMap)["roll"]=roll;
+        ( *varsMap)["elevator"]=elevator;
+        Parser* parser= new Parser(varsMap);
+        int countTest=0;
 
         //test 1
-        vec->emplace_back("print");
-        vec->emplace_back("Hello");
-        parser->ParseLine(vec);
-    }
-};
+        countTest++;
+        vector<string>* vec = new vector<string>{"var","a","=","bind","\"a/a/a\""};
+        parser->ParseLine(*vec);
+        VarExpression* newVarA=(*varsMap)["a"];
+        if(newVarA!= nullptr && newVarA->GetPath()=="\"a/a/a\""){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
+        //test 2
+        countTest++;
+        vec = new vector<string>{"var","b","=","bind","a"};
+        parser->ParseLine(*vec);
+        VarExpression* newVarB=(*varsMap)["b"];
+        if(newVarB!= nullptr && newVarB->GetPath()=="\"a/a/a\""){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
+        //test 3
+        countTest++;
+        vec = new vector<string>{"var","b","bind","a"};
+        int isExp=0;
+        try {
+                parser->ParseLine(*vec);
+        }catch (exception e){
+                isExp=1;
+        }
+        if(isExp){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
+
+        //test 4
+        countTest++;
+        vec = new vector<string>{"var","b","=","bind"};
+        isExp=0;
+        try {
+                parser->ParseLine(*vec);
+        }catch (exception e){
+                isExp=1;
+        }
+        if(isExp){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
+
+        //test 5
+        countTest++;
+        vec = new vector<string>{"var","b","bind","a"};
+        isExp=0;
+        try {
+                parser->ParseLine(*vec);
+        }catch (exception e){
+                isExp=1;
+        }
+        if(isExp){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
+        //test 6
+        countTest++;
+        vec = new vector<string>{"var","k","=","roll"};
+        parser->ParseLine(*vec);
+        VarExpression* newVar=(*varsMap)["k"];
+        if(newVar!= nullptr && newVar->GetExpression()->Execute()==5){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
+        //test 7
+        countTest++;
+        vec = new vector<string>{"var","b","=","bind","op"};
+        isExp=0;
+        try {
+                parser->ParseLine(*vec);
+        }catch (exception e){
+                isExp=1;
+        }
+        if(isExp){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
+        //test 8
+        countTest++;
+        vec = new vector<string>{"var","b","=","op"};
+        isExp=0;
+        try {
+                parser->ParseLine(*vec);
+        }catch (exception e){
+                isExp=1;
+        }
+        if(isExp){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
+}
 #endif //SIMSERVER_PARSERTESTS_H

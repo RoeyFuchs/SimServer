@@ -19,7 +19,21 @@ public:
         this->exp= exp;
     }
     virtual double Execute(){
-        return this->exp->Execute();
+        if(this->exp!= nullptr){
+            return this->exp->Execute();
+        }
+    }
+    std::string GetPath(){
+        return this->path;
+    };
+    Expression* GetExpression(){
+        return this->exp;
+    }
+    void SetExpression(Expression* exp){
+        this->exp=exp;
+    }
+    void SetPath(std::string path){
+        this->path=path;
     }
 };
 
