@@ -10,14 +10,20 @@
 
 #endif //SIMSERVER_CONNECTEXPRESSION_H
 class ConnectExpression: public Expression{
-    double port;
+    Expression* port;
     std::string ip;
 public:
-    ConnectExpression(std::string ip, double port){
+    ConnectExpression(std::string ip, Expression* port){
         this->ip= ip;
         this->port= port;
     }
     virtual double Execute(){
         return 1;
+    }
+    Expression* GetPort(){
+        return this->port;
+    }
+    string GetIp(){
+        return this->ip;
     }
 };

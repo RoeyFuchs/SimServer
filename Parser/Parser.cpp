@@ -74,7 +74,7 @@ Expression* Parser::ParseOpenDataServer(std::vector<std::string> &tokens) {
 Expression* Parser::ParseConnect(std::vector<std::string> &tokens) {
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     Expression* connectExp= new ConnectExpression(tokens[1],
-                                                  this->shuntingYard->MakeExpression(subVec)->Execute());
+                                                  this->shuntingYard->MakeExpression(subVec));
     return connectExp;
 }
 /**
