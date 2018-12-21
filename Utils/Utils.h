@@ -35,7 +35,7 @@ public:
 
     static std::map<int, std::string> GetXmlOrder();
 
-    static std::vector<std::string> splitByChar(char *phrase, std::string delimiter);
+    static std::vector<std::string> SplitByChar(char *phrase, std::string delimiter);
 };
 
 #endif //SIMSERVER_UTILS_H

@@ -98,7 +98,7 @@ std::map<int, std::string> Utils::GetXmlOrder() {
     return newMap;
 }
 
-std::vector<std::string> Utils::splitByChar(char *phrase, std::string delimiter){
+std::vector<std::string> Utils::SplitByChar(char *phrase, std::string delimiter){
     std::vector<std::string> list;
     std::string s = std::string(phrase);
     size_t pos = 0;
