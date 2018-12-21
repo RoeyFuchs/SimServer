@@ -54,7 +54,7 @@ Expression* Parser::ParseOpenDataServer(std::vector<std::string> &tokens) {
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     vector<int> indexesOfArgs=this->utils->GetPositionsOfExpressions(subVec);
     //make sure there is two arguments
-    if(indexesOfArgs.size()!=this->expressionArguments["openDataServer"]){
+    if(indexesOfArgs.size()!=this->expressionArguments[tokens[0]]){
         throw runtime_error("Error:arguments number at openDataServer command is not valid");
     }
     vector<string> firstArg=this->utils->Slice(subVec,indexesOfArgs[0], indexesOfArgs[1]-1);
@@ -108,9 +108,13 @@ Expression* Parser::ParsePrint(std::vector<std::string> &tokens) {
  * The function parse if line into an expression
  */
 Expression* Parser::ParseIf(std::vector<std::string>& tokens) {
+    //remove opening bracke if exist
+    if(tokens[tokens.size()-1]=="{"){
+        tokens=this->utils->Slice(tokens,0,tokens.size()-2);
+    }
     Expression* ifExp;
-    //sub if word and bracket
-    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-2);
+    //sub if word
+    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     ConditionExpression* conditionExpression= this->CreateCondition(subVec);
     ifExp= new IfExpression(conditionExpression);
     return  ifExp;
@@ -122,9 +126,13 @@ Expression* Parser::ParseIf(std::vector<std::string>& tokens) {
  * The function parse while line into an expression
  */
 Expression* Parser::ParseWhile(std::vector<std::string>& tokens) {
+    //remove opening bracket if exist
+    if(tokens[tokens.size()-1]=="{"){
+        tokens=this->utils->Slice(tokens,0,tokens.size()-2);
+    }
     Expression* whileExp;
     //sub while word and bracket
-    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-2);
+    vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     ConditionExpression* conditionExpression= this->CreateCondition(subVec);
     whileExp = new WhileExpression(conditionExpression);
     return  whileExp;
@@ -137,6 +145,9 @@ Expression* Parser::ParseWhile(std::vector<std::string>& tokens) {
  */
 ConditionExpression* Parser::CreateCondition(std::vector<std::string>& tokens) {
     int operatorIndex= this->utils->GetConditionOperatorPosition(tokens);
+    if(operatorIndex==tokens.size()-1||operatorIndex==0){
+        throw runtime_error("Error:arguments number at condition command is not valid");
+    }
     vector<string>leftVec=this->utils->Slice(tokens,0, operatorIndex-1);
     vector<string>rightVec=this->utils->Slice(tokens,operatorIndex+1, tokens.size()-1);
     ConditionExpression* ce= new ConditionExpression(tokens[operatorIndex],
@@ -153,7 +164,10 @@ ConditionExpression* Parser::CreateCondition(std::vector<std::string>& tokens) {
 Expression* Parser::ParseSleep(std::vector<std::string> &tokens) {
     Expression* sleepExp;
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
-    sleepExp= new SleepExpression(this->shuntingYard->MakeExpression(subVec));
+    if(this->utils->GetPositionsOfExpressions(subVec).size()!=this->expressionArguments[tokens[0]])
+    {
+        throw runtime_error("Error:arguments number at sleep command is not valid");
+    }    sleepExp= new SleepExpression(this->shuntingYard->MakeExpression(subVec));
     return sleepExp;
 }
 /**
@@ -164,6 +178,11 @@ Expression* Parser::ParseSleep(std::vector<std::string> &tokens) {
  */
 Expression* Parser::MakeAnExpression(std::vector<std::string>& tokens) {
     Expression *exp;
+    bool hasBracket= false;
+    //search for bracket
+    if(tokens[0]=="}"||tokens[tokens.size()-1]=="}") {
+        hasBracket= true;
+    }
     //search for key words
     if (tokens[0] == "var") {
         exp=this->ParseVar(tokens);
@@ -179,13 +198,15 @@ Expression* Parser::MakeAnExpression(std::vector<std::string>& tokens) {
         exp= this->ParseWhile(tokens);
     } else if (tokens[0]=="if"){
         exp= this->ParseIf(tokens);
-    } else if(tokens[0]=="}"){
+    }
+    if(hasBracket){
         //last condition expression is complete
         if(this->currentConditionParse!= nullptr){
             //if last expression is a parserCondition type
             if(typeid (this->currentConditionParse->GetLastExp()).name()== typeid(IfExpression).name()||
                typeid (this->currentConditionParse->GetLastExp()).name()== typeid(WhileExpression).name()){
-                //TODO maybe downcasting? -> should change its IsComplete member
+                ConditionParser* conditionParser=(ConditionParser*)this->currentConditionParse->GetLastExp();
+                conditionParser->SetIsComplete(true);
 
             }else{
                 //The current condition is complete
@@ -211,7 +232,6 @@ void Parser::ParseLine(std::vector<std::string> &tokens) {
             this->currentConditionParse->AddExpression(exp);
         }else {
             this->currentConditionParse->Execute();
-            //TODO free memory
         }
     } else{
         //regular command

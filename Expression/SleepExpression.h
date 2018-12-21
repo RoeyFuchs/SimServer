@@ -15,5 +15,8 @@ public:
     virtual double Execute() {
         sleep(exp->Execute());
     }
+    Expression* GetSleepingTimeExpression(){
+        return this->exp;
+    }
 };
 #endif //SIMSERVER_SLEEPEXPRESSION_H

@@ -295,6 +295,85 @@ static void RunParserTests(){
     isExp=0;
      parser->MakeAnExpression(*vec)->Execute();
 
+    //test 19
+    countTest++;
+    vec = new vector<string>{"if","9",">","1"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+    IfExpression* ifExp=(IfExpression*)expr;
+    if(ifExp != nullptr && ifExp->Execute()==1){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 20
+    countTest++;
+    vec = new vector<string>{"if","9",">=","roll"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+     ifExp=(IfExpression*)expr;
+    if(ifExp != nullptr && ifExp->Execute()==1){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 21
+    countTest++;
+    vec = new vector<string>{"if","5","==","roll"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+    ifExp=(IfExpression*)expr;
+    if(ifExp != nullptr && ifExp->Execute()==1){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 22
+    countTest++;
+    vec = new vector<string>{"if","51","!=","roll"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+    ifExp=(IfExpression*)expr;
+    if(ifExp != nullptr && ifExp->Execute()==1){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 23
+    countTest++;
+    vec = new vector<string>{"sleep","51","-","10"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+    SleepExpression* sleepExp=(SleepExpression*)expr;
+    if(ifExp != nullptr && sleepExp->GetSleepingTimeExpression()->Execute()==41){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 24
+    countTest++;
+    vec = new vector<string>{"sleep","51"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+    sleepExp=(SleepExpression*)expr;
+    if(ifExp != nullptr && sleepExp->GetSleepingTimeExpression()->Execute()==51){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+
 
 }
 #endif //SIMSERVER_PARSERTESTS_H
