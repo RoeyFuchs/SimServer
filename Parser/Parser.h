@@ -36,7 +36,6 @@ private:
     Expression* ParseIf(std::vector<std::string> &tokens);
     Expression* ParseWhile(std::vector<std::string> &tokens);
     ConditionExpression* CreateCondition(std::vector<std::string> &tokens);
-    Expression* MakeAnExpression(std::vector<std::string> &tokens);
 
 
 public:
@@ -54,6 +53,7 @@ public:
             this->validateExpression=new ValidateExpression(this->operators,varExpressionTable);
     }
     void ParseLine(std::vector<std::string> &tokens);
+    Expression* MakeAnExpression(std::vector<std::string> &tokens);
 
 };
 

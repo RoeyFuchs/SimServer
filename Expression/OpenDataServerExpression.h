@@ -7,15 +7,21 @@
 #include "Expression.h"
 
 class OpenDataServerExpression: public Expression{
-    double  port;
-    double samplingRate;
+    Expression*  port;
+    Expression* samplingRate;
 public:
-    OpenDataServerExpression(double port, double samplingRate){
+    OpenDataServerExpression(Expression* port, Expression* samplingRate){
         this->port= port;
         this->samplingRate= samplingRate;
     }
     virtual double Execute(){
         return 1;
+    }
+    Expression* GetPort(){
+        return this->port;
+    };
+    Expression* GetSamplingRate(){
+        return  this->samplingRate;
     }
 };
 #endif //SIMSERVER_OPENDATASERVEREXPRESSION_H

@@ -9,6 +9,7 @@
 #define VAR_WITHOUT_BIND 4
 #define BIND_POS 3
 #define BIND_EQUALS_POS 2
+#define OPEN_DATA_SERVER_LEN 3
 /**
  * ValidateExpression
  * @param tokens
@@ -38,7 +39,7 @@ void ValidateExpression::ValidateVarDefined(std::vector<std::string> &tokens) {
  */
 void ValidateExpression::ValidateOpenDataServer(std::vector<std::string> &tokens) {
     //make sure there is enough arguments
-    if (tokens.size() < 5) {
-        throw std::runtime_error("Error:Not enough arguments at defined var command");
+    if (tokens.size() < OPEN_DATA_SERVER_LEN) {
+        throw std::runtime_error("Error:Not enough arguments at OpenDataServer command");
     }
 }

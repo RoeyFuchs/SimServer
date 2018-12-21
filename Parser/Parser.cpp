@@ -45,9 +45,19 @@ Expression* Parser::ParseVar(std::vector<std::string> &tokens){
  * The function parse openDataServer line into an expression
  */
 Expression* Parser::ParseOpenDataServer(std::vector<std::string> &tokens) {
+    this->validateExpression->ValidateOpenDataServer(tokens);
+    //slice openDataServer word
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
-    Expression *openDataServerExp=new OpenDataServerExpression(std::stoi(tokens[1]),
-                                                               this->shuntingYard->MakeExpression(subVec)->Execute());
+    vector<int> indexesOfArgs=this->utils->GetPositionsOfExpressions(subVec);
+    //make sure there is two arguments
+    if(indexesOfArgs.size()<this->expressionArguments["openDataServer"]){
+        throw runtime_error("Error: not enough arguments at openDataServer command");
+    }
+    vector<string> firstArg=this->utils->Slice(subVec,indexesOfArgs[0], indexesOfArgs[1]-1);
+    vector<string> secondArg=this->utils->Slice(subVec,indexesOfArgs[1], subVec.size()-1);
+    Expression *openDataServerExp=new OpenDataServerExpression(
+            this->shuntingYard->MakeExpression(firstArg),
+            this->shuntingYard->MakeExpression(secondArg));
     return openDataServerExp;
 }
 /**
@@ -153,9 +163,9 @@ Expression* Parser::MakeAnExpression(std::vector<std::string>& tokens) {
         exp = this->ParseSleep(tokens);
     } else if (tokens[0] == "print") {
         exp = this->ParsePrint(tokens);
-    } else if (tokens[0] == "OpenDataServer") {
+    } else if (tokens[0] == "openDataServer") {
         exp = this->ParseOpenDataServer(tokens);
-    } else if (tokens[0] == "Connect") {
+    } else if (tokens[0] == "connect") {
         exp = this->ParseConnect(tokens);
     } else if (tokens[0]=="while"){
         exp= this->ParseWhile(tokens);

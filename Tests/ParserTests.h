@@ -147,5 +147,65 @@ static void RunParserTests(){
                 cout<<countTest<<failed<<endl;
                 failedCounter++;
         }
+    //test 9
+    countTest++;
+    vec = new vector<string>{"openDataServer"};
+    isExp=0;
+    try {
+        parser->ParseLine(*vec);
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 10
+    countTest++;
+    vec = new vector<string>{"openDataServer","50","8","/","2"};
+     isExp=0;
+        Expression* expr= parser->MakeAnExpression(*vec);
+        OpenDataServerExpression* openDataServerExpression=(OpenDataServerExpression*)expr;
+        if(openDataServerExpression!= nullptr && openDataServerExpression->GetPort()->Execute()==50
+        && openDataServerExpression->GetSamplingRate()->Execute()==4){
+            cout<<countTest<<success<<endl;
+            successCounter++;
+        }else{
+            cout<<countTest<<failed<<endl;
+            failedCounter++;
+        }
+        //test 11
+        countTest++;
+        vec = new vector<string>{"openDataServer","50","+","3","8"};
+        isExp=0;
+         expr= parser->MakeAnExpression(*vec);
+         openDataServerExpression=(OpenDataServerExpression*)expr;
+        if(openDataServerExpression!= nullptr && openDataServerExpression->GetPort()->Execute()==53
+           && openDataServerExpression->GetSamplingRate()->Execute()==8){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
+        //test 12
+        countTest++;
+        vec = new vector<string>{"openDataServer","a"};
+        isExp=0;
+        try {
+                parser->ParseLine(*vec);
+        }catch (exception e){
+                isExp=1;
+        }
+        if(isExp){
+                cout<<countTest<<success<<endl;
+                successCounter++;
+        }else{
+                cout<<countTest<<failed<<endl;
+                failedCounter++;
+        }
 }
 #endif //SIMSERVER_PARSERTESTS_H
