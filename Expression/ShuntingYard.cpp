@@ -15,20 +15,20 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
     //for the all token do the shunting yard algorithm.
     for (string &token : vec) {
         //if it's a number or var, push to the queue
-        if (isNumber(token) || isVar(token)) {
+        if (IsNumber(token) || IsVar(token)) {
             que->push(token);
             preToken = token;
             continue;
         }
         //if it's (, push to the stack
-        if (isOpenBracket(token)) {
+        if (IsOpenBracket(token)) {
             stc->push(token);
             preToken = token;
             continue;
         }
         //if it's ), move by the algorithm
-        if (isCloseBracket(token)) {
-            while (!isOpenBracket(stc->top())) {
+        if (IsCloseBracket(token)) {
+            while (!IsOpenBracket(stc->top())) {
                 string top = stc->top();
                 stc->pop();
                 que->push(top);
@@ -37,12 +37,12 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
             continue;
         }
         //if it's operator, move by the algorithm
-        if (isOperator(token)) {
+        if (IsOperator(token)) {
             //using Minus instand of Neg
-            if (isMinus(token) && (!isNumber(preToken) || isVar(preToken))) {
+            if (IsMinus(token) && (!IsNumber(preToken) || IsVar(preToken))) {
                 token = "NEG_SYMBOL"; // negative
             }
-            while (!stc->empty() && isGreaterPrecedence(stc->top(), token)) {
+            while (!stc->empty() && IsGreaterPrecedence(stc->top(), token)) {
                 que->push(stc->top());
                 stc->pop();
             }
@@ -66,7 +66,7 @@ Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
  * @param str the string to check
  * @return true or false
  */
-bool ShuntingYard::isNumber(string &str) {
+bool ShuntingYard::IsNumber(string &str) {
     return regex_match(str, regex("^(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 }
 /**
@@ -74,7 +74,7 @@ bool ShuntingYard::isNumber(string &str) {
  * @param str the string to check
  * @return true or false
  */
-bool ShuntingYard::isOperator(string &str) {
+bool ShuntingYard::IsOperator(string &str) {
     vector<string> mathOperator = GetMathOperatorVector();
     return (find(mathOperator.begin(), mathOperator.end(), str) != mathOperator.end());
 
@@ -84,7 +84,7 @@ bool ShuntingYard::isOperator(string &str) {
  * @param str the string to check
  * @return true or false
  */
-bool ShuntingYard::isOpenBracket(string &str) {
+bool ShuntingYard::IsOpenBracket(string &str) {
     return (str == "(");
 }
 /**
@@ -92,7 +92,7 @@ bool ShuntingYard::isOpenBracket(string &str) {
  * @param str the string to check
  * @return true or false
  */
-bool ShuntingYard::isCloseBracket(string &str) {
+bool ShuntingYard::IsCloseBracket(string &str) {
     return (str == ")");
 }
 /**
@@ -100,7 +100,7 @@ bool ShuntingYard::isCloseBracket(string &str) {
  * @param str the string to check
  * @return true or false
  */
-bool ShuntingYard::isVar(string& str) {
+bool ShuntingYard::IsVar(string& str) {
     return ((*this->varExpressionMap).count(str) != 0);
 }
 /**
@@ -122,7 +122,7 @@ vector<string> ShuntingYard::GetMathOperatorVector() {
  * @param str the string to check
  * @return true or false
  */
-bool ShuntingYard::isMinus(string &str) {
+bool ShuntingYard::IsMinus(string &str) {
     return (str == "-");
 }
 /**
@@ -131,7 +131,7 @@ bool ShuntingYard::isMinus(string &str) {
  * @param other seconde operator
  * @return true or false
  */
-bool ShuntingYard::isGreaterPrecedence(string &str, string &other) {
+bool ShuntingYard::IsGreaterPrecedence(string &str, string &other) {
     return (this->operatorPrecedence[str] <= this->operatorPrecedence[other]);
 }
 /**
@@ -144,14 +144,14 @@ Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
     //do the algorithm to the all expression in the queue
     while (!que.empty()) {
         //if it's a number, create a number object and push to the stack
-        if (isNumber(que.front())) {
+        if (IsNumber(que.front())) {
             Expression *A = new Number(stod(que.front()));
             stc.push(A);
             que.pop();
             continue;
         }
         //if it's var, push to the stack
-        if(isVar(que.front())) {
+        if(IsVar(que.front())) {
             stc.push((*this->varExpressionMap)[que.front()]);
             que.pop();
         //if it's operator, create the operator with the 2 top expression in the stack

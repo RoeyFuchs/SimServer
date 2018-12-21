@@ -3,18 +3,21 @@
 
 #include "map"
 #include "Expression.h"
+#include "vector"
+#include "VarExpression.h"
+#include "Number.h"
 
 using namespace std;
 class ExpressionMaps {
-map<string, Expression*>* nameExpressionMap;
+map<string, VarExpression*>* nameExpressionMap;
 map<string, double>* bindValueMap;
 public:
 ExpressionMaps() {
-    this->nameExpressionMap = new map<string, Expression*>;
+    this->nameExpressionMap = new map<string, VarExpression*>;
     this->bindValueMap = new map<string, double>;
 }
 
-Expression* GetExpressionByName(string name) {
+VarExpression* GetExpressionByName(string name) {
     return this->nameExpressionMap->at(name);
 }
 
@@ -22,8 +25,8 @@ double GetValue(string bind) {
     return this->bindValueMap->at(bind);
 }
 
-void AddExpression(string name, Expression* exp) {
-    this->nameExpressionMap->insert(pair<string, Expression*>(name, exp));
+void AddExpression(string name, VarExpression* exp) {
+    this->nameExpressionMap->insert(pair<string, VarExpression*>(name, exp));
 }
 
 void AddValue(string bind, double val) {
@@ -32,6 +35,16 @@ void AddValue(string bind, double val) {
 
 void EditVal(string bind, double val) {
     this->bindValueMap->at(bind) = val;
+}
+
+void UpdateExpression();
+
+vector<VarExpression*> GetAllVars() {
+    vector<VarExpression*> vec;
+    for(auto itr = this->nameExpressionMap->begin(); itr != this->nameExpressionMap->end(); ++itr) {
+        vec.push_back((*itr).second);
+    }
+    return vec;
 }
 
 ~ExpressionMaps() {
