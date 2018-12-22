@@ -8,38 +8,38 @@
 #include "ConditionExpression.h"
 #include <vector>
 #include <string>
-class ConditionParser:public Expression{
-protected:
-    ConditionExpression* condition;
-    bool isComplete;
-    std::vector<Expression*> expressions;
-public:
-    ConditionParser(ConditionExpression* condition){
-        this->isComplete= false;
-        this->condition=condition;
+class ConditionParser : public Expression {
+ protected:
+  shared_ptr<ConditionExpression> condition;
+  bool isComplete;
+  vector<shared_ptr<Expression>> expressions;
+ public:
+  ConditionParser(shared_ptr<ConditionExpression> condition) {
+    this->isComplete = false;
+    this->condition = condition;
+  }
+  virtual double Execute() {
+    if (this->condition->Execute() == 1)
+      return 1;
+    return 0;
+  }
+  void SetIsComplete(bool isComplete) {
+    this->isComplete = isComplete;
+  }
+  bool GetIsComplete() {
+    return this->isComplete;
+  }
+  shared_ptr<Expression> GetLastExp() {
+    return this->expressions[expressions.size() - 1];
+  }
+  shared_ptr<Expression> GetExp(int index) {
+    if (index >= 0 && index < expressions.size() - 1) {
+      return this->expressions[index];
     }
-    virtual double Execute(){
-        if(this->condition->Execute()==1)
-            return 1;
-        return 0;
-    }
-    void SetIsComplete(bool isComplete){
-        this->isComplete= isComplete;
-    }
-    bool GetIsComplete() {
-        return this->isComplete;
-    }
-    Expression* GetLastExp(){
-        return this->expressions[expressions.size()-1];
-    }
-    Expression* GetExp(int index){
-        if(index>=0&& index<expressions.size()-1) {
-            return this->expressions[index];
-        }
-        return nullptr;
-    }
-    void AddExpression(Expression* exp){
-        this->expressions.push_back(exp);
-    }
+    return nullptr;
+  }
+  void AddExpression(shared_ptr<Expression> exp) {
+    this->expressions.push_back(exp);
+  }
 };
 #endif //SIMSERVER_CONDITIONEXPRESSION_H

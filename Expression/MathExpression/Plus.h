@@ -4,12 +4,12 @@
 #include "../BinaryExpression.h"
 
 class Plus : public BinaryExpression {
-public:
-    Plus(Expression* left, Expression* right) : BinaryExpression(left, right) {}
+ public:
+  Plus(shared_ptr<Expression> left, shared_ptr<Expression> right) : BinaryExpression(left, right) {}
 
-     double Execute() override  {
-        return (BinaryExpression::GetLeft()->Execute() + BinaryExpression::GetRight()->Execute());
-    }
+  double Execute() override {
+    return (BinaryExpression::GetLeft()->Execute() + BinaryExpression::GetRight()->Execute());
+  }
 
 };
 

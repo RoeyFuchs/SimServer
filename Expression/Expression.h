@@ -1,5 +1,7 @@
 #ifndef SIMSERVER_EXPRESSION_H
 #define SIMSERVER_EXPRESSION_H
+#include <memory>
+using namespace std;
 
 class Expression {
 public:

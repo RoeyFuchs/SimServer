@@ -9,21 +9,21 @@
 #include "Expression.h"
 
 #endif //SIMSERVER_CONNECTEXPRESSION_H
-class ConnectExpression: public Expression{
-    Expression* port;
-    std::string ip;
-public:
-    ConnectExpression(std::string ip, Expression* port){
-        this->ip= ip;
-        this->port= port;
-    }
-    virtual double Execute(){
-        return 1;
-    }
-    Expression* GetPort(){
-        return this->port;
-    }
-    string GetIp(){
-        return this->ip;
-    }
+class ConnectExpression : public Expression {
+  shared_ptr<Expression> port;
+  string ip;
+ public:
+  ConnectExpression(string ip, shared_ptr<Expression> port) {
+    this->ip = ip;
+    this->port = port;
+  }
+  virtual double Execute() {
+    return 1;
+  }
+  shared_ptr<Expression> GetPort() {
+    return this->port;
+  }
+  string GetIp() {
+    return this->ip;
+  }
 };

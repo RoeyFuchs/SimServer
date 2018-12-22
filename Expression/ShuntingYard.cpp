@@ -7,7 +7,7 @@
  * @param vec vector of string
  * @return pointer to the new expression
  */
-Expression *ShuntingYard::MakeExpression(vector<string> &vec) {
+shared_ptr<Expression> ShuntingYard::MakeExpression(vector<string> &vec) {
     auto stc = new stack<string>();
     auto que = new queue<string>();
     //will use to store the previous number (for negative numbers)
@@ -139,13 +139,13 @@ bool ShuntingYard::IsGreaterPrecedence(string &str, string &other) {
  * @param que the queue
  * @return pointer to new expression
  */
-Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
-    auto stc = stack<Expression *>();
+shared_ptr<Expression> ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
+    auto stc = stack<shared_ptr<Expression>>();
     //do the algorithm to the all expression in the queue
     while (!que.empty()) {
         //if it's a number, create a number object and push to the stack
         if (IsNumber(que.front())) {
-            Expression *A = new Number(stod(que.front()));
+            shared_ptr<Expression> A = make_shared<Number>(stod(que.front()));
             stc.push(A);
             que.pop();
             continue;
@@ -157,14 +157,14 @@ Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
         //if it's operator, create the operator with the 2 top expression in the stack
         } else {
             if (que.front()=="NEG_SYMBOL") {
-                Expression* A = new Neg(stc.top());
+                shared_ptr<Expression> A = make_shared<Neg>(stc.top());
                 stc.pop();
                 stc.push(A);
                 que.pop();
             } else {
-                Expression *right = stc.top();
+                shared_ptr<Expression> right = stc.top();
                 stc.pop();
-                Expression *left = stc.top();
+                shared_ptr<Expression> left = stc.top();
                 stc.pop();
                 stc.push(BuildOperatorByString(que.front(), right, left));
                 que.pop();
@@ -181,21 +181,21 @@ Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
  * @param left left expression
  * @return operator expression
  */
-Expression *ShuntingYard::BuildOperatorByString(string &str, Expression *right, Expression *left) {
+shared_ptr<Expression> ShuntingYard::BuildOperatorByString(string &str, shared_ptr<Expression> right, shared_ptr<Expression> left) {
     if (str == "+") {
-        return new Plus(left, right);
+        return make_shared<Plus>(left, right);
     }
     if (str == "-") {
-        return new Minus(left, right);
+        return make_shared<Minus>(left, right);
     }
     if (str == "*") {
-        return new Mult(left, right);
+        return make_shared<Mult>(left, right);
     }
     if (str == "/") {
-        return new Div(left, right);
+        return make_shared<Div>(left, right);
     }
     if (str == "%") {
-        return new Modulo(left, right);
+        return make_shared<Modulo>(left, right);
     }
     throw runtime_error(string("Invalid operator"));
 }

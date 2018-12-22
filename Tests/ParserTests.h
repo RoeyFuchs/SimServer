@@ -19,21 +19,21 @@ static void RunParserTests(){
         string msg;
         int successCounter = 0;
         int failedCounter = 0;
-        ExpressionMaps * expressionMaps=new ExpressionMaps();
-        Number* num=new Number(5);
-        VarExpression* roll=new VarExpression("/a/b/c");
+        shared_ptr<ExpressionMaps> expressionMaps=make_shared<ExpressionMaps>();
+        shared_ptr<Number> num=make_shared<Number>(5);
+  shared_ptr<VarExpression> roll=make_shared<VarExpression>("/a/b/c");
         roll->SetExpression(num);
-        VarExpression* elevator=new VarExpression("/d/e/f");
+        shared_ptr<VarExpression> elevator=make_shared<VarExpression>("/d/e/f");
         expressionMaps->AddExpression("roll",roll);
          expressionMaps->AddExpression("elevator",elevator);
-        Parser* parser= new Parser(expressionMaps);
+        shared_ptr<Parser> parser= make_shared<Parser>(expressionMaps);
         int countTest=0;
 
         //test 1
         countTest++;
         vector<string>* vec = new vector<string>{"var","a","=","bind","\"a/a/a\""};
         parser->ParseLine(*vec);
-        VarExpression* newVarA=expressionMaps->GetExpressionByName("a");
+        shared_ptr<VarExpression> newVarA=expressionMaps->GetExpressionByName("a");
         if(newVarA!= nullptr && newVarA->GetPath()=="a/a/a"){
                 cout<<countTest<<success<<endl;
                 successCounter++;
@@ -45,7 +45,7 @@ static void RunParserTests(){
         countTest++;
         vec = new vector<string>{"var","b","=","bind","a"};
         parser->ParseLine(*vec);
-        VarExpression* newVarB=expressionMaps->GetExpressionByName("b");
+        shared_ptr<VarExpression> newVarB=expressionMaps->GetExpressionByName("b");
         if(newVarB!= nullptr && newVarB->GetPath()=="a/a/a"){
                 cout<<countTest<<success<<endl;
                 successCounter++;
@@ -107,7 +107,7 @@ static void RunParserTests(){
         countTest++;
         vec = new vector<string>{"var","k","=","roll"};
         parser->ParseLine(*vec);
-        VarExpression* newVar=expressionMaps->GetExpressionByName("k");
+        shared_ptr<VarExpression> newVar=expressionMaps->GetExpressionByName("k");
         if(newVar!= nullptr && newVar->GetExpression()->Execute()==5){
                 cout<<countTest<<success<<endl;
                 successCounter++;
@@ -167,8 +167,8 @@ static void RunParserTests(){
     countTest++;
     vec = new vector<string>{"openDataServer","50","8","/","2"};
      isExp=0;
-        Expression* expr= parser->MakeAnExpression(*vec);
-        OpenDataServerExpression* openDataServerExpression=(OpenDataServerExpression*)expr;
+        shared_ptr<Expression> expr= parser->MakeAnExpression(*vec);
+        shared_ptr<OpenDataServerExpression> openDataServerExpression=(shared_ptr<OpenDataServerExpression>)expr;
         if(openDataServerExpression!= nullptr && openDataServerExpression->GetPort()->Execute()==50
         && openDataServerExpression->GetSamplingRate()->Execute()==4){
             cout<<countTest<<success<<endl;
@@ -182,7 +182,7 @@ static void RunParserTests(){
         vec = new vector<string>{"openDataServer","50","+","3","8"};
         isExp=0;
          expr= parser->MakeAnExpression(*vec);
-         openDataServerExpression=(OpenDataServerExpression*)expr;
+         openDataServerExpression=(shared_ptr<OpenDataServerExpression>)expr;
         if(openDataServerExpression!= nullptr && openDataServerExpression->GetPort()->Execute()==53
            && openDataServerExpression->GetSamplingRate()->Execute()==8){
                 cout<<countTest<<success<<endl;
@@ -244,7 +244,7 @@ static void RunParserTests(){
     vec = new vector<string>{"connect","1.2.3","50","+","3"};
     isExp=0;
     expr= parser->MakeAnExpression(*vec);
-    ConnectExpression* connectExp=(ConnectExpression*)expr;
+    shared_ptr<ConnectExpression> connectExp=(shared_ptr<ConnectExpression>)expr;
     if(connectExp!= nullptr && connectExp->GetPort()->Execute()==53
        && connectExp->GetIp()=="1.2.3"){
         cout<<countTest<<success<<endl;
@@ -257,10 +257,10 @@ static void RunParserTests(){
     countTest++;
     vec = new vector<string>{"print","1.2.3","50","+","3"};
     isExp=0;
-    PrintExpression* printExpression;
+    shared_ptr<PrintExpression> printExpression;
     try {
         expr= parser->MakeAnExpression(*vec);
-        printExpression=(PrintExpression*)expr;
+        printExpression=(shared_ptr<PrintExpression>)expr;
     }catch (exception e){
         isExp=1;
     }
@@ -277,7 +277,7 @@ static void RunParserTests(){
     isExp=0;
     try {
         expr= parser->MakeAnExpression(*vec);
-        printExpression=(PrintExpression*)expr;
+        printExpression=(shared_ptr<PrintExpression>)expr;
     }catch (exception e){
         isExp=1;
     }
@@ -300,7 +300,7 @@ static void RunParserTests(){
     vec = new vector<string>{"if","9",">","1"};
     isExp=0;
     expr= parser->MakeAnExpression(*vec);
-    IfExpression* ifExp=(IfExpression*)expr;
+    shared_ptr<IfExpression> ifExp=(shared_ptr<IfExpression>)expr;
     if(ifExp != nullptr && ifExp->Execute()==1){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -313,7 +313,7 @@ static void RunParserTests(){
     vec = new vector<string>{"if","9",">=","roll"};
     isExp=0;
     expr= parser->MakeAnExpression(*vec);
-     ifExp=(IfExpression*)expr;
+     ifExp=(shared_ptr<IfExpression>)expr;
     if(ifExp != nullptr && ifExp->Execute()==1){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -326,7 +326,7 @@ static void RunParserTests(){
     vec = new vector<string>{"if","5","==","roll"};
     isExp=0;
     expr= parser->MakeAnExpression(*vec);
-    ifExp=(IfExpression*)expr;
+    ifExp=(shared_ptr<IfExpression>)expr;
     if(ifExp != nullptr && ifExp->Execute()==1){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -339,7 +339,7 @@ static void RunParserTests(){
     vec = new vector<string>{"if","51","!=","roll"};
     isExp=0;
     expr= parser->MakeAnExpression(*vec);
-    ifExp=(IfExpression*)expr;
+    ifExp=(shared_ptr<IfExpression>)expr;
     if(ifExp != nullptr && ifExp->Execute()==1){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -352,7 +352,7 @@ static void RunParserTests(){
     vec = new vector<string>{"sleep","51","-","10"};
     isExp=0;
     expr= parser->MakeAnExpression(*vec);
-    SleepExpression* sleepExp=(SleepExpression*)expr;
+    SleepExpression* sleepExp=(shared_ptr<SleepExpression>)expr;
     if(ifExp != nullptr && sleepExp->GetSleepingTimeExpression()->Execute()==41){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -485,7 +485,7 @@ static void RunParserTests(){
     vec = new vector<string>{"sleep","51"};
     isExp=0;
     expr= parser->MakeAnExpression(*vec);
-    sleepExp=(SleepExpression*)expr;
+    sleepExp=(shared_ptr<SleepExpression>)expr;
     if(ifExp != nullptr && sleepExp->GetSleepingTimeExpression()->Execute()==51){
         cout<<countTest<<success<<endl;
         successCounter++;

@@ -20,26 +20,29 @@
 #define BUFFER_SIZE 255
 #define DELIMITER ","
 
-class OpenDataServerExpression: public Expression{
-    Expression*  port;
-    Expression* samplingRate;
-    ExpressionMaps* maps;
-    map<int, string> xmlOrder;
+class OpenDataServerExpression : public Expression {
 
-public:
-    OpenDataServerExpression(Expression* port, Expression* samplingRate, ExpressionMaps* maps){
-        this->port= port;
-        this->samplingRate= samplingRate;
-        this->maps = maps;
-        this->xmlOrder = Utils::GetXmlOrder();
-    }
-    virtual double Execute();
+  shared_ptr<Expression> port;
+  shared_ptr<Expression> samplingRate;
+  shared_ptr<ExpressionMaps> maps;
+  map<int, string> xmlOrder;
 
-    Expression* GetPort(){
-        return this->port;
-    };
-    Expression* GetSamplingRate(){
-        return  this->samplingRate;
-    }
+ public:
+  OpenDataServerExpression(shared_ptr<Expression> port,
+                           shared_ptr<Expression> samplingRate,
+                           shared_ptr<ExpressionMaps> maps) {
+    this->port = port;
+    this->samplingRate = samplingRate;
+    this->maps = maps;
+    this->xmlOrder = Utils::GetXmlOrder();
+  }
+  virtual double Execute();
+
+  shared_ptr<Expression> GetPort() {
+    return this->port;
+  };
+  shared_ptr<Expression> GetSamplingRate() {
+    return this->samplingRate;
+  }
 };
 #endif //SIMSERVER_OPENDATASERVEREXPRESSION_H

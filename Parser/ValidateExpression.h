@@ -17,10 +17,10 @@
 class ValidateExpression {
 private:
     std::vector <std::string> operators;
-    ExpressionMaps* expressionMaps;
+    shared_ptr<ExpressionMaps> expressionMaps;
     std::map<std::string, int>expressionArguments;
 public:
-    ValidateExpression(std::vector <std::string> operators, ExpressionMaps* expressionMaps,
+    ValidateExpression(std::vector <std::string> operators, shared_ptr<ExpressionMaps> expressionMaps,
                        std::map<std::string, int>expressionArguments){
         this->expressionMaps=expressionMaps;
         this->operators=operators;

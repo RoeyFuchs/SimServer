@@ -8,7 +8,7 @@
 
 class WhileExpression: public ConditionParser{
 public:
-    WhileExpression(ConditionExpression* condition):ConditionParser(condition){}
+    WhileExpression(shared_ptr<ConditionExpression> condition):ConditionParser(condition){}
 
     virtual double Execute(){
         while (this->condition->Execute()){

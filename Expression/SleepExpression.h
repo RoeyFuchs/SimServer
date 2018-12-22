@@ -6,17 +6,17 @@
 #define SIMSERVER_SLEEPEXPRESSION_H
 #include "Expression.h"
 #include <unistd.h>
-class SleepExpression:public Expression {
-    Expression* exp;
-public:
-    SleepExpression(Expression* exp) {
-        this->exp = exp;
-    }
-    virtual double Execute() {
-        sleep(exp->Execute());
-    }
-    Expression* GetSleepingTimeExpression(){
-        return this->exp;
-    }
+class SleepExpression : public Expression {
+  shared_ptr<Expression> exp;
+ public:
+  SleepExpression(shared_ptr<Expression> exp) {
+    this->exp = exp;
+  }
+  virtual double Execute() {
+    sleep(exp->Execute());
+  }
+  shared_ptr<Expression> GetSleepingTimeExpression() {
+    return this->exp;
+  }
 };
 #endif //SIMSERVER_SLEEPEXPRESSION_H

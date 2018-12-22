@@ -7,12 +7,12 @@
 #include "../BinaryExpression.h"
 
 class Modulo : public BinaryExpression {
-public:
-    Modulo(Expression* left, Expression* right) : BinaryExpression(left, right) {}
+ public:
+  Modulo(shared_ptr<Expression> left, shared_ptr<Expression> right) : BinaryExpression(left, right) {}
 
-    double Execute() override {
-        return fmod(BinaryExpression::GetLeft()->Execute(), BinaryExpression::GetRight()->Execute());
-    }
+  double Execute() override {
+    return fmod(BinaryExpression::GetLeft()->Execute(), BinaryExpression::GetRight()->Execute());
+  }
 
 };
 

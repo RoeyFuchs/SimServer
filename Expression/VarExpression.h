@@ -8,34 +8,34 @@
 #include <string>
 #include "Expression.h"
 
-class VarExpression: public Expression{
-    std::string path;
-    Expression*  exp;
-public:
-    VarExpression(std::string path){
-        this->exp= nullptr;
-        this->path= path;
+class VarExpression : public Expression {
+  string path;
+  shared_ptr<Expression> exp;
+ public:
+  VarExpression(string path) {
+    this->exp = nullptr;
+    this->path = path;
+  }
+  VarExpression(shared_ptr<Expression> exp) {
+    this->exp = exp;
+  }
+  virtual double Execute() {
+    if (this->exp != nullptr) {
+      return this->exp->Execute();
     }
-    VarExpression(Expression* exp){
-        this->exp= exp;
-    }
-    virtual double Execute(){
-        if(this->exp!= nullptr){
-            return this->exp->Execute();
-        }
-    }
-    std::string GetPath(){
-        return this->path;
-    };
-    Expression* GetExpression(){
-        return this->exp;
-    }
-    void SetExpression(Expression* exp){
-        this->exp=exp;
-    }
-    void SetPath(std::string path){
-        this->path=path;
-    }
+  }
+  string GetPath() {
+    return this->path;
+  };
+  shared_ptr<Expression> GetExpression() {
+    return this->exp;
+  }
+  void SetExpression(shared_ptr<Expression> exp) {
+    this->exp = exp;
+  }
+  void SetPath(string path) {
+    this->path = path;
+  }
 };
 
 #endif //SIMSERVER_VAREXPRESSION_H

@@ -3,13 +3,13 @@
 
 #include "../BinaryExpression.h"
 
-class Mult : public BinaryExpression{
-public:
-    Mult(Expression* left, Expression* right) : BinaryExpression(left, right) {}
+class Mult : public BinaryExpression {
+ public:
+  Mult(shared_ptr<Expression> left, shared_ptr<Expression> right) : BinaryExpression(left, right) {}
 
-    double Execute() override {
-        return BinaryExpression::GetLeft()->Execute() * BinaryExpression::GetRight()->Execute();
-    }
+  double Execute() override {
+    return BinaryExpression::GetLeft()->Execute() * BinaryExpression::GetRight()->Execute();
+  }
 
 };
 

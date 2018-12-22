@@ -27,39 +27,38 @@
 using namespace std;
 
 class ShuntingYard {
-    ExpressionMaps* expressionMaps;
-    unordered_map<string, int> operatorPrecedence;
-public:
-    explicit ShuntingYard(ExpressionMaps* expressionMaps) {
-        this->expressionMaps = expressionMaps;
-        this->operatorPrecedence = operatorPrecedenceMap();
-    }
+  shared_ptr<ExpressionMaps> expressionMaps;
+  unordered_map<string, int> operatorPrecedence;
+ public:
+  explicit ShuntingYard(shared_ptr<ExpressionMaps> expressionMaps) {
+    this->expressionMaps = expressionMaps;
+    this->operatorPrecedence = operatorPrecedenceMap();
+  }
 
-    Expression *MakeExpression(vector<string> &vec);
+  Expression *MakeExpression(vector<string> &vec);
 
-private:
+ private:
 
-    vector<string> GetMathOperatorVector();
-    bool IsNumber(string &str);
+  vector<string> GetMathOperatorVector();
+  bool IsNumber(string &str);
 
-    bool IsOperator(string &str);
-    bool IsMinus(string &str);
+  bool IsOperator(string &str);
+  bool IsMinus(string &str);
 
-    bool IsOpenBracket(string &str);
+  bool IsOpenBracket(string &str);
 
-    bool IsCloseBracket(string &str);
+  bool IsCloseBracket(string &str);
 
-    bool IsVar(string& str);
+  bool IsVar(string &str);
 
-    bool IsGreaterPrecedence(string &str, string &other);
+  bool IsGreaterPrecedence(string &str, string &other);
 
-    Expression* MakeExpressionFromQueue(queue<string> que);
+  shared_ptr<Expression> MakeExpressionFromQueue(queue<string> que);
 
-    Expression* BuildOperatorByString(string& str, Expression* right, Expression* left);
+  shared_ptr<Expression> BuildOperatorByString(string &str, shared_ptr<Expression> right, shared_ptr<Expression> left);
 
-    unordered_map<string, int>operatorPrecedenceMap();
+  unordered_map<string, int> operatorPrecedenceMap();
 
 };
-
 
 #endif //SIMSERVER_SHUNTINGYARD_H

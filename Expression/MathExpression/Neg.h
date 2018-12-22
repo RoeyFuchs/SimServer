@@ -5,12 +5,12 @@
 #include "../UnaryExpression.h"
 
 class Neg : public UnaryExpression {
-public:
-    Neg(Expression* exp) : UnaryExpression(exp) {}
+ public:
+  Neg(shared_ptr<Expression> exp) : UnaryExpression(exp) {}
 
-    double Execute () override {
-        return -UnaryExpression::GetLeaf()->Execute();
-    }
+  double Execute() override {
+    return -UnaryExpression::GetLeaf()->Execute();
+  }
 };
 
 #endif //SIMSERVER_NEG_H

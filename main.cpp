@@ -21,7 +21,9 @@ int main() {
     //map<int, string> a = Utils::GetXmlOrder();
     //cout<< "ds" <<endl;
 
-   RunParserTests();
-  // SYTest();
+   //RunParserTests();
+   //SYTest();
+   shared_ptr<Expression> A = make_shared<Number>(5);
+   cout << A->Execute() << endl;
 
 }
