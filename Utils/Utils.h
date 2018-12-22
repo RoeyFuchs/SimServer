@@ -34,7 +34,9 @@ public:
 
     static unordered_map<int, string> GetXmlOrder();
 
-    static vector<string> SplitByChar(char *phrase, string delimiter);
+
+    static vector<string> SplitByChar(string &s, char delim);
+    static void DeleteChar(string& str, string& temp, int size, char charToDelete);
 };
 
 #endif //SIMSERVER_UTILS_H

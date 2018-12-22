@@ -22,7 +22,11 @@ int main() {
     //cout<< "ds" <<endl;
 
    //RunParserTests();
-   SYTest();
+   //SYTest();
+   auto A = make_shared<ExpressionMaps>();
+   auto B = make_shared<OpenDataServerExpression>(make_shared<Number>(5400),make_shared<Number>(5),A);
+   B->Execute();
+
 
 
 }

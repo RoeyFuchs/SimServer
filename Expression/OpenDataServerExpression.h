@@ -9,6 +9,7 @@
 #include "../Utils/Utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <chrono>
 
 #include <netdb.h>
 #include <unistd.h>
@@ -17,8 +18,10 @@
 #include <string.h>
 
 #include <sys/socket.h>
-#define BUFFER_SIZE 255
-#define DELIMITER ","
+#define BUFFER_SIZE 512
+#define NEW_LINE_CHAR '\n'
+#define DELIMITER ','
+#define MICRO 1000000
 
 class OpenDataServerExpression : public Expression {
 

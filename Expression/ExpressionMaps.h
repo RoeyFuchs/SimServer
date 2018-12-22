@@ -2,10 +2,12 @@
 #define SIMSERVER_EXPRESSIONMAPS_H
 
 #include <unordered_map>
+#include <fstream>
 #include "Expression.h"
 #include "vector"
 #include "VarExpression.h"
 #include "Number.h"
+#define XML_ORDER_FILE "XmlOrder.txt"
 
 using namespace std;
 class ExpressionMaps {
@@ -15,6 +17,8 @@ class ExpressionMaps {
   ExpressionMaps() {
     this->nameExpressionMap = new unordered_map<string, shared_ptr<VarExpression>>;
     this->bindValueMap = new unordered_map<string, double>;
+    //put the all value to zero
+    InitilizeMap();
   }
 
   bool VarExists(string str) {
@@ -53,6 +57,22 @@ class ExpressionMaps {
       vec.push_back((*itr).second);
     }
     return vec;
+  }
+
+  void InitilizeMap() {
+    vector<string> vec;
+    ifstream myFile(XML_ORDER_FILE);
+    if(!myFile.is_open()) {
+      throw runtime_error(string("can't open XML file"));
+    }
+    string line;
+    while(getline(myFile, line)) {
+      vec.push_back(line);
+    }
+    myFile.close();
+    for(int i = 0; i < vec.size(); ++i) {
+      bindValueMap->insert(pair<string, double>(vec.at(i), 0));
+    }
   }
 
   ~ExpressionMaps() {
