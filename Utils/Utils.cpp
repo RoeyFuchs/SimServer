@@ -99,19 +99,25 @@ vector<string> Utils::SplitByChar(string &s, char delim) {
   return result;
 }
 
-/**
- * delete char from char array
- * @param arr the array to delete from
- * @param size - the size of the array
- * @param charToDelete - the char to delete
- */
-void Utils::DeleteChar(string& str, string& temp, int size, char charToDelete) {
-  for (int i = 0; i < size; ++i) {
-    if (str.at(i) == charToDelete) {
-      temp = str.substr(i+1, str.length());
-      str = str.substr(0, i-1);
+ string Utils::SubStringUntilChar(string &str, char ch){
+  unsigned long place = 0;
+  for(unsigned long i = 0; i < str.size(); ++i) {
+    if(str.at(i) == ch) {
+      place = i;
       break;
     }
   }
+  return str.substr(0, place);
+}
+
+ string Utils::SubStringFromChar(string &str, char ch) {
+   unsigned long place = 0;
+   for(unsigned long i = 0; i < str.size(); ++i) {
+     if(str.at(i) == ch) {
+       place = i;
+       break;
+     }
+   }
+   return str.substr(place + 1, str.size());
 }
 

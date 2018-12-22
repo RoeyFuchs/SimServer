@@ -23,8 +23,10 @@ int main() {
 
    //RunParserTests();
    //SYTest();
+
+
    auto A = make_shared<ExpressionMaps>();
-   auto B = make_shared<OpenDataServerExpression>(make_shared<Number>(5400),make_shared<Number>(5),A);
+   auto B = make_shared<OpenDataServerExpression>(make_shared<Number>(5400),make_shared<Number>(10),A);
    B->Execute();
 
 

@@ -36,7 +36,8 @@ public:
 
 
     static vector<string> SplitByChar(string &s, char delim);
-    static void DeleteChar(string& str, string& temp, int size, char charToDelete);
+    static string SubStringUntilChar(string &str, char ch);
+  static string SubStringFromChar(string &str, char ch);
 };
 
 #endif //SIMSERVER_UTILS_H
