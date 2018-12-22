@@ -15,20 +15,20 @@
  * @param tokens
  * The function checks for leagl arguments number
  */
-void ValidateExpression::ValidateVarDefined(std::vector<std::string> &tokens) {
+void ValidateExpression::ValidateVarDefined(vector<string> &tokens) {
     if(tokens[BIND_EQUALS_POS]!="="){
-        throw std::runtime_error ("Error: undefined var");
+        throw runtime_error ("Error: undefined var");
     }
     //var x= bind ...
     if(tokens[BIND_POS]== "bind") {
         //make sure there is enough arguments
         if (tokens.size() < BIND_LEN) {
-            throw std::runtime_error("Error:Not enough arguments at defined var command");
+            throw runtime_error("Error:Not enough arguments at defined var command");
         }
     } else{
         //var x =..
         if(tokens.size()<VAR_WITHOUT_BIND){
-            throw std::runtime_error("Error:Not enough arguments at defined var command");
+            throw runtime_error("Error:Not enough arguments at defined var command");
         }
     }
 }
@@ -37,10 +37,10 @@ void ValidateExpression::ValidateVarDefined(std::vector<std::string> &tokens) {
  * @param tokens
  * The function checks for leagl arguments number
  */
-void ValidateExpression::ValidateOpenDataServer(std::vector<std::string> &tokens) {
+void ValidateExpression::ValidateOpenDataServer(vector<string> &tokens) {
     //make sure there is enough arguments
     if (tokens.size() < OPEN_DATA_SERVER_LEN) {
-        throw std::runtime_error("Error:Not enough arguments at OpenDataServer command");
+        throw runtime_error("Error:Not enough arguments at OpenDataServer command");
     }
 }
 /**
@@ -48,10 +48,10 @@ void ValidateExpression::ValidateOpenDataServer(std::vector<std::string> &tokens
  * @param tokens
  * The function checks for leagl arguments number
  */
-void ValidateExpression::ValidateConnect(std::vector<std::string> &tokens) {
+void ValidateExpression::ValidateConnect(vector<string> &tokens) {
     //make sure there is enough arguments
     if (tokens.size() < this->expressionArguments["connect"]) {
-        throw std::runtime_error("Error:arguments number at connect command is not valid");
+        throw runtime_error("Error:arguments number at connect command is not valid");
     }
 }
 /**
@@ -59,9 +59,9 @@ void ValidateExpression::ValidateConnect(std::vector<std::string> &tokens) {
  * @param tokens
  * The function checks for leagl arguments number
  */
-void ValidateExpression::ValidatePrint(std::vector<std::string> &tokens) {
+void ValidateExpression::ValidatePrint(vector<string> &tokens) {
     //make sure there is enough arguments
     if (tokens.size() < this->expressionArguments["print"]) {
-        throw std::runtime_error("Error:arguments number at print command is not valid");
+        throw runtime_error("Error:arguments number at print command is not valid");
     }
 }

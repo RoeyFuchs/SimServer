@@ -12,7 +12,7 @@ using namespace std;
  * @param tokens
  * The function define a new variable and update varExpressionTable
  */
-shared_ptr<Expression> Parser::ParseVar(std::vector<std::string> &tokens){
+shared_ptr<Expression> Parser::ParseVar(vector<string> &tokens){
     this->validateExpression->ValidateVarDefined(tokens);
     shared_ptr<VarExpression> varExp;
     //check if bind is deifined in line
@@ -35,11 +35,11 @@ shared_ptr<Expression> Parser::ParseVar(std::vector<std::string> &tokens){
             }
         }
     } else{
-        vector<std::string> argumentVec=this->utils->Slice(tokens,1, tokens.size()-1);
+        vector<string> argumentVec=this->utils->Slice(tokens,1, tokens.size()-1);
         if(this->utils->GetPositionsOfExpressions(argumentVec).size()!=this->expressionArguments["var"]){
             throw runtime_error("Error:arguments number at defined var command is not valid");
         }
-        std::vector<std::string> subVec= this->utils->Slice(tokens,3, tokens.size()-1);
+        vector<string> subVec= this->utils->Slice(tokens,3, tokens.size()-1);
         //get expression after '='
         varExp=make_shared<VarExpression>(this->shuntingYard->MakeExpression(subVec));
     }
@@ -53,8 +53,8 @@ shared_ptr<Expression> Parser::ParseVar(std::vector<std::string> &tokens){
  * @return Expression
  * The function parse ParseImplementation line into an expression
  */
-shared_ptr<Expression> Parser::ParseImplementation(std::vector<std::string> &tokens) {
-    std::vector<string>::iterator it=tokens.begin();
+shared_ptr<Expression> Parser::ParseImplementation(vector<string> &tokens) {
+    vector<string>::iterator it=tokens.begin();
     tokens.insert(it,"var");
     return this->ParseVar(tokens);
 }
@@ -64,7 +64,7 @@ shared_ptr<Expression> Parser::ParseImplementation(std::vector<std::string> &tok
  * @return Expression
  * The function parse openDataServer line into an expression
  */
-shared_ptr<Expression> Parser::ParseOpenDataServer(std::vector<std::string> &tokens) {
+shared_ptr<Expression> Parser::ParseOpenDataServer(vector<string> &tokens) {
     this->validateExpression->ValidateOpenDataServer(tokens);
     //slice openDataServer word
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
@@ -87,7 +87,7 @@ shared_ptr<Expression> Parser::ParseOpenDataServer(std::vector<std::string> &tok
  * @return Expression
  * The function parse Connect line into an expression
  */
-shared_ptr<Expression> Parser::ParseConnect(std::vector<std::string> &tokens) {
+shared_ptr<Expression> Parser::ParseConnect(vector<string> &tokens) {
     //slice connect and its port
     vector<string>subVec=this->utils->Slice(tokens,2, tokens.size()-1);
     this->validateExpression->ValidateConnect(subVec);
@@ -101,7 +101,7 @@ shared_ptr<Expression> Parser::ParseConnect(std::vector<std::string> &tokens) {
  * @return Expression
  * The function parse print line into an expression
  */
-shared_ptr<Expression> Parser::ParsePrint(std::vector<std::string> &tokens) {
+shared_ptr<Expression> Parser::ParsePrint(vector<string> &tokens) {
     tokens= this->utils->Slice(tokens,1,tokens.size()-1);
     this->validateExpression->ValidatePrint(tokens);
     //simple print command, no need to evaluate an expression
@@ -123,7 +123,7 @@ shared_ptr<Expression> Parser::ParsePrint(std::vector<std::string> &tokens) {
  * @return Expression
  * The function parse if line into an expression
  */
-shared_ptr<Expression> Parser::ParseIf(std::vector<std::string>& tokens) {
+shared_ptr<Expression> Parser::ParseIf(vector<string>& tokens) {
     //remove opening bracke if exist
     if(tokens[tokens.size()-1]=="{"){
         tokens=this->utils->Slice(tokens,0,tokens.size()-2);
@@ -141,7 +141,7 @@ shared_ptr<Expression> Parser::ParseIf(std::vector<std::string>& tokens) {
  * @return Expression
  * The function parse while line into an expression
  */
-shared_ptr<Expression> Parser::ParseWhile(std::vector<std::string>& tokens) {
+shared_ptr<Expression> Parser::ParseWhile(vector<string>& tokens) {
     //remove opening bracket if exist
     if(tokens[tokens.size()-1]=="{"){
         tokens=this->utils->Slice(tokens,0,tokens.size()-2);
@@ -159,7 +159,7 @@ shared_ptr<Expression> Parser::ParseWhile(std::vector<std::string>& tokens) {
  * @return ConditionExpression
  * The function devide string's vector into two expression and get its conditon operator
  */
-shared_ptr<ConditionExpression> Parser::CreateCondition(std::vector<std::string>& tokens) {
+shared_ptr<ConditionExpression> Parser::CreateCondition(vector<string>& tokens) {
     int operatorIndex= this->utils->GetConditionOperatorPosition(tokens);
     if(operatorIndex==tokens.size()-1||operatorIndex==0){
         throw runtime_error("Error:arguments number at condition command is not valid");
@@ -177,7 +177,7 @@ shared_ptr<ConditionExpression> Parser::CreateCondition(std::vector<std::string>
  * @return  Expression
  * The function parse sleep line into an expression
  */
-shared_ptr<Expression> Parser::ParseSleep(std::vector<std::string> &tokens) {
+shared_ptr<Expression> Parser::ParseSleep(vector<string> &tokens) {
     shared_ptr<Expression> sleepExp;
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     if(this->utils->GetPositionsOfExpressions(subVec).size()!=this->expressionArguments[tokens[0]])
@@ -192,7 +192,7 @@ shared_ptr<Expression> Parser::ParseSleep(std::vector<std::string> &tokens) {
  * @return Expression
  * The function translate tokens into an expression
  */
-shared_ptr<Expression> Parser::MakeAnExpression(std::vector<std::string>& tokens) {
+shared_ptr<Expression> Parser::MakeAnExpression(vector<string>& tokens) {
     shared_ptr<Expression> exp;
     bool hasBracket= false;
     //search for bracket
@@ -245,7 +245,7 @@ shared_ptr<Expression> Parser::MakeAnExpression(std::vector<std::string>& tokens
  * @param tokens
  * The function executes line
  */
-void Parser::ParseLine(std::vector<std::string> &tokens) {
+void Parser::ParseLine(vector<string> &tokens) {
     shared_ptr<Expression> exp =this->MakeAnExpression(tokens);
     //privies condition is exist
     if(this->currentConditionParse!= nullptr) {

@@ -12,7 +12,7 @@
  * @return index
  * The function search for operator condition position and return its index
  */
-int Utils::GetConditionOperatorPosition(std::vector<std::string> &tokens) {
+int Utils::GetConditionOperatorPosition(vector<string> &tokens) {
     for (int i = 0; i < tokens.size(); ++i) {
         for (int j = 0; j <operators.size() ; ++j) {
             if(tokens[i]==operators[j]){
@@ -20,15 +20,15 @@ int Utils::GetConditionOperatorPosition(std::vector<std::string> &tokens) {
             }
         }
     }
-    throw std::runtime_error("No condition operator found at condition command");
+    throw runtime_error("No condition operator found at condition command");
 }
 /**
  * GetPositionsOfExpressions
  * @param tokens
  * @return int vector with expression indexes
  */
- std::vector<int> Utils::GetPositionsOfExpressions(std::vector<std::string> &tokens) {
-    std::vector<int> expressionsPositions;
+ vector<int> Utils::GetPositionsOfExpressions(vector<string> &tokens) {
+    vector<int> expressionsPositions;
     //first element in vector is also an expression
     expressionsPositions.push_back(0);
     int isPreviousExpIsNumber=this->IsNumber(tokens[0])||this->expressionMaps->VarExists(tokens[0]);
@@ -47,8 +47,8 @@ int Utils::GetConditionOperatorPosition(std::vector<std::string> &tokens) {
  * @param s
  * @return true if the string is a number or false otherwise
  */
-bool Utils::IsNumber(const std::string &s) {
-    return regex_match(s,std::regex("^(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
+bool Utils::IsNumber(const string &s) {
+    return regex_match(s,regex("^(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 }
 
 /**
@@ -59,8 +59,8 @@ bool Utils::IsNumber(const std::string &s) {
 * @param endIndex
 * @return sub vector according to given indexes
 */
-std::vector<std::string> Utils::Slice(std::vector<std::string> myVec, int beginIndex, int endIndex) {
-    std::vector<std::string> newVec;
+vector<string> Utils::Slice(vector<string> myVec, int beginIndex, int endIndex) {
+    vector<string> newVec;
     for (int i = beginIndex; i <= endIndex ; ++i) {
         newVec.push_back(myVec[i]);
     }
@@ -72,14 +72,14 @@ std::vector<std::string> Utils::Slice(std::vector<std::string> myVec, int beginI
  * of the xml file
  * @return a map
  */
-std::map<int, std::string> Utils::GetXmlOrder() {
-    std::map<int, std::string> newMap;
-    std::ifstream myFile(XML_ORDER_FILE);
+unordered_map<int, string> Utils::GetXmlOrder() {
+    unordered_map<int, string> newMap;
+    ifstream myFile(XML_ORDER_FILE);
     if(!myFile.is_open()) {
-        throw std::runtime_error(std::string("can't open XML file"));
+        throw runtime_error(string("can't open XML file"));
     }
     int i = 0;
-    std::string line;
+    string line;
     while(getline(myFile, line)) {
         newMap[i] = line;
         ++i;
@@ -88,12 +88,12 @@ std::map<int, std::string> Utils::GetXmlOrder() {
     return newMap;
 }
 
-std::vector<std::string> Utils::SplitByChar(char *phrase, std::string delimiter){
-    std::vector<std::string> list;
-    std::string s = std::string(phrase);
+vector<string> Utils::SplitByChar(char *phrase, string delimiter){
+    vector<string> list;
+    string s = string(phrase);
     size_t pos = 0;
-    std::string token;
-    while ((pos = s.find(delimiter)) != std::string::npos) {
+    string token;
+    while ((pos = s.find(delimiter)) != string::npos) {
         token = s.substr(0, pos);
         list.push_back(token);
         s.erase(0, pos + delimiter.length());

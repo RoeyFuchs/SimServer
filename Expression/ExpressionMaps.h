@@ -1,7 +1,7 @@
 #ifndef SIMSERVER_EXPRESSIONMAPS_H
 #define SIMSERVER_EXPRESSIONMAPS_H
 
-#include "map"
+#include <unordered_map>
 #include "Expression.h"
 #include "vector"
 #include "VarExpression.h"
@@ -9,12 +9,12 @@
 
 using namespace std;
 class ExpressionMaps {
-  map<string, shared_ptr<VarExpression>> *nameExpressionMap;
-  map<string, double> *bindValueMap;
+  unordered_map<string, shared_ptr<VarExpression>> *nameExpressionMap;
+  unordered_map<string, double> *bindValueMap;
  public:
   ExpressionMaps() {
-    this->nameExpressionMap = new map<string, shared_ptr<VarExpression>>;
-    this->bindValueMap = new map<string, double>;
+    this->nameExpressionMap = new unordered_map<string, shared_ptr<VarExpression>>;
+    this->bindValueMap = new unordered_map<string, double>;
   }
 
   bool VarExists(string str) {

@@ -6,7 +6,7 @@
 #define SIMSERVER_VALIDATEEXPRESSION_H
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "string"
 #include <stdexcept>
 #include <algorithm>
@@ -16,20 +16,20 @@
 
 class ValidateExpression {
 private:
-    std::vector <std::string> operators;
+    vector <string> operators;
     shared_ptr<ExpressionMaps> expressionMaps;
-    std::map<std::string, int>expressionArguments;
+    unordered_map<string, int>expressionArguments;
 public:
-    ValidateExpression(std::vector <std::string> operators, shared_ptr<ExpressionMaps> expressionMaps,
-                       std::map<std::string, int>expressionArguments){
+    ValidateExpression(vector <string> operators, shared_ptr<ExpressionMaps> expressionMaps,
+                       unordered_map<string, int>expressionArguments){
         this->expressionMaps=expressionMaps;
         this->operators=operators;
         this->expressionArguments=expressionArguments;
     }
-    void ValidateVarDefined(std::vector<std::string> &tokens);
-    void ValidateOpenDataServer(std::vector<std::string> &tokens);
-    void ValidateConnect(std::vector<std::string> &tokens);
-    void ValidatePrint(std::vector<std::string> &tokens);
+    void ValidateVarDefined(vector<string> &tokens);
+    void ValidateOpenDataServer(vector<string> &tokens);
+    void ValidateConnect(vector<string> &tokens);
+    void ValidatePrint(vector<string> &tokens);
 
 };
 

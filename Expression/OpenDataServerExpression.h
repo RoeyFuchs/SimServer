@@ -25,7 +25,7 @@ class OpenDataServerExpression : public Expression {
   shared_ptr<Expression> port;
   shared_ptr<Expression> samplingRate;
   shared_ptr<ExpressionMaps> maps;
-  map<int, string> xmlOrder;
+  unordered_map<int, string> xmlOrder;
 
  public:
   OpenDataServerExpression(shared_ptr<Expression> port,

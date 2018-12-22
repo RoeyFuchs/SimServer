@@ -11,30 +11,30 @@
 #include "../Expression/VarExpression.h"
 #include "../Expression/ExpressionMaps.h"
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <regex>
 #include <fstream>
 class Utils {
 private:
-    std::vector <std::string> operators;
+    vector <string> operators;
     shared_ptr<ExpressionMaps> expressionMaps;
 public:
-    Utils(std::vector <std::string> operators,shared_ptr<ExpressionMaps> expressionMaps){
+    Utils(vector <string> operators,shared_ptr<ExpressionMaps> expressionMaps){
         this->expressionMaps=expressionMaps;
         this->operators=operators;
     }
-    std::vector<std::string> Slice (std::vector<std::string> vec, int beginIndex, int endIndex);
+    vector<string> Slice (vector<string> vec, int beginIndex, int endIndex);
 
-    int GetConditionOperatorPosition(std::vector<std::string> &tokens);
+    int GetConditionOperatorPosition(vector<string> &tokens);
 
-     std::vector<int> GetPositionsOfExpressions(std::vector<std::string> &tokens);
+     vector<int> GetPositionsOfExpressions(vector<string> &tokens);
 
-    bool IsNumber(const std::string& s);
+    bool IsNumber(const string& s);
 
-    static std::map<int, std::string> GetXmlOrder();
+    static unordered_map<int, string> GetXmlOrder();
 
-    static std::vector<std::string> SplitByChar(char *phrase, std::string delimiter);
+    static vector<string> SplitByChar(char *phrase, string delimiter);
 };
 
 #endif //SIMSERVER_UTILS_H

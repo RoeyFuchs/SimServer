@@ -6,7 +6,7 @@
 
 #include <vector>
 #include "ValidateExpression.h"
-#include <map>
+#include <unordered_map>
 #include "string"
 #include "../Utils/Utils.h"
 #include "../Expression/Expression.h"
@@ -26,26 +26,26 @@ class Parser {
   shared_ptr<ExpressionMaps> expressionMaps;
   shared_ptr<ValidateExpression> validateExpression;
   vector<string> operators;
-  map<string, int> expressionArguments;
+  unordered_map<string, int> expressionArguments;
   shared_ptr<Utils> utils;
-  shared_ptr<Expression> ParseVar(std::vector<std::string> &tokens);
-  shared_ptr<Expression> ParseImplementation(std::vector<std::string> &tokens);
-  shared_ptr<Expression> ParseConnect(std::vector<std::string> &tokens);
-  shared_ptr<Expression> ParseOpenDataServer(std::vector<std::string> &tokens);
-  shared_ptr<Expression> ParsePrint(std::vector<std::string> &tokens);
-  shared_ptr<Expression> ParseSleep(std::vector<std::string> &tokens);
-  shared_ptr<Expression> ParseIf(std::vector<std::string> &tokens);
-  shared_ptr<Expression> ParseWhile(std::vector<std::string> &tokens);
-  shared_ptr<ConditionExpression> CreateCondition(std::vector<std::string> &tokens);
+  shared_ptr<Expression> ParseVar(vector<string> &tokens);
+  shared_ptr<Expression> ParseImplementation(vector<string> &tokens);
+  shared_ptr<Expression> ParseConnect(vector<string> &tokens);
+  shared_ptr<Expression> ParseOpenDataServer(vector<string> &tokens);
+  shared_ptr<Expression> ParsePrint(vector<string> &tokens);
+  shared_ptr<Expression> ParseSleep(vector<string> &tokens);
+  shared_ptr<Expression> ParseIf(vector<string> &tokens);
+  shared_ptr<Expression> ParseWhile(vector<string> &tokens);
+  shared_ptr<ConditionExpression> CreateCondition(vector<string> &tokens);
 
  public:
   Parser(shared_ptr<ExpressionMaps> expressionMaps) {
-    expressionArguments.insert(std::pair<string, int>("openDataServer", 2));
-    expressionArguments.insert(std::pair<string, int>("connect", 2));
-    expressionArguments.insert(std::pair<string, int>("var", 1));
-    expressionArguments.insert(std::pair<string, int>("while", 3));
-    expressionArguments.insert(std::pair<string, int>("print", 1));
-    expressionArguments.insert(std::pair<string, int>("sleep", 1));
+    expressionArguments.insert(pair<string, int>("openDataServer", 2));
+    expressionArguments.insert(pair<string, int>("connect", 2));
+    expressionArguments.insert(pair<string, int>("var", 1));
+    expressionArguments.insert(pair<string, int>("while", 3));
+    expressionArguments.insert(pair<string, int>("print", 1));
+    expressionArguments.insert(pair<string, int>("sleep", 1));
     this->operators = {">", "<", "==", "!=", ">=", "<="};
     this->expressionMaps = expressionMaps;
     this->shuntingYard = make_shared<ShuntingYard>(this->expressionMaps);
@@ -53,8 +53,8 @@ class Parser {
     this->validateExpression =
         make_shared<ValidateExpression>(this->operators, expressionMaps, this->expressionArguments);
   }
-  void ParseLine(std::vector<std::string> &tokens);
-  shared_ptr<Expression> MakeAnExpression(std::vector<std::string> &tokens);
+  void ParseLine(vector<string> &tokens);
+  shared_ptr<Expression> MakeAnExpression(vector<string> &tokens);
 
 };
 

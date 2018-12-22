@@ -6,7 +6,7 @@
 #define SIMSERVER_SHUNTINYARDTESTS_H
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <stack>
 #include <queue>
 #include <regex>
@@ -24,7 +24,7 @@ static void SYTest() {
     int successCounter = 0;
     int failedCounter = 0;
 
-    auto mapp = make_shared<map<string, shared_ptr<VarExpression>>>();
+    auto mapp = make_shared<unordered_map<string, shared_ptr<VarExpression>>>();
     shared_ptr<ExpressionMaps> B = make_shared<ExpressionMaps>();
     shared_ptr<ShuntingYard> A = make_shared<ShuntingYard>(B);
     shared_ptr<vector<string>> vec = make_shared<vector<string>>();
