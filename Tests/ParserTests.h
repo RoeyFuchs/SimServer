@@ -46,7 +46,7 @@ static void RunParserTests(){
         vec = new vector<string>{"var","b","=","bind","a"};
         parser->ParseLine(*vec);
         VarExpression* newVarB=(*varsMap)["b"];
-        if(newVarB!= nullptr && newVarB->GetPath()=="\"a/a/a\""){
+        if(newVarB!= nullptr && newVarB->GetPath()=="a/a/a"){
                 cout<<countTest<<success<<endl;
                 successCounter++;
         }else{
