@@ -9,6 +9,7 @@
 
 #include "../Expression/ConditionExpression.h"
 #include "../Expression/VarExpression.h"
+#include "../Expression/ExpressionMaps.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -17,10 +18,10 @@
 class Utils {
 private:
     std::vector <std::string> operators;
-    std::map<std::string, VarExpression*>* varExpressionTable;
+    ExpressionMaps* expressionMaps;
 public:
-    Utils(std::vector <std::string> operators, std::map<std::string, VarExpression*>* &varExpressionTable){
-        this->varExpressionTable=varExpressionTable;
+    Utils(std::vector <std::string> operators, ExpressionMaps *expressionMaps){
+        this->expressionMaps=expressionMaps;
         this->operators=operators;
     }
     std::vector<std::string> Slice (std::vector<std::string> vec, int beginIndex, int endIndex);
@@ -30,8 +31,6 @@ public:
      std::vector<int> GetPositionsOfExpressions(std::vector<std::string> &tokens);
 
     bool IsNumber(const std::string& s);
-
-    bool IsVar(const std::string& s);
 
     static std::map<int, std::string> GetXmlOrder();
 

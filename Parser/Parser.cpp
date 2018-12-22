@@ -24,9 +24,10 @@ Expression* Parser::ParseVar(std::vector<std::string> &tokens){
             varExp = new VarExpression(tokens[4]);
         } else{
             //make sure second arg is a var
-            if(utils->IsVar(tokens[4])){
+            if(this->expressionMaps->VarExists(tokens[4])){
                 //bind second var path
-                varExp=new VarExpression((*this->varExpressionTable)[tokens[4]]->GetPath());
+                varExp=new VarExpression(this->expressionMaps->GetExpressionByName(tokens[4])->GetPath());
+          //      varExp=new VarExpression((*this->varExpressionTable)[tokens[4]]->GetPath());
             }else{
                 //undefined var
                 throw runtime_error("Error: undefined var");
@@ -42,6 +43,7 @@ Expression* Parser::ParseVar(std::vector<std::string> &tokens){
         varExp=new VarExpression(this->shuntingYard->MakeExpression(subVec));
     }
     //add new Expession to varExpressionTable
+    this->expressionMaps.??
     (*this->varExpressionTable)[tokens[1]]=varExp;
     return varExp;
 }
@@ -75,7 +77,7 @@ Expression* Parser::ParseOpenDataServer(std::vector<std::string> &tokens) {
     vector<string> secondArg=this->utils->Slice(subVec,indexesOfArgs[1], subVec.size()-1);
     Expression *openDataServerExp=new OpenDataServerExpression(
             this->shuntingYard->MakeExpression(firstArg),
-            this->shuntingYard->MakeExpression(secondArg));
+            this->shuntingYard->MakeExpression(secondArg),this->expressionMaps);
     return openDataServerExp;
 }
 /**

@@ -23,7 +23,7 @@ class Parser {
 private:
     ShuntingYard* shuntingYard;
     ConditionParser* currentConditionParse;
-    std::map<std::string, VarExpression*>* varExpressionTable;
+    ExpressionMaps * expressionMaps;
     ValidateExpression * validateExpression;
     std::vector <std::string> operators;
     std::map<std::string, int>expressionArguments;
@@ -40,7 +40,7 @@ private:
 
 
 public:
-    Parser(std::map<std::string, VarExpression*>* &varExpressionTable){
+    Parser(ExpressionMaps* expressionMaps){
             expressionArguments.insert(std::pair<string, int>("openDataServer",2));
             expressionArguments.insert(std::pair<string, int>("connect",2));
             expressionArguments.insert(std::pair<string, int>("var",1));
@@ -48,10 +48,10 @@ public:
             expressionArguments.insert(std::pair<string, int>("print",1));
             expressionArguments.insert(std::pair<string, int>("sleep",1));
             this->operators={">","<","==","!=",">=","<="};
-            this->varExpressionTable= varExpressionTable;
-            this->shuntingYard= new ShuntingYard(this->varExpressionTable);
-            this->utils= new Utils(this->operators,varExpressionTable);
-            this->validateExpression=new ValidateExpression(this->operators,varExpressionTable,this->expressionArguments);
+            this->expressionMaps= expressionMaps;
+            this->shuntingYard= new ShuntingYard(this->expressionMaps);
+            this->utils= new Utils(this->operators,expressionMaps);
+            this->validateExpression=new ValidateExpression(this->operators,expressionMaps,this->expressionArguments);
     }
     void ParseLine(std::vector<std::string> &tokens);
     Expression* MakeAnExpression(std::vector<std::string> &tokens);
