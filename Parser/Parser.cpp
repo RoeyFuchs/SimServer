@@ -17,6 +17,9 @@ Expression* Parser::ParseVar(std::vector<std::string> &tokens){
     if(tokens[3]== "bind"){
         //check if " is defined
         if(tokens[4][0]==('\"')) {
+            //remove braces
+            tokens[4].erase(0,1);
+            tokens[4].erase(tokens.size()-1,1);
             //declare new varExpression
             varExp = new VarExpression(tokens[4]);
         } else{
