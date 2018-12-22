@@ -12,6 +12,7 @@
 #include <regex>
 #include "string"
 #include "../Expression/ShuntingYard.h"
+#include "../Expression/ExpressionMaps.h"
 
 using namespace std;
 static void SYTest() {
@@ -23,9 +24,10 @@ static void SYTest() {
     int successCounter = 0;
     int failedCounter = 0;
 
-    auto mapp = new map<string, VarExpression*>;
-    ShuntingYard *A = new ShuntingYard(new ExpressionMaps);
-    auto vec = new vector<string>;
+    auto mapp = make_shared<map<string, shared_ptr<VarExpression>>>();
+    shared_ptr<ExpressionMaps> B = make_shared<ExpressionMaps>();
+    shared_ptr<ShuntingYard> A = make_shared<ShuntingYard>(B);
+    shared_ptr<vector<string>> vec = make_shared<vector<string>>();
 
    //test 1
     vec->emplace_back("5");

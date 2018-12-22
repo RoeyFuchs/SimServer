@@ -8,8 +8,8 @@
  * @return pointer to the new expression
  */
 shared_ptr<Expression> ShuntingYard::MakeExpression(vector<string> &vec) {
-    auto stc = new stack<string>();
-    auto que = new queue<string>();
+    auto stc = make_shared<stack<string>>();
+    auto que = make_shared<queue<string>>();
     //will use to store the previous number (for negative numbers)
     string preToken;
     //for the all token do the shunting yard algorithm.

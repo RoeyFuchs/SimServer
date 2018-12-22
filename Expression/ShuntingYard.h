@@ -35,7 +35,7 @@ class ShuntingYard {
     this->operatorPrecedence = operatorPrecedenceMap();
   }
 
-  Expression *MakeExpression(vector<string> &vec);
+  shared_ptr<Expression> MakeExpression(vector<string> &vec);
 
  private:
 

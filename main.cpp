@@ -22,8 +22,7 @@ int main() {
     //cout<< "ds" <<endl;
 
    //RunParserTests();
-   //SYTest();
-   shared_ptr<Expression> A = make_shared<Number>(5);
-   cout << A->Execute() << endl;
+   SYTest();
+
 
 }
