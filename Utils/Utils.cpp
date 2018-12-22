@@ -75,4 +75,39 @@ std::vector<std::string> Utils::Slice(std::vector<std::string> myVec, int beginI
         newVec.push_back(myVec[i]);
     }
     return newVec;
+
+}
+/**
+ * the function create map between the number of the line and that value,
+ * of the xml file
+ * @return a map
+ */
+std::map<int, std::string> Utils::GetXmlOrder() {
+    std::map<int, std::string> newMap;
+    std::ifstream myFile(XML_ORDER_FILE);
+    if(!myFile.is_open()) {
+        throw std::runtime_error(std::string("can't open XML file"));
+    }
+    int i = 0;
+    std::string line;
+    while(getline(myFile, line)) {
+        newMap[i] = line;
+        ++i;
+    }
+    myFile.close();
+    return newMap;
+}
+
+std::vector<std::string> Utils::SplitByChar(char *phrase, std::string delimiter){
+    std::vector<std::string> list;
+    std::string s = std::string(phrase);
+    size_t pos = 0;
+    std::string token;
+    while ((pos = s.find(delimiter)) != std::string::npos) {
+        token = s.substr(0, pos);
+        list.push_back(token);
+        s.erase(0, pos + delimiter.length());
+    }
+    list.push_back(s);
+    return list;
 }

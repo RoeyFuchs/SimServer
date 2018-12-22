@@ -39,18 +39,18 @@ public:
 private:
 
     vector<string> GetMathOperatorVector();
-    bool isNumber(string &str);
+    bool IsNumber(string &str);
 
-    bool isOperator(string &str);
-    bool isMinus(string &str);
+    bool IsOperator(string &str);
+    bool IsMinus(string &str);
 
-    bool isOpenBracket(string &str);
+    bool IsOpenBracket(string &str);
 
-    bool isCloseBracket(string &str);
+    bool IsCloseBracket(string &str);
 
-    bool isVar(string& str);
+    bool IsVar(string& str);
 
-    bool isGreaterPrecedence(string &str, string &other);
+    bool IsGreaterPrecedence(string &str, string &other);
 
     Expression* MakeExpressionFromQueue(queue<string> que);
 
