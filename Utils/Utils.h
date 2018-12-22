@@ -18,9 +18,9 @@
 class Utils {
 private:
     std::vector <std::string> operators;
-    ExpressionMaps* expressionMaps;
+    shared_ptr<ExpressionMaps> expressionMaps;
 public:
-    Utils(std::vector <std::string> operators, ExpressionMaps *expressionMaps){
+    Utils(std::vector <std::string> operators,shared_ptr<ExpressionMaps> expressionMaps){
         this->expressionMaps=expressionMaps;
         this->operators=operators;
     }

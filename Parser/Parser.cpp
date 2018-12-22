@@ -226,7 +226,7 @@ shared_ptr<Expression> Parser::MakeAnExpression(std::vector<std::string>& tokens
             //if last expression is a parserCondition type
             if(typeid (this->currentConditionParse->GetLastExp()).name()== typeid(IfExpression).name()||
                typeid (this->currentConditionParse->GetLastExp()).name()== typeid(WhileExpression).name()){
-                shared_ptr<ConditionParser> conditionParser=(shared_ptr<ConditionParser>)this->currentConditionParse->GetLastExp();
+                shared_ptr<ConditionParser> conditionParser=dynamic_pointer_cast<ConditionParser>(this->currentConditionParse->GetLastExp());
                 conditionParser->SetIsComplete(true);
 
             }else{
@@ -258,7 +258,7 @@ void Parser::ParseLine(std::vector<std::string> &tokens) {
         //check if current exp is a condition
         if(typeid (*exp).name()== typeid(IfExpression).name()||
            typeid (*exp).name()== typeid(WhileExpression).name()) {
-            this->currentConditionParse= (shared_ptr<ConditionParser>)exp;
+            this->currentConditionParse= dynamic_pointer_cast<ConditionParser>(exp);
         }else{
             //regular command
             exp->Execute();
