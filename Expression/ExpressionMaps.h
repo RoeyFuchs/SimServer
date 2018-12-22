@@ -30,7 +30,11 @@ double GetValue(string bind) {
 }
 
 void AddExpression(string name, VarExpression* exp) {
-    this->nameExpressionMap->insert(pair<string, VarExpression*>(name, exp));
+    if(VarExists(name)) {
+      this->nameExpressionMap->at(name) = exp;
+    } else {
+      this->nameExpressionMap->insert(pair<string, VarExpression *>(name, exp));
+    }
 }
 
 void AddValue(string bind, double val) {
