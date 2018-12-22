@@ -48,7 +48,7 @@ double OpenDataServerExpression::Execute(){
     bzero(buffer,BUFFER_SIZE);
     while (true) {
         n = read(newsockfd, buffer, BUFFER_SIZE);
-        vector<string> data = Utils::splitByChar(buffer, DELIMITER);
+        vector<string> data = Utils::SplitByChar(buffer, DELIMITER);
         for(int i = 0; i < data.size(); ++i) {
             string bind = this->xmlOrder.at(i);
             this->maps->EditVal(bind, stoi(data.at(i)));

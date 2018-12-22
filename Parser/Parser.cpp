@@ -27,7 +27,6 @@ Expression* Parser::ParseVar(std::vector<std::string> &tokens){
             if(this->expressionMaps->VarExists(tokens[4])){
                 //bind second var path
                 varExp=new VarExpression(this->expressionMaps->GetExpressionByName(tokens[4])->GetPath());
-          //      varExp=new VarExpression((*this->varExpressionTable)[tokens[4]]->GetPath());
             }else{
                 //undefined var
                 throw runtime_error("Error: undefined var");
@@ -43,8 +42,7 @@ Expression* Parser::ParseVar(std::vector<std::string> &tokens){
         varExp=new VarExpression(this->shuntingYard->MakeExpression(subVec));
     }
     //add new Expession to varExpressionTable
-    this->expressionMaps.??
-    (*this->varExpressionTable)[tokens[1]]=varExp;
+    this->expressionMaps->AddExpression(tokens[1],varExp);
     return varExp;
 }
 /**
@@ -108,7 +106,7 @@ Expression* Parser::ParsePrint(std::vector<std::string> &tokens) {
     Expression *printExp;
     if(tokens.size()==this->expressionArguments["print"]){
         //check if print's arg is a string
-        if((*this->varExpressionTable).find(tokens[0])==(*this->varExpressionTable).end()){
+        if(!this->expressionMaps->VarExists(tokens[0])){
             //the second arg is string
             printExp=new PrintExpression(tokens[0]);
         }
@@ -215,7 +213,7 @@ Expression* Parser::MakeAnExpression(std::vector<std::string>& tokens) {
         exp= this->ParseWhile(tokens);
     } else if (tokens[0]=="if"){
         exp= this->ParseIf(tokens);
-    } else if (this->utils->IsVar(tokens[0])&&tokens[1]=="="){
+    } else if (this->expressionMaps->VarExists(tokens[0])&&tokens[1]=="="){
         exp= this->ParseImplementation(tokens);
     }else{
         throw runtime_error("Error:undefined command");

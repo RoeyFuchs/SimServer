@@ -21,7 +21,7 @@ int main() {
     //map<int, string> a = Utils::GetXmlOrder();
     //cout<< "ds" <<endl;
 
-   //RunParserTests();
-   SYTest();
+   RunParserTests();
+  // SYTest();
 
 }

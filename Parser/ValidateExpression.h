@@ -12,16 +12,17 @@
 #include <algorithm>
 #include "../Expression/ConditionExpression.h"
 #include "../Expression/VarExpression.h"
+#include "../Expression/ExpressionMaps.h"
 
 class ValidateExpression {
 private:
     std::vector <std::string> operators;
-    std::map<std::string, VarExpression*>* varExpressionTable;
+    ExpressionMaps* expressionMaps;
     std::map<std::string, int>expressionArguments;
 public:
-    ValidateExpression(std::vector <std::string> operators, std::map<std::string, VarExpression*>* &varExpressionTable,
+    ValidateExpression(std::vector <std::string> operators, ExpressionMaps* expressionMaps,
                        std::map<std::string, int>expressionArguments){
-        this->varExpressionTable=varExpressionTable;
+        this->expressionMaps=expressionMaps;
         this->operators=operators;
         this->expressionArguments=expressionArguments;
     }

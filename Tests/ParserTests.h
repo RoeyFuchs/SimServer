@@ -19,21 +19,21 @@ static void RunParserTests(){
         string msg;
         int successCounter = 0;
         int failedCounter = 0;
-        std::map<std::string, VarExpression*>* varsMap=new std::map<std::string, VarExpression*>();
+        ExpressionMaps * expressionMaps=new ExpressionMaps();
         Number* num=new Number(5);
         VarExpression* roll=new VarExpression("/a/b/c");
         roll->SetExpression(num);
         VarExpression* elevator=new VarExpression("/d/e/f");
-        ( *varsMap)["roll"]=roll;
-        ( *varsMap)["elevator"]=elevator;
-        Parser* parser= new Parser(varsMap);
+        expressionMaps->AddExpression("roll",roll);
+         expressionMaps->AddExpression("elevator",elevator);
+        Parser* parser= new Parser(expressionMaps);
         int countTest=0;
 
         //test 1
         countTest++;
         vector<string>* vec = new vector<string>{"var","a","=","bind","\"a/a/a\""};
         parser->ParseLine(*vec);
-        VarExpression* newVarA=(*varsMap)["a"];
+        VarExpression* newVarA=expressionMaps->GetExpressionByName("a");
         if(newVarA!= nullptr && newVarA->GetPath()=="a/a/a"){
                 cout<<countTest<<success<<endl;
                 successCounter++;
@@ -45,7 +45,7 @@ static void RunParserTests(){
         countTest++;
         vec = new vector<string>{"var","b","=","bind","a"};
         parser->ParseLine(*vec);
-        VarExpression* newVarB=(*varsMap)["b"];
+        VarExpression* newVarB=expressionMaps->GetExpressionByName("b");
         if(newVarB!= nullptr && newVarB->GetPath()=="a/a/a"){
                 cout<<countTest<<success<<endl;
                 successCounter++;
@@ -107,7 +107,7 @@ static void RunParserTests(){
         countTest++;
         vec = new vector<string>{"var","k","=","roll"};
         parser->ParseLine(*vec);
-        VarExpression* newVar=(*varsMap)["k"];
+        VarExpression* newVar=expressionMaps->GetExpressionByName("k");
         if(newVar!= nullptr && newVar->GetExpression()->Execute()==5){
                 cout<<countTest<<success<<endl;
                 successCounter++;
@@ -366,7 +366,7 @@ static void RunParserTests(){
     countTest++;
      vec = new vector<string>{"a","=","bind","\"a/a/g\""};
     parser->ParseLine(*vec);
-     newVarA=(*varsMap)["a"];
+     newVarA=expressionMaps->GetExpressionByName("a");
     if(newVarA!= nullptr && newVarA->GetPath()=="a/a/g"){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -378,7 +378,7 @@ static void RunParserTests(){
     countTest++;
     vec = new vector<string>{"b","=","bind","a"};
     parser->ParseLine(*vec);
-     newVarB=(*varsMap)["b"];
+     newVarB=expressionMaps->GetExpressionByName("b");
     if(newVarB!= nullptr && newVarB->GetPath()=="a/a/g"){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -440,7 +440,7 @@ static void RunParserTests(){
     countTest++;
     vec = new vector<string>{"k","=","roll"};
     parser->ParseLine(*vec);
-    newVar=(*varsMap)["k"];
+    newVar=expressionMaps->GetExpressionByName("k");
     if(newVar!= nullptr && newVar->GetExpression()->Execute()==5){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -501,8 +501,8 @@ static void RunParserTests(){
      parser->ParseLine(*vec);
     vec = new vector<string>{"var","agk","=","9","*","4","}"};
      parser->ParseLine(*vec);
-    double A=(*varsMap)["acg"]->Execute();
-    double  B=(*varsMap)["agk"]->Execute();
+    double A=expressionMaps->GetExpressionByName("acg")->Execute();
+    double  B=expressionMaps->GetExpressionByName("agk")->Execute();
     if(A==5
     &&B==36){
         cout<<countTest<<success<<endl;
@@ -521,8 +521,8 @@ static void RunParserTests(){
     parser->ParseLine(*vec);
     vec = new vector<string>{"}"};
     parser->ParseLine(*vec);
-     A=(*varsMap)["aa"]->Execute();
-      B=(*varsMap)["ab"]->Execute();
+     A=expressionMaps->GetExpressionByName("aa")->Execute();
+      B=expressionMaps->GetExpressionByName("ab")->Execute();
     if(A==5
        &&B==36){
         cout<<countTest<<success<<endl;
@@ -543,8 +543,8 @@ static void RunParserTests(){
     parser->ParseLine(*vec);
     vec = new vector<string>{"}"};
     parser->ParseLine(*vec);
-     A=(*varsMap)["aaa"]->Execute();
-      B=(*varsMap)["aba"]->Execute();
+     A=expressionMaps->GetExpressionByName("aaa")->Execute();
+      B=expressionMaps->GetExpressionByName("aba")->Execute();
     if(A==5
        &&B==36){
         cout<<countTest<<success<<endl;
@@ -567,9 +567,9 @@ static void RunParserTests(){
     parser->ParseLine(*vec);
     vec = new vector<string>{"}"};
     parser->ParseLine(*vec);
-     A=(*varsMap)["aaq"]->Execute();
-      B=(*varsMap)["abq"]->Execute();
-    double C=(*varsMap)["acq"]->Execute();
+     A=expressionMaps->GetExpressionByName("aaq")->Execute();
+      B=expressionMaps->GetExpressionByName("abq")->Execute();
+    double C=expressionMaps->GetExpressionByName("acq")->Execute();
     if(A==5
        &&B==36&&C==80){
         cout<<countTest<<success<<endl;
