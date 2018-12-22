@@ -17,6 +17,10 @@ ExpressionMaps() {
     this->bindValueMap = new map<string, double>;
 }
 
+bool VarExists(string str) {
+  return ((*this->nameExpressionMap).count(str) != 0);
+}
+
 VarExpression* GetExpressionByName(string name) {
     return this->nameExpressionMap->at(name);
 }

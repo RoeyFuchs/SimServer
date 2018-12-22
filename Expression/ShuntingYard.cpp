@@ -101,7 +101,7 @@ bool ShuntingYard::IsCloseBracket(string &str) {
  * @return true or false
  */
 bool ShuntingYard::IsVar(string& str) {
-    return ((*this->varExpressionMap).count(str) != 0);
+    return this->expressionMaps->VarExists(str);
 }
 /**
  * the function return a vector with the supported operators.
@@ -152,7 +152,7 @@ Expression *ShuntingYard::MakeExpressionFromQueue(queue<string> que) {
         }
         //if it's var, push to the stack
         if(IsVar(que.front())) {
-            stc.push((*this->varExpressionMap)[que.front()]);
+            stc.push(this->expressionMaps->GetExpressionByName(que.front()));
             que.pop();
         //if it's operator, create the operator with the 2 top expression in the stack
         } else {
@@ -204,8 +204,8 @@ Expression *ShuntingYard::BuildOperatorByString(string &str, Expression *right, 
  * the function return a map with orecedence of math operators
  * @return the map
  */
-map<string, int> ShuntingYard::operatorPrecedenceMap() {
-    map<string, int> A;
+unordered_map<string, int> ShuntingYard::operatorPrecedenceMap() {
+    unordered_map<string, int> A;
     A[NEG_SYMBOL] = FIRST_IMPORTANCE;
     A["*"] = SECOND_IMPORTANCE;
     A["/"] = SECOND_IMPORTANCE;

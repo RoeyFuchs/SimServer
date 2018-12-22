@@ -2,7 +2,7 @@
 #define SIMSERVER_SHUNTINGYARD_H
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "Expression.h"
 #include "VarExpression.h"
 #include <stack>
@@ -16,6 +16,7 @@
 #include "MathExpression/Minus.h"
 #include "MathExpression/Mult.h"
 #include "MathExpression/Neg.h"
+#include "ExpressionMaps.h"
 
 #define NEG_SYMBOL "_"
 #define FIRST_IMPORTANCE 1
@@ -26,11 +27,11 @@
 using namespace std;
 
 class ShuntingYard {
-    map<string, VarExpression*>* varExpressionMap;
-    map<string, int> operatorPrecedence;
+    ExpressionMaps* expressionMaps;
+    unordered_map<string, int> operatorPrecedence;
 public:
-    explicit ShuntingYard(map<string, VarExpression*>* stringVarMap) {
-        this->varExpressionMap = stringVarMap;
+    explicit ShuntingYard(ExpressionMaps* expressionMaps) {
+        this->expressionMaps = expressionMaps;
         this->operatorPrecedence = operatorPrecedenceMap();
     }
 
@@ -56,7 +57,7 @@ private:
 
     Expression* BuildOperatorByString(string& str, Expression* right, Expression* left);
 
-    map<string, int>operatorPrecedenceMap();
+    unordered_map<string, int>operatorPrecedenceMap();
 
 };
 

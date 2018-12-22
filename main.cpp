@@ -18,10 +18,10 @@ using namespace std;
 #include "Utils/Utils.h"
 
 int main() {
-    map<int, string> a = Utils::GetXmlOrder();
-    cout<< "ds" <<endl;
+    //map<int, string> a = Utils::GetXmlOrder();
+    //cout<< "ds" <<endl;
 
    //RunParserTests();
-   //SYTest();
+   SYTest();
 
 }
