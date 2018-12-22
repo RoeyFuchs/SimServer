@@ -15,7 +15,7 @@
 
 using namespace std;
 static void SYTest() {
- /*   int counter = 1;
+    int counter = 1;
 
     string success =  " passed";
     string failed =  " failed";
@@ -24,7 +24,7 @@ static void SYTest() {
     int failedCounter = 0;
 
     auto mapp = new map<string, VarExpression*>;
-    ShuntingYard *A = new ShuntingYard(mapp);
+    ShuntingYard *A = new ShuntingYard(new ExpressionMaps);
     auto vec = new vector<string>;
 
    //test 1
@@ -366,7 +366,7 @@ static void SYTest() {
 
 
 
-    cout << "success: " << successCounter << " failed: " << failedCounter <<endl;*/
+    cout << "success: " << successCounter << " failed: " << failedCounter <<endl;
 
 }
 
