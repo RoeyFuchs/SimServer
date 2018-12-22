@@ -29,8 +29,6 @@ public:
     bool IsNumber(const std::string& s);
 
     bool IsVar(const std::string& s);
-
-    int GetBracketPosition(std::vector<std::string> &tokens,const std::string& bracket);
 };
 
 #endif //SIMSERVER_UTILS_H
