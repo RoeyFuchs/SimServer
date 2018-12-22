@@ -32,6 +32,12 @@ public:
     Expression* GetLastExp(){
         return this->expressions[expressions.size()-1];
     }
+    Expression* GetExp(int index){
+        if(index>=0&& index<expressions.size()-1) {
+            return this->expressions[index];
+        }
+        return nullptr;
+    }
     void AddExpression(Expression* exp){
         this->expressions.push_back(exp);
     }

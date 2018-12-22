@@ -23,6 +23,20 @@ int Utils::GetConditionOperatorPosition(std::vector<std::string> &tokens) {
     throw std::runtime_error("No condition operator found at condition command");
 }
 /**
+ * GetBracketPosition
+ * @param tokens
+ * @return index
+ * The function search for bracket position and return its index
+ */
+int Utils::GetBracketPosition(std::vector<std::string> &tokens,const std::string& bracket) {
+    for (int i = 0; i < tokens.size(); ++i) {
+            if(tokens[i]==bracket){
+                return i;
+            }
+    }
+    return -1;
+}
+/**
  * GetPositionsOfExpressions
  * @param tokens
  * @return int vector with expression indexes

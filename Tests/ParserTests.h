@@ -360,6 +360,126 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
+
+
+    //test 24
+    countTest++;
+     vec = new vector<string>{"a","=","bind","\"a/a/g\""};
+    parser->ParseLine(*vec);
+     newVarA=(*varsMap)["a"];
+    if(newVarA!= nullptr && newVarA->GetPath()=="\"a/a/g\""){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 2
+    countTest++;
+    vec = new vector<string>{"b","=","bind","a"};
+    parser->ParseLine(*vec);
+     newVarB=(*varsMap)["b"];
+    if(newVarB!= nullptr && newVarB->GetPath()=="\"a/a/g\""){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 3
+    countTest++;
+    vec = new vector<string>{"b","bind","a"};
+     isExp=0;
+    try {
+        parser->ParseLine(*vec);
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+
+    //test 4
+    countTest++;
+    vec = new vector<string>{"b","=","bind"};
+    isExp=0;
+    try {
+        parser->ParseLine(*vec);
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+
+    //test 5
+    countTest++;
+    vec = new vector<string>{"b","bind","a"};
+    isExp=0;
+    try {
+        parser->ParseLine(*vec);
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 6
+    countTest++;
+    vec = new vector<string>{"k","=","roll"};
+    parser->ParseLine(*vec);
+    newVar=(*varsMap)["k"];
+    if(newVar!= nullptr && newVar->GetExpression()->Execute()==5){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 7
+    countTest++;
+    vec = new vector<string>{"b","=","bind","op"};
+    isExp=0;
+    try {
+        parser->ParseLine(*vec);
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 8
+    countTest++;
+    vec = new vector<string>{"b","=","op"};
+    isExp=0;
+    try {
+        parser->ParseLine(*vec);
+    }catch (exception e){
+        isExp=1;
+    }
+    if(isExp){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
     //test 24
     countTest++;
     vec = new vector<string>{"sleep","51"};
@@ -367,6 +487,91 @@ static void RunParserTests(){
     expr= parser->MakeAnExpression(*vec);
     sleepExp=(SleepExpression*)expr;
     if(ifExp != nullptr && sleepExp->GetSleepingTimeExpression()->Execute()==51){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 25
+    countTest++;
+    vec = new vector<string>{"if","5","==","roll","{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","acg","=","roll"};
+     parser->ParseLine(*vec);
+    vec = new vector<string>{"var","agk","=","9","*","4","}"};
+     parser->ParseLine(*vec);
+    double A=(*varsMap)["acg"]->Execute();
+    double  B=(*varsMap)["agk"]->Execute();
+    if(A==5
+    &&B==36){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 26
+    countTest++;
+    vec = new vector<string>{"if","5","==","roll","{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","aa","=","roll"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","ab","=","9","*","4"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"}"};
+    parser->ParseLine(*vec);
+     A=(*varsMap)["aa"]->Execute();
+      B=(*varsMap)["ab"]->Execute();
+    if(A==5
+       &&B==36){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 27
+    countTest++;
+    vec = new vector<string>{"if","5","==","roll"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","aaa","=","roll"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","aba","=","9","*","4"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"}"};
+    parser->ParseLine(*vec);
+     A=(*varsMap)["aaa"]->Execute();
+      B=(*varsMap)["aba"]->Execute();
+    if(A==5
+       &&B==36){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 28
+    countTest++;
+    vec = new vector<string>{"if","5","==","roll","{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","aaq","=","roll"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"if","10","/","2","==","roll","{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","acq","=","80","}"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","abq","=","9","*","4"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"}"};
+    parser->ParseLine(*vec);
+     A=(*varsMap)["aaq"]->Execute();
+      B=(*varsMap)["abq"]->Execute();
+    double C=(*varsMap)["acq"]->Execute();
+    if(A==5
+       &&B==36&&C==80){
         cout<<countTest<<success<<endl;
         successCounter++;
     }else{

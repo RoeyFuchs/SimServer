@@ -43,6 +43,17 @@ Expression* Parser::ParseVar(std::vector<std::string> &tokens){
     return varExp;
 }
 /**
+ * ParseImplementation
+ * @param tokens
+ * @return Expression
+ * The function parse ParseImplementation line into an expression
+ */
+Expression* Parser::ParseImplementation(std::vector<std::string> &tokens) {
+    std::vector<string>::iterator it=tokens.begin();
+    tokens.insert(it,"var");
+    return this->ParseVar(tokens);
+}
+/**
  * ParseOpenDataServer
  * @param tokens
  * @return Expression
@@ -182,6 +193,7 @@ Expression* Parser::MakeAnExpression(std::vector<std::string>& tokens) {
     //search for bracket
     if(tokens[0]=="}"||tokens[tokens.size()-1]=="}") {
         hasBracket= true;
+        tokens= this->utils->Slice(tokens,0,tokens.size()-2);
     }
     //search for key words
     if (tokens[0] == "var") {
@@ -198,6 +210,10 @@ Expression* Parser::MakeAnExpression(std::vector<std::string>& tokens) {
         exp= this->ParseWhile(tokens);
     } else if (tokens[0]=="if"){
         exp= this->ParseIf(tokens);
+    } else if (this->utils->IsVar(tokens[0])&&tokens[1]=="="){
+        exp= this->ParseImplementation(tokens);
+    }else{
+        throw runtime_error("Error:undefined command");
     }
     if(hasBracket){
         //last condition expression is complete
@@ -234,7 +250,13 @@ void Parser::ParseLine(std::vector<std::string> &tokens) {
             this->currentConditionParse->Execute();
         }
     } else{
-        //regular command
-        exp->Execute();
+        //check if current exp is a condition
+        if(typeid (*exp).name()== typeid(IfExpression).name()||
+           typeid (*exp).name()== typeid(WhileExpression).name()) {
+            this->currentConditionParse= (ConditionParser*)exp;
+        }else{
+            //regular command
+            exp->Execute();
+        }
     }
 };

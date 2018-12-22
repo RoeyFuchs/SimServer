@@ -29,6 +29,7 @@ private:
     std::map<std::string, int>expressionArguments;
     Utils* utils;
     Expression* ParseVar(std::vector<std::string> &tokens);
+    Expression* ParseImplementation(std::vector<std::string> &tokens);
     Expression* ParseConnect(std::vector<std::string> &tokens);
     Expression* ParseOpenDataServer(std::vector<std::string> &tokens);
     Expression* ParsePrint(std::vector<std::string> &tokens);

@@ -6,7 +6,7 @@
 #define SIMSERVER_IFEXPRESSION_H
 
 #include "ConditionParser.h"
-
+#include <iostream>
 class IfExpression: public ConditionParser{
 public:
     IfExpression(ConditionExpression* condition):ConditionParser(condition){}

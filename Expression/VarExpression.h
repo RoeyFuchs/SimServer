@@ -13,6 +13,7 @@ class VarExpression: public Expression{
     Expression*  exp;
 public:
     VarExpression(std::string path){
+        this->exp= nullptr;
         this->path= path;
     }
     VarExpression(Expression* exp){
