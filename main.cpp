@@ -21,13 +21,13 @@ int main() {
     //unordered_map<int, string> a = Utils::GetXmlOrder();
     //cout<< "ds" <<endl;
 
-   //RunParserTests();
+   RunParserTests();
    //SYTest();
 
 
-   auto A = make_shared<ExpressionMaps>();
-   auto B = make_shared<OpenDataServerExpression>(make_shared<Number>(5400),make_shared<Number>(10),A);
-   B->Execute();
+  // auto A = make_shared<ExpressionMaps>();
+  // auto B = make_shared<OpenDataServerExpression>(make_shared<Number>(5400),make_shared<Number>(10),A);
+  // B->Execute();
 
 
 
