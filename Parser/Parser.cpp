@@ -198,7 +198,9 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string>& tokens) {
     //search for bracket
     if(tokens[0]=="}"||tokens[tokens.size()-1]=="}") {
         hasBracket= true;
-        tokens= this->utils->Slice(tokens,0,tokens.size()-2);
+        if(tokens.size()>1) {
+            tokens = this->utils->Slice(tokens, 0, tokens.size() - 2);
+        }
     }
     //search for key words
     if (tokens[0] == "var") {
@@ -217,7 +219,7 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string>& tokens) {
         exp= this->ParseIf(tokens);
     } else if (this->expressionMaps->VarExists(tokens[0])&&tokens[1]=="="){
         exp= this->ParseImplementation(tokens);
-    }else{
+    }else if(tokens[0]!="}"&&tokens[0]=="}"){
         throw runtime_error("Error:undefined command");
     }
     if(hasBracket){
@@ -228,10 +230,12 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string>& tokens) {
                typeid (this->currentConditionParse->GetLastExp()).name()== typeid(WhileExpression).name()){
                 shared_ptr<ConditionParser> conditionParser=dynamic_pointer_cast<ConditionParser>(this->currentConditionParse->GetLastExp());
                 conditionParser->SetIsComplete(true);
+                exp=currentConditionParse;
 
             }else{
                 //The current condition is complete
                 this->currentConditionParse->SetIsComplete(true);
+                exp=currentConditionParse;
             }
         }else{
             //bracket error input

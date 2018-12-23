@@ -376,7 +376,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 2
+    //test 25
     countTest++;
     vec = new vector<string>{"b","=","bind","a"};
     parser->ParseLine(*vec);
@@ -388,7 +388,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 3
+    //test 26
     countTest++;
     vec = new vector<string>{"b","bind","a"};
      isExp=0;
@@ -405,7 +405,7 @@ static void RunParserTests(){
         failedCounter++;
     }
 
-    //test 4
+    //test 27
     countTest++;
     vec = new vector<string>{"b","=","bind"};
     isExp=0;
@@ -422,7 +422,7 @@ static void RunParserTests(){
         failedCounter++;
     }
 
-    //test 5
+    //test 28
     countTest++;
     vec = new vector<string>{"b","bind","a"};
     isExp=0;
@@ -438,7 +438,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 6
+    //test 29
     countTest++;
     vec = new vector<string>{"k","=","roll"};
     parser->ParseLine(*vec);
@@ -450,7 +450,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 7
+    //test 30
     countTest++;
     vec = new vector<string>{"b","=","bind","op"};
     isExp=0;
@@ -466,7 +466,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 8
+    //test 31
     countTest++;
     vec = new vector<string>{"b","=","op"};
     isExp=0;
@@ -482,7 +482,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 24
+    //test 32
     countTest++;
     vec = new vector<string>{"sleep","51"};
     isExp=0;
@@ -495,7 +495,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 25
+    //test 33
     countTest++;
     vec = new vector<string>{"if","5","==","roll","{"};
     parser->ParseLine(*vec);
@@ -513,7 +513,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 26
+    //test 34
     countTest++;
     vec = new vector<string>{"if","5","==","roll","{"};
     parser->ParseLine(*vec);
@@ -523,8 +523,8 @@ static void RunParserTests(){
     parser->ParseLine(*vec);
     vec = new vector<string>{"}"};
     parser->ParseLine(*vec);
-     A=expressionMaps->GetExpressionByName("aa")->Execute();
-      B=expressionMaps->GetExpressionByName("ab")->Execute();
+      A=expressionMaps->GetExpressionByName("aa")->Execute();
+     B=expressionMaps->GetExpressionByName("ab")->Execute();
     if(A==5
        &&B==36){
         cout<<countTest<<success<<endl;
@@ -533,7 +533,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 27
+    //test 35
     countTest++;
     vec = new vector<string>{"if","5","==","roll"};
     parser->ParseLine(*vec);
@@ -555,7 +555,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 28
+    //test 26
     countTest++;
     vec = new vector<string>{"if","5","==","roll","{"};
     parser->ParseLine(*vec);
