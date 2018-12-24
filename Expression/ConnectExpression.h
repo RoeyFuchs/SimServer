@@ -4,6 +4,7 @@
 
 #ifndef SIMSERVER_CONNECTEXPRESSION_H
 #define SIMSERVER_CONNECTEXPRESSION_H
+#define BUFFER_SIZE_OUT 128
 
 #include <string>
 #include "Expression.h"
@@ -17,9 +18,8 @@ class ConnectExpression : public Expression {
     this->ip = ip;
     this->port = port;
   }
-  virtual double Execute() {
-    return 1;
-  }
+  virtual double Execute();
+
   shared_ptr<Expression> GetPort() {
     return this->port;
   }
