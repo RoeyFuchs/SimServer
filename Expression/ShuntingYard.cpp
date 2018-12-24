@@ -38,8 +38,8 @@ shared_ptr<Expression> ShuntingYard::MakeExpression(vector<string> &vec) {
         }
         //if it's operator, move by the algorithm
         if (IsOperator(token)) {
-            //using Minus instand of Neg
-            if (IsMinus(token) && (!IsNumber(preToken) || IsVar(preToken))) {
+            //using Neg instand of Minus
+            if (IsMinus(token) && (!IsNumber(preToken) && !IsVar(preToken))) {
                 token = "NEG_SYMBOL"; // negative
             }
             while (!stc->empty() && IsGreaterPrecedence(stc->top(), token)) {

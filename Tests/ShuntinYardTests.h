@@ -29,6 +29,10 @@ static void SYTest() {
     shared_ptr<ShuntingYard> A = make_shared<ShuntingYard>(B);
     shared_ptr<vector<string>> vec = make_shared<vector<string>>();
 
+
+
+
+
    //test 1
     vec->emplace_back("5");
     vec->emplace_back("+");
@@ -352,19 +356,28 @@ static void SYTest() {
     ++counter;
     vec->clear();
 
-    //test 22
+    //test 23
     vec->emplace_back("-");
     vec->emplace_back("5");
-
-
-
-
 
     A->MakeExpression(*vec)->Execute() == (-5) ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
     cout << counter << msg << endl;
     ++counter;
     vec->clear();
 
+
+//test 24
+    shared_ptr<VarExpression> vars = make_shared<VarExpression>(make_shared<Number>(5));
+    B->AddExpression("po", vars);
+
+    vec->emplace_back("po");
+    vec->emplace_back("-");
+    vec->emplace_back("3");
+
+    A->MakeExpression(*vec)->Execute() == (2) ? (msg = success, ++successCounter) : (msg = failed, ++failedCounter);
+    cout << counter << msg << endl;
+    ++counter;
+    vec->clear();
 
 
 
