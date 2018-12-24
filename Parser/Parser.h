@@ -10,6 +10,7 @@
 #include "string"
 #include "../Utils/Utils.h"
 #include "../Expression/Expression.h"
+#include "../Expression/UpdateVarExpression.h"
 #include "../Expression/IfExpression.h"
 #include "../Expression/WhileExpression.h"
 #include "../Expression/ShuntingYard.h"
@@ -29,6 +30,7 @@ class Parser {
   unordered_map<string, int> expressionArguments;
   shared_ptr<Utils> utils;
   shared_ptr<Expression> ParseVar(vector<string> &tokens);
+  shared_ptr<VarExpression> ParseVarDefined(vector<string> &tokens);
   shared_ptr<Expression> ParseImplementation(vector<string> &tokens);
   shared_ptr<Expression> ParseConnect(vector<string> &tokens);
   shared_ptr<Expression> ParseOpenDataServer(vector<string> &tokens);

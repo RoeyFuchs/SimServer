@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include "Parser.h"
-
 using namespace std;
 
 /**
@@ -12,7 +11,7 @@ using namespace std;
  * @param tokens
  * The function define a new variable and update varExpressionTable
  */
-shared_ptr<Expression> Parser::ParseVar(vector<string> &tokens){
+shared_ptr<VarExpression> Parser::ParseVarDefined(vector<string> &tokens) {
     this->validateExpression->ValidateVarDefined(tokens);
     shared_ptr<VarExpression> varExp;
     //check if bind is deifined in line
@@ -43,6 +42,16 @@ shared_ptr<Expression> Parser::ParseVar(vector<string> &tokens){
         //get expression after '='
         varExp=make_shared<VarExpression>(this->shuntingYard->MakeExpression(subVec));
     }
+    return varExp;
+}
+/**
+ * ParseVar
+ * @param tokens
+ * The function define a new variable and update varExpressionTable
+ */
+shared_ptr<Expression> Parser::ParseVar(vector<string> &tokens){
+    shared_ptr<VarExpression> varExp;
+    varExp=this->ParseVarDefined(tokens);
     //add new Expession to varExpressionTable
     this->expressionMaps->AddExpression(tokens[1],varExp);
     return varExp;
@@ -54,9 +63,13 @@ shared_ptr<Expression> Parser::ParseVar(vector<string> &tokens){
  * The function parse ParseImplementation line into an expression
  */
 shared_ptr<Expression> Parser::ParseImplementation(vector<string> &tokens) {
-    vector<string>::iterator it=tokens.begin();
+   vector<string>::iterator it=tokens.begin();
     tokens.insert(it,"var");
-    return this->ParseVar(tokens);
+    shared_ptr<Expression> exp=this->ParseVarDefined(tokens);
+    shared_ptr <Expression> updateExp;
+    updateExp =make_shared<UpdateVarExpression>(exp,
+            this->expressionMaps->GetExpressionByName(tokens[1]));
+    return updateExp;
 }
 /**
  * ParseOpenDataServer

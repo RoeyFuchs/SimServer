@@ -576,7 +576,7 @@ static void RunParserTests(){
     vec = new vector<string>{"}"};
     parser->ParseLine(*vec);
     A=expressionMaps->GetExpressionByName("abyq")->Execute();
-    if(A==32){
+    if(A==36){
         cout<<countTest<<success<<endl;
         successCounter++;
     }else{
@@ -584,7 +584,7 @@ static void RunParserTests(){
         failedCounter++;
     }
     //test 36
- /*   countTest++;
+    countTest++;
     vec = new vector<string>{"while","6",">","roll","{"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"roll","=","roll","+","1"};
@@ -606,9 +606,9 @@ static void RunParserTests(){
     }else{
         cout<<countTest<<failed<<endl;
         failedCounter++;
-    }*/
+    }
 //test 37
-  /*  countTest++;
+    countTest++;
     vec = new vector<string>{"while","6",">","roll","{"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"roll","=","9"};
@@ -630,7 +630,7 @@ static void RunParserTests(){
     }else{
         cout<<countTest<<failed<<endl;
         failedCounter++;
-    }*/
+    }
 
 //test 38
     countTest++;
