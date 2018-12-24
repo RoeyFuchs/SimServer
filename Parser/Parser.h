@@ -22,7 +22,7 @@
 class Parser {
  private:
   shared_ptr<ShuntingYard> shuntingYard;
-  shared_ptr<ConditionParser> currentConditionParse;
+  stack <shared_ptr<ConditionParser>>currentConditionParse;
   shared_ptr<ExpressionMaps> expressionMaps;
   shared_ptr<ValidateExpression> validateExpression;
   vector<string> operators;
@@ -37,6 +37,7 @@ class Parser {
   shared_ptr<Expression> ParseIf(vector<string> &tokens);
   shared_ptr<Expression> ParseWhile(vector<string> &tokens);
   shared_ptr<ConditionExpression> CreateCondition(vector<string> &tokens);
+  void PushConditionExpression(shared_ptr<ConditionParser> conditionExpression);
 
  public:
   Parser(shared_ptr<ExpressionMaps> expressionMaps) {

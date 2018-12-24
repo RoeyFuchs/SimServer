@@ -297,65 +297,13 @@ static void RunParserTests(){
     isExp=0;
      parser->MakeAnExpression(*vec)->Execute();
 
-    //test 19
-    countTest++;
-    vec = new vector<string>{"if","9",">","1"};
-    isExp=0;
-    expr= parser->MakeAnExpression(*vec);
-    shared_ptr<IfExpression> ifExp=dynamic_pointer_cast<IfExpression>(expr);
-    if(ifExp != nullptr && ifExp->Execute()==1){
-        cout<<countTest<<success<<endl;
-        successCounter++;
-    }else{
-        cout<<countTest<<failed<<endl;
-        failedCounter++;
-    }
-    //test 20
-    countTest++;
-    vec = new vector<string>{"if","9",">=","roll"};
-    isExp=0;
-    expr= parser->MakeAnExpression(*vec);
-     ifExp=dynamic_pointer_cast<IfExpression>(expr);
-    if(ifExp != nullptr && ifExp->Execute()==1){
-        cout<<countTest<<success<<endl;
-        successCounter++;
-    }else{
-        cout<<countTest<<failed<<endl;
-        failedCounter++;
-    }
-    //test 21
-    countTest++;
-    vec = new vector<string>{"if","5","==","roll"};
-    isExp=0;
-    expr= parser->MakeAnExpression(*vec);
-    ifExp=dynamic_pointer_cast<IfExpression>(expr);
-    if(ifExp != nullptr && ifExp->Execute()==1){
-        cout<<countTest<<success<<endl;
-        successCounter++;
-    }else{
-        cout<<countTest<<failed<<endl;
-        failedCounter++;
-    }
-    //test 22
-    countTest++;
-    vec = new vector<string>{"if","51","!=","roll"};
-    isExp=0;
-    expr= parser->MakeAnExpression(*vec);
-    ifExp=dynamic_pointer_cast<IfExpression>(expr);
-    if(ifExp != nullptr && ifExp->Execute()==1){
-        cout<<countTest<<success<<endl;
-        successCounter++;
-    }else{
-        cout<<countTest<<failed<<endl;
-        failedCounter++;
-    }
     //test 23
     countTest++;
     vec = new vector<string>{"sleep","51","-","10"};
     isExp=0;
     expr= parser->MakeAnExpression(*vec);
     shared_ptr<SleepExpression> sleepExp=dynamic_pointer_cast<SleepExpression>(expr);
-    if(ifExp != nullptr && sleepExp->GetSleepingTimeExpression()->Execute()==41){
+    if( sleepExp->GetSleepingTimeExpression()->Execute()==41){
         cout<<countTest<<success<<endl;
         successCounter++;
     }else{
@@ -488,7 +436,7 @@ static void RunParserTests(){
     isExp=0;
     expr= parser->MakeAnExpression(*vec);
     sleepExp=dynamic_pointer_cast<SleepExpression>(expr);
-    if(ifExp != nullptr && sleepExp->GetSleepingTimeExpression()->Execute()==51){
+    if(sleepExp->GetSleepingTimeExpression()->Execute()==51){
         cout<<countTest<<success<<endl;
         successCounter++;
     }else{
@@ -553,7 +501,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 36
+    //test 36-4
     countTest++;
     vec = new vector<string>{"if","5","==","roll"};
     parser->ParseLine(*vec);
@@ -575,7 +523,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 37
+    //test 33
     countTest++;
    // vector<string>* vec;
     vec = new vector<string>{"if","5","==","roll","{"};
@@ -603,7 +551,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 38
+    //test 34
     countTest++;
       vec = new vector<string>{"var","abyq","=","36"};
     parser->ParseLine(*vec);
@@ -619,7 +567,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 39
+    //test 35
     countTest++;
     vec = new vector<string>{"while","abyq",">","32","{"};
     parser->ParseLine(*vec);
@@ -635,8 +583,8 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 40
-    countTest++;
+    //test 36
+ /*   countTest++;
     vec = new vector<string>{"while","6",">","roll","{"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"roll","=","roll","+","1"};
@@ -658,9 +606,9 @@ static void RunParserTests(){
     }else{
         cout<<countTest<<failed<<endl;
         failedCounter++;
-    }
-//test 41
-    countTest++;
+    }*/
+//test 37
+  /*  countTest++;
     vec = new vector<string>{"while","6",">","roll","{"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"roll","=","9"};
@@ -682,11 +630,13 @@ static void RunParserTests(){
     }else{
         cout<<countTest<<failed<<endl;
         failedCounter++;
-    }
+    }*/
 
-//test 42
+//test 38
     countTest++;
     // vector<string>* vec;
+    vec = new vector<string>{"roll","=","9"};
+    parser->ParseLine(*vec);
     vec = new vector<string>{"if","9","==","roll","{"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"var","aaq","=","roll"};
@@ -719,33 +669,33 @@ static void RunParserTests(){
         failedCounter++;
     }
 
-//test 43
+//test 39
     countTest++;
     // vector<string>* vec;
     vec = new vector<string>{"if","9","==","roll","{"};
     parser->ParseLine(*vec);
-    vec = new vector<string>{"var","aaq","=","roll"};
+    vec = new vector<string>{"var","taaq","=","roll"};
     parser->ParseLine(*vec);
-    vec = new vector<string>{"if","19","-","11","==","aaq","{"};
+    vec = new vector<string>{"if","19","-","11","==","3","{"};
     parser->ParseLine(*vec);
-    vec = new vector<string>{"var","acq","=","88"};
+    vec = new vector<string>{"var","tacq","=","88"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"if","4","+","5","==","roll","{"};
     parser->ParseLine(*vec);
-    vec = new vector<string>{"var","agq","=","89"};
+    vec = new vector<string>{"var","tagq","=","89"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"}"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"}"};
     parser->ParseLine(*vec);
-    vec = new vector<string>{"var","abq","=","9","*","10"};
+    vec = new vector<string>{"var","tabq","=","9","*","10"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"}"};
     parser->ParseLine(*vec);
-    A=expressionMaps->GetExpressionByName("aaq")->Execute();
-    B=expressionMaps->GetExpressionByName("acq")->Execute();
-    C=expressionMaps->GetExpressionByName("agq")->Execute();
-   double D=expressionMaps->GetExpressionByName("abq")->Execute();
+    A=expressionMaps->GetExpressionByName("taaq")->Execute();
+    B=expressionMaps->GetExpressionByName("tacq")->Execute();
+    C=expressionMaps->GetExpressionByName("tagq")->Execute();
+   double D=expressionMaps->GetExpressionByName("tabq")->Execute();
     if(A==9
        &&B!=88&&C!=89&& D==90){
         cout<<countTest<<success<<endl;
@@ -754,6 +704,23 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-
+    //test 40
+    countTest++;
+    vec = new vector<string>{"var","ad","=","36"};
+    parser->ParseLine(*vec);
+       vec = new vector<string>{"if","ad","<","32","{"};
+      parser->ParseLine(*vec);
+    vec = new vector<string>{"ad","=","70","-","9"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"}"};
+    parser->ParseLine(*vec);
+    A=expressionMaps->GetExpressionByName("ad")->Execute();
+    if(A==36){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
 }
 #endif //SIMSERVER_PARSERTESTS_H
