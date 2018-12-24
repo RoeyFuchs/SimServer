@@ -18,21 +18,49 @@ class ExpressionMaps {
     this->nameExpressionMap = new unordered_map<string, shared_ptr<VarExpression>>;
     this->bindValueMap = new unordered_map<string, double>;
     //put the all value to zero
-    InitilizeMap();
+    initializeMap();
   }
-
+/**
+ * check if var is exists
+ * @param str  the name of the var
+ * @return true or false
+ */
   bool VarExists(string str) {
     return ((*this->nameExpressionMap).count(str) != 0);
   }
-
+/**
+ * get expression by the expression name
+ * @param name - the name of the expression
+ * @return smart pointer to the expressin
+ */
   shared_ptr<VarExpression> GetExpressionByName(string name) {
     return this->nameExpressionMap->at(name);
   }
-
+/**
+ * get a value of bind
+ * @param bind - the bind
+ * @return the value
+ */
   double GetValue(string bind) {
     return this->bindValueMap->at(bind);
   }
-
+/**
+ * check if the map include a key
+ * @tparam T type of keys
+ * @tparam S type of values
+ * @param map the map
+ * @param value the key to check
+ * @return true or false
+ */
+  template<class T, class S>
+  bool CheckMapHaveKey(unordered_map<T, S> map, T key) {
+    return (map.count(key) > 0);
+  }
+/**
+ * add a var expression to the map
+ * @param name the name of the expression
+ * @param exp a smart pointer to the var expression
+ */
   void AddExpression(string name, shared_ptr<VarExpression> exp) {
     if (VarExists(name)) {
       this->nameExpressionMap->at(name) = exp;
@@ -41,16 +69,29 @@ class ExpressionMaps {
     }
   }
 
+
+/**
+ * add value by bind
+ * @param bind - the bind
+ * @param val - the value
+ */
   void AddValue(string bind, double val) {
     this->bindValueMap->insert(pair<string, double>(bind, val));
   }
-
+/**
+ * edit a vlue by bind
+ * @param bind - the bind
+ * @param val - the new value
+ */
   void EditVal(string bind, double val) {
     this->bindValueMap->at(bind) = val;
   }
 
   void UpdateExpression();
-
+/**
+ * get the all vares in the map
+ * @return a vector with smatrt pointers to the vars
+ */
   vector<shared_ptr<VarExpression>> GetAllVars() {
     vector<shared_ptr<VarExpression>> vec;
     for (auto itr = this->nameExpressionMap->begin(); itr != this->nameExpressionMap->end(); ++itr) {
@@ -59,21 +100,7 @@ class ExpressionMaps {
     return vec;
   }
 
-  void InitilizeMap() {
-    vector<string> vec;
-    ifstream myFile(XML_ORDER_FILE);
-    if(!myFile.is_open()) {
-      throw runtime_error(string("can't open XML file"));
-    }
-    string line;
-    while(getline(myFile, line)) {
-      vec.push_back(line);
-    }
-    myFile.close();
-    for(int i = 0; i < vec.size(); ++i) {
-      bindValueMap->insert(pair<string, double>(vec.at(i), 0));
-    }
-  }
+  void initializeMap();
 
   ~ExpressionMaps() {
     delete this->nameExpressionMap;
