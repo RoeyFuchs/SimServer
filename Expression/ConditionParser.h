@@ -41,5 +41,9 @@ class ConditionParser : public Expression {
   void AddExpression(shared_ptr<Expression> exp) {
     this->expressions.push_back(exp);
   }
+  int GetExpressionsSize(){
+    return this->expressions.size();
+  }
+
 };
 #endif //SIMSERVER_CONDITIONEXPRESSION_H
