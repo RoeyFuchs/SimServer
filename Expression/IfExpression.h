@@ -15,7 +15,9 @@ class IfExpression : public ConditionParser {
   virtual double Execute() {
     if (this->condition->Execute()) {
       for (int i = 0; i < this->expressions.size(); ++i) {
-        this->expressions[i]->Execute();
+          if(this->expressions[i]!= nullptr) {
+              this->expressions[i]->Execute();
+          }
       }
     }
   }

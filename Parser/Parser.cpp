@@ -128,11 +128,12 @@ shared_ptr<Expression> Parser::ParseIf(vector<string>& tokens) {
     if(tokens[tokens.size()-1]=="{"){
         tokens=this->utils->Slice(tokens,0,tokens.size()-2);
     }
-    shared_ptr<Expression> ifExp;
+    shared_ptr<ConditionParser> ifExp;
     //sub if word
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     shared_ptr<ConditionExpression> conditionExpression= this->CreateCondition(subVec);
     ifExp= make_shared<IfExpression>(conditionExpression);
+    this->PushConditionExpression(ifExp);
     return  ifExp;
 }
 /**
@@ -146,11 +147,12 @@ shared_ptr<Expression> Parser::ParseWhile(vector<string>& tokens) {
     if(tokens[tokens.size()-1]=="{"){
         tokens=this->utils->Slice(tokens,0,tokens.size()-2);
     }
-    shared_ptr<Expression> whileExp;
+    shared_ptr<ConditionParser> whileExp;
     //sub while word and bracket
     vector<string>subVec=this->utils->Slice(tokens,1, tokens.size()-1);
     shared_ptr<ConditionExpression> conditionExpression= this->CreateCondition(subVec);
     whileExp = make_shared<WhileExpression>(conditionExpression);
+    this->PushConditionExpression(whileExp);
     return  whileExp;
 }
 /**
@@ -196,14 +198,29 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string>& tokens) {
     shared_ptr<Expression> exp;
     bool hasBracket= false;
     //search for bracket
-    if(tokens[0]=="}"||tokens[tokens.size()-1]=="}") {
-        hasBracket= true;
-        if(tokens.size()>1) {
-            tokens = this->utils->Slice(tokens, 0, tokens.size() - 2);
+    if(tokens[0]=="}") {
+        //last condition expression is complete
+        if(this->currentConditionParse.size()>0){
+            exp= this->currentConditionParse.top();
+            this->currentConditionParse.pop();
+
+        }else{
+            //bracket error input
+            throw runtime_error("Error:Bracket input");
+        }
+    }
+    if(tokens[0]=="{") {
+        //last condition expression is complete
+        if(this->currentConditionParse.size()>0){
+            return nullptr;
+
+        }else{
+            //bracket error input
+            throw runtime_error("Error:Bracket input");
         }
     }
     //search for key words
-    if (tokens[0] == "var") {
+    else if (tokens[0] == "var") {
         exp=this->ParseVar(tokens);
     } else if (tokens[0] == "sleep") {
         exp = this->ParseSleep(tokens);
@@ -222,26 +239,6 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string>& tokens) {
     }else if(tokens[0]!="}"&&tokens[0]=="}"){
         throw runtime_error("Error:undefined command");
     }
-    if(hasBracket){
-        //last condition expression is complete
-        if(this->currentConditionParse!= nullptr){
-            //if last expression is a parserCondition type
-            if(typeid (this->currentConditionParse->GetLastExp()).name()== typeid(IfExpression).name()||
-               typeid (this->currentConditionParse->GetLastExp()).name()== typeid(WhileExpression).name()){
-                shared_ptr<ConditionParser> conditionParser=dynamic_pointer_cast<ConditionParser>(this->currentConditionParse->GetLastExp());
-                conditionParser->SetIsComplete(true);
-                exp=currentConditionParse;
-
-            }else{
-                //The current condition is complete
-                this->currentConditionParse->SetIsComplete(true);
-                exp=currentConditionParse;
-            }
-        }else{
-            //bracket error input
-            throw runtime_error("Error:Bracket input");
-        }
-    }
     return exp;
 }
 /**
@@ -252,20 +249,19 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string>& tokens) {
 void Parser::ParseLine(vector<string> &tokens) {
     shared_ptr<Expression> exp =this->MakeAnExpression(tokens);
     //privies condition is exist
-    if(this->currentConditionParse!= nullptr) {
-        if(this->currentConditionParse->GetIsComplete()== false) {
-            this->currentConditionParse->AddExpression(exp);
-        }else {
-            this->currentConditionParse->Execute();
-        }
-    } else{
-        //check if current exp is a condition
-        if(typeid (*exp).name()== typeid(IfExpression).name()||
-           typeid (*exp).name()== typeid(WhileExpression).name()) {
-            this->currentConditionParse= dynamic_pointer_cast<ConditionParser>(exp);
-        }else{
-            //regular command
-            exp->Execute();
+    if(this->currentConditionParse.size()==0) {
+            if(exp!= nullptr) {
+                    //regular command
+                    exp->Execute();
+            }
         }
     }
-};
+void Parser::PushConditionExpression(shared_ptr<ConditionParser> exp) {
+    if(this->currentConditionParse.size()!=0) {
+            //add condition expression to last open condition
+            this->currentConditionParse.top()->AddExpression(exp);
+    }
+    //push it to stack
+    this->currentConditionParse.push((exp));
+}
+

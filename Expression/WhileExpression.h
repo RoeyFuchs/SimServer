@@ -13,7 +13,9 @@ public:
     virtual double Execute(){
         while (this->condition->Execute()){
             for (int i = 0; i < this->expressions.size() ; ++i) {
-                this->expressions[i]->Execute();
+                if(this->expressions[i]!= nullptr) {
+                    this->expressions[i]->Execute();
+                }
             }
         }
     }
