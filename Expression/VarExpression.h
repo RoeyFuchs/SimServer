@@ -30,11 +30,11 @@ class VarExpression : public Expression {
   shared_ptr<Expression> GetExpression() {
     return this->exp;
   }
-  void SetExpression(shared_ptr<Expression> exp) {
-    this->exp = exp;
+  void SetExpression(shared_ptr<Expression> expression) {
+    this->exp = expression;
   }
-  void SetPath(string path) {
-    this->path = path;
+  void SetPath(string newPath) {
+    this->path = newPath;
   }
 };
 

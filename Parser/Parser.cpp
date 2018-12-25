@@ -65,10 +65,17 @@ shared_ptr<Expression> Parser::ParseVar(vector<string> &tokens){
 shared_ptr<Expression> Parser::ParseImplementation(vector<string> &tokens) {
    vector<string>::iterator it=tokens.begin();
     tokens.insert(it,"var");
-    shared_ptr<Expression> exp=this->ParseVarDefined(tokens);
+    shared_ptr<VarExpression> expression=this->ParseVarDefined(tokens);
     shared_ptr <Expression> updateExp;
-    updateExp =make_shared<UpdateVarExpression>(exp,
-            this->expressionMaps->GetExpressionByName(tokens[1]));
+    shared_ptr<VarExpression> varExpression=  this->expressionMaps->GetExpressionByName(tokens[1]);
+    if(expression->GetExpression()== nullptr){
+        updateExp =make_shared<UpdateVarExpression>(expression->GetPath(),
+                                                    varExpression);
+    }else{
+        updateExp =make_shared<UpdateVarExpression>(expression,
+                                                    varExpression);
+    }
+
     return updateExp;
 }
 /**
@@ -251,6 +258,11 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string>& tokens) {
         exp= this->ParseImplementation(tokens);
     }else if(tokens[0]!="}"&&tokens[0]=="}"){
         throw runtime_error("Error:undefined command");
+    }
+    if(tokens[0]=="var"||tokens[0]=="sleep"||tokens[0]=="print"||tokens[0]=="openDataServer"||tokens[0]=="connect") {
+        if (this->currentConditionParse.size()>0){
+            this->currentConditionParse.top()->AddExpression(exp);
+        }
     }
     return exp;
 }
