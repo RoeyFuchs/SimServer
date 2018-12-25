@@ -11,6 +11,7 @@
 class VarExpression : public Expression {
   string path;
   shared_ptr<Expression> exp;
+
  public:
   VarExpression(string path) {
     this->exp = nullptr;

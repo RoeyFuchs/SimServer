@@ -7,12 +7,14 @@
 #include "vector"
 #include "VarExpression.h"
 #include "Number.h"
+
 #define XML_ORDER_FILE "XmlOrder.txt"
 
 using namespace std;
 class ExpressionMaps {
   unordered_map<string, shared_ptr<VarExpression>> *nameExpressionMap;
   unordered_map<string, double> *bindValueMap;
+
  public:
   ExpressionMaps() {
     this->nameExpressionMap = new unordered_map<string, shared_ptr<VarExpression>>;
@@ -20,8 +22,8 @@ class ExpressionMaps {
     //put the all value to zero
     initializeMap();
   }
-/**
- * check if var is exists
+
+ /* check if var is exists
  * @param str  the name of the var
  * @return true or false
  */
