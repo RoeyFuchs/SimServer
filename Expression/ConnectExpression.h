@@ -7,12 +7,14 @@
 #define BUFFER_SIZE_OUT 128
 
 #include <string>
+#include <deque>
 #include "Expression.h"
 
 #endif //SIMSERVER_CONNECTEXPRESSION_H
 class ConnectExpression : public Expression {
   shared_ptr<Expression> port;
   string ip;
+  deque<string> deq;
  public:
   ConnectExpression(string ip, shared_ptr<Expression> port) {
     this->ip = ip;

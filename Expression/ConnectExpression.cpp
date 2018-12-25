@@ -44,17 +44,15 @@ double ConnectExpression::Execute() {
     exit(1);
   }
 
-  /* Now ask for a message from the user, this message
-     * will be read by server
-  */
-
-  printf("Please enter the message: ");
-  bzero(buffer, BUFFER_SIZE_OUT);
-  fgets(buffer, BUFFER_SIZE_OUT, stdin);
 
   /* Send message to the server */
+  while (!deq.empty()) {
+    string str = this->deq.front();
+    this->deq.pop_front();
+    n = write(sockfd, str.c_str(), str.length());
+  /* to do thread sleep! */
 
-  n = write(sockfd, buffer, strlen(buffer));
+  }
 
   return 0;
 }
