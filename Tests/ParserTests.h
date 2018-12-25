@@ -539,7 +539,7 @@ static void RunParserTests(){
     }
     //test 36
     countTest++;
-    vec = new vector<string>{"while","6",">","roll","{"};
+    vec = new vector<string>{"while","16",">","roll","{"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"roll","=","roll","+","1"};
     parser->ParseLine(*vec);
@@ -553,7 +553,7 @@ static void RunParserTests(){
     parser->ParseLine(*vec);
     A=expressionMaps->GetExpressionByName("roll")->Execute();
     B=expressionMaps->GetExpressionByName("eight")->Execute();
-    if(A==10
+    if(A==16
        &&B==8){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -563,11 +563,11 @@ static void RunParserTests(){
     }
 //test 37
     countTest++;
-    vec = new vector<string>{"while","6",">","roll","{"};
+    vec = new vector<string>{"while","16",">","roll","{"};
     parser->ParseLine(*vec);
-    vec = new vector<string>{"roll","=","9"};
+    vec = new vector<string>{"roll","=","roll","+","1"};
     parser->ParseLine(*vec);
-    vec = new vector<string>{"if","18","/","2","==","roll","{"};
+    vec = new vector<string>{"if","29","/","2","==","roll","{"};
     parser->ParseLine(*vec);
     vec = new vector<string>{"var","eight","=","8"};
     parser->ParseLine(*vec);
@@ -577,7 +577,7 @@ static void RunParserTests(){
     parser->ParseLine(*vec);
     A=expressionMaps->GetExpressionByName("roll")->Execute();
       B=expressionMaps->GetExpressionByName("eight")->Execute();
-    if(A==9
+    if(A==16
        &&B==8){
         cout<<countTest<<success<<endl;
         successCounter++;
@@ -715,5 +715,22 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
+    //test 40
+    countTest++;
+    vec = new vector<string>{"var","abyq","=","10"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","ad","=","36"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"ad","=","136","-","ad","-","abyq"};
+    parser->ParseLine(*vec);
+    A=expressionMaps->GetExpressionByName("ad")->Execute();
+    if(A==90){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
 }
+
 #endif //SIMSERVER_PARSERTESTS_H
