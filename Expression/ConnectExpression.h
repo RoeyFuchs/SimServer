@@ -17,8 +17,10 @@
 
 #endif //SIMSERVER_CONNECTEXPRESSION_H
 
-mutex m;
+mutex mtx;
 condition_variable cv;
+unique_lock<mutex> lck(mtx);
+bool ready = false;
 
 class ConnectExpression : public Expression {
   shared_ptr<Expression> port;
@@ -34,6 +36,8 @@ class ConnectExpression : public Expression {
   void GetCommand(string bind, double value) {
     string str = string(SET_COMMAND) + " " + bind + " " + to_string(value) + string(END_LINE);
     this->deq.push_back(bind);
+    ready = true;
+    cv.notify_one();
   }
 
   shared_ptr<Expression> GetPort() {
