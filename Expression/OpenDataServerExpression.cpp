@@ -68,7 +68,7 @@ double OpenDataServerExpression::Execute() {
     auto diff = chrono::duration_cast<chrono::microseconds>(currentTime - startTime);
     if (diff.count() < MICRO / samplRate) {
       useconds_t waitingTime = MICRO / samplRate - diff.count();
-      usleep(waitingTime);
+      this_thread::sleep_for(chrono::microseconds(waitingTime));
     }
   }
 }

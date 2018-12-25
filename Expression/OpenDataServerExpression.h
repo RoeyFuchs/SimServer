@@ -16,6 +16,7 @@
 #include <netinet/in.h>
 
 #include <string.h>
+#include <thread>
 
 #include <sys/socket.h>
 #define BUFFER_SIZE 512

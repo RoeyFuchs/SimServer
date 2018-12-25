@@ -7,8 +7,10 @@
 #include "vector"
 #include "VarExpression.h"
 #include "Number.h"
+#include <mutex>
 
 #define XML_ORDER_FILE "XmlOrder.txt"
+mutex locker;
 
 using namespace std;
 class ExpressionMaps {
@@ -28,7 +30,10 @@ class ExpressionMaps {
  * @return true or false
  */
   bool VarExists(string str) {
-    return ((*this->nameExpressionMap).count(str) != 0);
+    locker.lock();
+    bool b = ((*this->nameExpressionMap).count(str) != 0);
+    locker.unlock();
+    return b;
   }
 /**
  * get expression by the expression name
@@ -36,7 +41,10 @@ class ExpressionMaps {
  * @return smart pointer to the expressin
  */
   shared_ptr<VarExpression> GetExpressionByName(string name) {
-    return this->nameExpressionMap->at(name);
+    locker.lock();
+    shared_ptr<VarExpression> temp = this->nameExpressionMap->at(name);
+    locker.unlock();
+    return temp;
   }
 /**
  * get a value of bind
@@ -44,7 +52,10 @@ class ExpressionMaps {
  * @return the value
  */
   double GetValue(string bind) {
-    return this->bindValueMap->at(bind);
+    locker.lock();
+    double temp = this->bindValueMap->at(bind);
+    locker.unlock();
+    return temp;
   }
 /**
  * check if the map include a key
@@ -56,7 +67,10 @@ class ExpressionMaps {
  */
   template<class T, class S>
   bool CheckMapHaveKey(unordered_map<T, S> map, T key) {
-    return (map.count(key) > 0);
+    locker.lock();
+    bool b = (map.count(key) > 0);
+    locker.unlock();
+    return b;
   }
 /**
  * add a var expression to the map
@@ -64,12 +78,15 @@ class ExpressionMaps {
  * @param exp a smart pointer to the var expression
  */
   void AddExpression(string name, shared_ptr<VarExpression> exp) {
+    locker.lock();
     if (VarExists(name)) {
       this->nameExpressionMap->at(name) = exp;
     } else {
       this->nameExpressionMap->insert(pair<string, shared_ptr<VarExpression>>(name, exp));
     }
+    locker.unlock();
   }
+
 
 
 /**
@@ -78,7 +95,9 @@ class ExpressionMaps {
  * @param val - the value
  */
   void AddValue(string bind, double val) {
+    locker.lock();
     this->bindValueMap->insert(pair<string, double>(bind, val));
+    locker.unlock();
   }
 /**
  * edit a vlue by bind
@@ -86,7 +105,9 @@ class ExpressionMaps {
  * @param val - the new value
  */
   void EditVal(string bind, double val) {
+    locker.lock();
     this->bindValueMap->at(bind) = val;
+    locker.unlock();
   }
 
   void UpdateExpression();
@@ -95,10 +116,12 @@ class ExpressionMaps {
  * @return a vector with smatrt pointers to the vars
  */
   vector<shared_ptr<VarExpression>> GetAllVars() {
+    locker.lock();
     vector<shared_ptr<VarExpression>> vec;
     for (auto itr = this->nameExpressionMap->begin(); itr != this->nameExpressionMap->end(); ++itr) {
       vec.push_back((*itr).second);
     }
+    locker.unlock();
     return vec;
   }
 
