@@ -13,7 +13,6 @@
 #include "../Parser/Parser.h"
 static void RunParserTests(){
         int counter = 1;
-
         string success =  " passed";
         string failed =  " failed";
         string msg;
@@ -26,7 +25,8 @@ static void RunParserTests(){
         shared_ptr<VarExpression> elevator=make_shared<VarExpression>("/d/e/f");
         expressionMaps->AddExpression("roll",roll);
          expressionMaps->AddExpression("elevator",elevator);
-        shared_ptr<Parser> parser= make_shared<Parser>(expressionMaps);
+         vector<string> operators={">", "<", "==", "!=", ">=", "<="};;
+        shared_ptr<Parser> parser= make_shared<Parser>(expressionMaps,operators);
         int countTest=0;
 
         //test 1
@@ -679,6 +679,34 @@ static void RunParserTests(){
     parser->ParseLine(*vec);
     A=expressionMaps->GetExpressionByName("ad")->Execute();
     if(A==61){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 40
+    countTest++;
+    vec = new vector<string>{"var","ad","=","36"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"ad","=","79","-","roll"};
+    parser->ParseLine(*vec);
+    A=expressionMaps->GetExpressionByName("ad")->Execute();
+    if(A==70){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 40
+    countTest++;
+    vec = new vector<string>{"var","ad","=","36"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"ad","=","136","-","ad"};
+    parser->ParseLine(*vec);
+    A=expressionMaps->GetExpressionByName("ad")->Execute();
+    if(A==100){
         cout<<countTest<<success<<endl;
         successCounter++;
     }else{

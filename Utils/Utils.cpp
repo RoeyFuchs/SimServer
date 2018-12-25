@@ -14,13 +14,37 @@
  */
 int Utils::GetConditionOperatorPosition(vector<string> &tokens) {
   for (int i = 0; i < tokens.size(); ++i) {
-    for (int j = 0; j < operators.size(); ++j) {
-      if (tokens[i] == operators[j]) {
+    for (int j = 0; j < conditionOperators.size(); ++j) {
+      if (tokens[i] == conditionOperators[j]) {
         return i;
       }
     }
   }
-  throw runtime_error("No condition operator found at condition command");
+  return -1;
+}
+/**
+ * IsConditionOperator
+ * @return true if current string is condition operator or false otherwise
+ */
+bool Utils::IsConditionOperator(string str) {
+  for (int j = 0; j < conditionOperators.size(); ++j) {
+    if (str == conditionOperators[j]) {
+      return true;
+    }
+  }
+  return false;
+}
+/**
+ * IsMathOperators
+ * @return true if current string is math operator or false otherwise
+ */
+bool Utils::IsMathOperators(string str) {
+  for (int j = 0; j < mathOperators.size(); ++j) {
+    if (str == mathOperators[j]) {
+      return true;
+    }
+  }
+  return false;
 }
 /**
  * GetPositionsOfExpressions

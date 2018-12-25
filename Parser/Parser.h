@@ -42,14 +42,14 @@ class Parser {
   void PushConditionExpression(shared_ptr<ConditionParser> conditionExpression);
 
  public:
-  Parser(shared_ptr<ExpressionMaps> expressionMaps) {
+  Parser(shared_ptr<ExpressionMaps> expressionMaps,vector<string> operators) {
     expressionArguments.insert(pair<string, int>("openDataServer", 2));
     expressionArguments.insert(pair<string, int>("connect", 2));
     expressionArguments.insert(pair<string, int>("var", 1));
     expressionArguments.insert(pair<string, int>("while", 3));
     expressionArguments.insert(pair<string, int>("print", 1));
     expressionArguments.insert(pair<string, int>("sleep", 1));
-    this->operators = {">", "<", "==", "!=", ">=", "<="};
+    this->operators =operators;
     this->expressionMaps = expressionMaps;
     this->shuntingYard = make_shared<ShuntingYard>(this->expressionMaps);
     this->utils = make_shared<Utils>(this->operators, expressionMaps);

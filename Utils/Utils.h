@@ -17,16 +17,20 @@
 #include <fstream>
 class Utils {
 private:
-    vector <string> operators;
+    vector <string> conditionOperators;
+    vector <string> mathOperators;
     shared_ptr<ExpressionMaps> expressionMaps;
 public:
-    Utils(vector <string> operators,shared_ptr<ExpressionMaps> expressionMaps){
+    Utils(vector <string> conditionOperators,shared_ptr<ExpressionMaps> expressionMaps){
         this->expressionMaps=expressionMaps;
-        this->operators=operators;
+        this->conditionOperators=conditionOperators;
+        this->mathOperators={"+","-","*","/","%","(",")"};
     }
     vector<string> Slice (vector<string> vec, int beginIndex, int endIndex);
 
     int GetConditionOperatorPosition(vector<string> &tokens);
+    bool IsConditionOperator(string str);
+    bool IsMathOperators(string str);
 
      vector<int> GetPositionsOfExpressions(vector<string> &tokens);
 
