@@ -731,6 +731,30 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
+    //test 37
+    countTest++;
+    vec = new vector<string>{"while","160",">","roll","{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"roll","=","roll","+","1"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"if","-2","==","roll","{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"eight","=","18"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"}"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"}"};
+    parser->ParseLine(*vec);
+    A=expressionMaps->GetExpressionByName("roll")->Execute();
+    B=expressionMaps->GetExpressionByName("eight")->Execute();
+    if(A==160
+       &&B==8){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
 }
 
 #endif //SIMSERVER_PARSERTESTS_H
