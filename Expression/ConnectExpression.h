@@ -11,21 +11,29 @@
 #include <deque>
 #include <iostream>
 #include "Expression.h"
-#include <mutex>
 #include <thread>
-#include <condition_variable>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <netdb.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <thread>
+
+#include <string.h>
+#include <mutex>
 
 #endif //SIMSERVER_CONNECTEXPRESSION_H
 
-mutex mtx;
-condition_variable cv;
-unique_lock<mutex> lck(mtx);
-bool ready = false;
+
 
 class ConnectExpression : public Expression {
   shared_ptr<Expression> port;
   string ip;
   deque<string> deq;
+  int sockfd;
+  mutex lockNewCommand;
  public:
   ConnectExpression(string ip, shared_ptr<Expression> port) {
     this->ip = ip;
@@ -35,15 +43,22 @@ class ConnectExpression : public Expression {
 
   void GetCommand(string bind, double value) {
     string str = string(SET_COMMAND) + " " + bind + " " + to_string(value) + string(END_LINE);
+    this->lockNewCommand.lock();
     this->deq.push_back(bind);
-    ready = true;
-    cv.notify_one();
+    thread t1(&ConnectExpression::SendData, this);
+    this->lockNewCommand.unlock();
   }
+
+  void SendData();
 
   shared_ptr<Expression> GetPort() {
     return this->port;
   }
   string GetIp() {
     return this->ip;
+  }
+
+  ~ConnectExpression() {
+    close(this->sockfd);
   }
 };

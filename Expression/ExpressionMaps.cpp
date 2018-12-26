@@ -1,21 +1,21 @@
 #include "ExpressionMaps.h"
 
 void ExpressionMaps::UpdateExpression() {
-  locker.lock();
+  this->locker.lock();
   for (auto itr = this->nameExpressionMap->begin(); itr != this->nameExpressionMap->end(); ++itr) {
     if (this->CheckMapHaveKey(*this->bindValueMap, (*itr).second->GetPath())) {
       double value = this->bindValueMap->at((*itr).second->GetPath());
       (*itr).second->SetExpression(make_shared<Number>(value));
     }
   }
-  locker.unlock();
+  this->locker.unlock();
 }
 
 /**
  * initialize the map - check the order of the xml file and put it in the map
  */
 void ExpressionMaps::initializeMap() {
-  locker.lock();
+  this->locker.lock();
   vector<string> vec;
   ifstream myFile(XML_ORDER_FILE);
   if (!myFile.is_open()) {
@@ -29,5 +29,5 @@ void ExpressionMaps::initializeMap() {
   for (int i = 0; i < vec.size(); ++i) {
     bindValueMap->insert(pair<string, double>(vec.at(i), 0));
   }
-  locker.unlock();
+  this->locker.unlock();
 }
