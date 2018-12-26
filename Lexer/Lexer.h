@@ -15,6 +15,8 @@ private:
     bool IsConditionOperator(char c);
     bool IsMathOperators(char c);
     vector <char > mathOperators;
+    string SeparateLineByComma(string line);
+    vector<string> ConvertStringToVector(string line);
 
 public:
     Lexer(){
