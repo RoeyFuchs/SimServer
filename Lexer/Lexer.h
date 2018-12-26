@@ -20,7 +20,7 @@ private:
 
 public:
     Lexer(){
-        this->mathOperators={'+','-','*','/','%','(',')'};
+        this->mathOperators={'+','-','*','/','%','(',')','{','}'};
        this->conditionOperators=  {'>','<','=','!'};
     }
     vector<string> SeparateLine(string line);

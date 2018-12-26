@@ -38,8 +38,21 @@ string Lexer::SeparateLineByComma(string line) {
     string concatString;
     char space =' ';
     int i=0;
-    for(int i=0; i<line.size();i++){
-        if((line[i]==space&& !concatString.empty())){
+    int len=line.size();
+    while (i<len){
+        if(line[i]=='\"'){
+            string str;
+            str +=line[i];
+            i++;
+            while (line[i]!='\"'){
+                str+=line[i];
+                i++;
+            }
+            str+=line[i];
+            concatString+=str;
+            concatString+=",";
+        }
+        else if((line[i]==space&& !concatString.empty())){
             concatString+=",";
         }else if(this->IsMathOperators(line[i])||
                 (line[i]=='='&& !IsConditionOperator(line[i+1])&&
@@ -47,9 +60,20 @@ string Lexer::SeparateLineByComma(string line) {
             concatString+=",";
             concatString+=line[i];
             concatString+=",";
-        } else  if(line[i]!= space){
+        }else if(i<len&& IsConditionOperator(line[i])&&IsConditionOperator(line[i+1])){
+            concatString+=",";
             concatString+=line[i];
+            i++;
+            concatString+=line[i];
+            concatString+=",";
+        } else if(IsConditionOperator(line[i])){
+            concatString+=",";
+            concatString+=line[i];
+            concatString+=",";
+        }else  if(line[i]!= space) {
+            concatString += line[i];
         }
+        i++;
     }
     return concatString;
 }
