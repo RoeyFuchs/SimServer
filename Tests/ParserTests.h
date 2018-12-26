@@ -802,6 +802,39 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
+    //test 46
+    countTest++;
+    // vector<string>* vec;
+    vec = new vector<string>{"roll","=","9"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"if","9","==","roll","{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","aaq","=","roll"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"if","19","-","10","==","roll","{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","acq","=","82"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"if","4","+","5","==","roll","{"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","agq","=","82","}"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"}"};
+    parser->ParseLine(*vec);
+    vec = new vector<string>{"var","abq","=","9","*","4","}"};
+    parser->ParseLine(*vec);
+    A=expressionMaps->GetExpressionByName("aaq")->Execute();
+    B=expressionMaps->GetExpressionByName("acq")->Execute();
+    C=expressionMaps->GetExpressionByName("agq")->Execute();
+    if(A==9
+       &&B==82&&C==82){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+
 }
 
 #endif //SIMSERVER_PARSERTESTS_H

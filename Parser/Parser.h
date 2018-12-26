@@ -40,6 +40,7 @@ class Parser {
   shared_ptr<Expression> ParseWhile(vector<string> &tokens);
   shared_ptr<ConditionExpression> CreateCondition(vector<string> &tokens);
   void PushConditionExpression(shared_ptr<ConditionParser> conditionExpression);
+    void ParseSingleLine(vector<string> &tokens);
 
  public:
   Parser(shared_ptr<ExpressionMaps> expressionMaps,vector<string> operators) {

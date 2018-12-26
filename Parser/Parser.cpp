@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "Parser.h"
 using namespace std;
+#define CLOSING_BRACKET "}"
 
 /**
  * ParseVar
@@ -267,11 +268,11 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string>& tokens) {
     return exp;
 }
 /**
- * ParseLine
+ * ParseSingleLine
  * @param tokens
  * The function executes line
  */
-void Parser::ParseLine(vector<string> &tokens) {
+void Parser::ParseSingleLine(vector<string> &tokens) {
     shared_ptr<Expression> exp =this->MakeAnExpression(tokens);
     //privies condition is exist
     if(this->currentConditionParse.size()==0) {
@@ -280,7 +281,20 @@ void Parser::ParseLine(vector<string> &tokens) {
                     exp->Execute();
             }
         }
+}
+void Parser::ParseLine(vector<string> &tokens) {
+    bool isBracket=false;
+    if(tokens.size()>1&&tokens[tokens.size()-1]==CLOSING_BRACKET){
+        tokens=this->utils->Slice(tokens,0,tokens.size()-2);
+        isBracket= true;
     }
+    this->ParseSingleLine(tokens);
+    if(isBracket){
+        vector<std::string> bracket={(std::string)CLOSING_BRACKET};
+        this->ParseSingleLine(bracket);
+    }
+
+}
 void Parser::PushConditionExpression(shared_ptr<ConditionParser> exp) {
     if(this->currentConditionParse.size()!=0) {
             //add condition expression to last open condition
