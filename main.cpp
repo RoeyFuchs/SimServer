@@ -22,7 +22,7 @@ int main() {
 
   /*shared_ptr<ConnectExpression> A = make_shared<ConnectExpression>("10.0.2.2", make_shared<Number>(5402));
   A->Execute();*/
-  RunLexerTests();
+  RunParserTests();
 
 
 }

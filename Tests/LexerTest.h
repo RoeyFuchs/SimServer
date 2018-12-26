@@ -385,5 +385,17 @@ static void RunLexerTests(){
         failedCounter++;
         cout<<"test:"<<counter<<failed<<endl;
     }
+    //test 31
+    counter++;
+    input = "openDataServer (5) (198)";
+    output=lexer->SeparateLine(input);
+    result={"openDataServer" ,"(","5",")","(","198",")"};
+    if(output==result){
+        successCounter++;
+        cout<<"test:"<<counter<<success<<endl;
+    }else{
+        failedCounter++;
+        cout<<"test:"<<counter<<failed<<endl;
+    }
 };
 #endif //SIMSERVER_LEXERTEST_H

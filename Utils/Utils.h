@@ -20,18 +20,20 @@ private:
     vector <string> conditionOperators;
     vector <string> mathOperators;
     shared_ptr<ExpressionMaps> expressionMaps;
+    vector <string> bracketOperators;
 public:
     Utils(vector <string> conditionOperators,shared_ptr<ExpressionMaps> expressionMaps){
         this->expressionMaps=expressionMaps;
         this->conditionOperators=conditionOperators;
-        this->mathOperators={"+","-","*","/","%","(",")"};
+        this->mathOperators={"+","-","*","/","%"};
+        this->bracketOperators={"(",")"};
     }
     vector<string> Slice (vector<string> vec, int beginIndex, int endIndex);
 
     int GetConditionOperatorPosition(vector<string> &tokens);
     bool IsConditionOperator(string str);
     bool IsMathOperators(string str);
-
+    bool IsBracketOperators(string str);
      vector<int> GetPositionsOfExpressions(vector<string> &tokens);
 
     bool IsNumber(const string& s);

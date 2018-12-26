@@ -755,6 +755,53 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
+
+    //test 43
+    countTest++;
+    vec = new vector<string>{"openDataServer","(","50",")","8","/","2"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+    openDataServerExpression=
+            dynamic_pointer_cast<OpenDataServerExpression>(expr);
+    if(openDataServerExpression!= nullptr && openDataServerExpression->GetPort()->Execute()==50
+       && openDataServerExpression->GetSamplingRate()->Execute()==4){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+
+    //test 44
+    countTest++;
+    vec = new vector<string>{"openDataServer","(","50",")","(","8","/","2",")"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+    openDataServerExpression=
+            dynamic_pointer_cast<OpenDataServerExpression>(expr);
+    if(openDataServerExpression!= nullptr && openDataServerExpression->GetPort()->Execute()==50
+       && openDataServerExpression->GetSamplingRate()->Execute()==4){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
+    //test 44
+    countTest++;
+    vec = new vector<string>{"openDataServer","(","50",")","2","+","(","4","/","2",")"};
+    isExp=0;
+    expr= parser->MakeAnExpression(*vec);
+    openDataServerExpression=
+            dynamic_pointer_cast<OpenDataServerExpression>(expr);
+    if(openDataServerExpression!= nullptr && openDataServerExpression->GetPort()->Execute()==50
+       && openDataServerExpression->GetSamplingRate()->Execute()==4){
+        cout<<countTest<<success<<endl;
+        successCounter++;
+    }else{
+        cout<<countTest<<failed<<endl;
+        failedCounter++;
+    }
 }
 
 #endif //SIMSERVER_PARSERTESTS_H

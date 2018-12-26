@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <regex>
 #include "Utils.h"
+#define OPENING_BRACKET "("
+#define CLOSING_BRACKET ")"
 /**
  * GetConditionOperatorPosition
  * @param tokens
@@ -46,6 +48,9 @@ bool Utils::IsMathOperators(string str) {
   }
   return false;
 }
+bool Utils::IsBracketOperators(string str) {
+  return (str==this->bracketOperators[0]|| str==this->bracketOperators[1]);
+}
 /**
  * GetPositionsOfExpressions
  * @param tokens
@@ -55,14 +60,30 @@ vector<int> Utils::GetPositionsOfExpressions(vector<string> &tokens) {
   vector<int> expressionsPositions;
   //first element in vector is also an expression
   expressionsPositions.push_back(0);
-  int isPreviousExpIsNumber = this->IsNumber(tokens[0]) || this->expressionMaps->VarExists(tokens[0]);
-  for (int i = 1; i < tokens.size(); i++) {
-    int isCurrentExpIsNumber = this->IsNumber(tokens[i]) || this->expressionMaps->VarExists(tokens[i]);
+  bool isPreviousExpIsNumber = false;
+  int i=0;
+  int expressionIndex;
+  while (i<tokens.size()) {
+    bool isCurrentExpIsNumber;
+    if(tokens[i]==(string)(OPENING_BRACKET)){
+      expressionIndex=i;
+      while (tokens[i]!=(string)CLOSING_BRACKET){
+        i++;
+      }
+      isCurrentExpIsNumber= true;
+    }else {
+       isCurrentExpIsNumber = this->IsNumber(tokens[i])
+                                   || this->expressionMaps->VarExists(tokens[i]);
+       if(isCurrentExpIsNumber){
+         expressionIndex=i;
+       }
+    }
     //check for two consecutive numbers
     if (isCurrentExpIsNumber && isPreviousExpIsNumber) {
-      expressionsPositions.push_back(i);
+      expressionsPositions.push_back(expressionIndex);
     }
     isPreviousExpIsNumber = isCurrentExpIsNumber;
+    i++;
   }
   return expressionsPositions;
 }
