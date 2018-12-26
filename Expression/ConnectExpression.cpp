@@ -46,6 +46,5 @@ void ConnectExpression::SendData() {
     string str = this->deq.front();
     this->deq.pop_front();
     write(this->sockfd, str.c_str(), str.length());
-
   }
 }

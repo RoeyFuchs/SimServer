@@ -30,6 +30,7 @@ class OpenDataServerExpression : public Expression {
   shared_ptr<Expression> samplingRate;
   shared_ptr<ExpressionMaps> maps;
   unordered_map<int, string> xmlOrder;
+  int sockfd;
 
  public:
   OpenDataServerExpression(shared_ptr<Expression> port,
@@ -42,11 +43,17 @@ class OpenDataServerExpression : public Expression {
   }
   virtual double Execute();
 
+  void ReadData(int newsockfd);
+
   shared_ptr<Expression> GetPort() {
     return this->port;
   };
   shared_ptr<Expression> GetSamplingRate() {
     return this->samplingRate;
+  }
+
+  ~OpenDataServerExpression() {
+    close(this->sockfd);
   }
 };
 #endif //SIMSERVER_OPENDATASERVEREXPRESSION_H

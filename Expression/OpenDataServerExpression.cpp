@@ -9,6 +9,7 @@ double OpenDataServerExpression::Execute() {
 
   /* First call to socket() function */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  this->sockfd = sockfd;
 
   if (sockfd < 0) {
     perror("ERROR opening socket");
@@ -39,13 +40,17 @@ double OpenDataServerExpression::Execute() {
     perror("ERROR on accept");
     exit(1);
   }
+  thread t1(&OpenDataServerExpression::ReadData, this, newsockfd);
+  
+}
 
-  /* If connection is established then start communicating */
-
+void OpenDataServerExpression::ReadData(int newsockfd) {
   double samplRate = this->samplingRate->Execute();
+  char buffer[BUFFER_SIZE];
   string temp;
   string rest;
   string str;
+  ssize_t n = 1;
   while (n != 0) {
     //start record the time
     auto startTime = chrono::high_resolution_clock::now();
