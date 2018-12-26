@@ -1,15 +1,5 @@
 #include "ConnectExpression.h"
-#include <stdio.h>
-#include <stdlib.h>
 
-#include <netdb.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <netinet/in.h>
-#include <thread>
-#include <condition_variable>
-
-#include <string.h>
 
 double ConnectExpression::Execute() {
   int sockfd, portno, n;
@@ -46,16 +36,16 @@ double ConnectExpression::Execute() {
     exit(1);
   }
 
+  this->sockfd = sockfd;
+  return 0;
+}
 
+void ConnectExpression::SendData() {
   /* Send message to the server */
-  while (!ready) cv.wait(lck);
   while (!deq.empty()) {
     string str = this->deq.front();
     this->deq.pop_front();
-    n = write(sockfd, str.c_str(), str.length());
+    write(this->sockfd, str.c_str(), str.length());
 
   }
-  ready = false;
-
-  return 0;
 }
