@@ -30,39 +30,82 @@ bool Lexer::IsMathOperators(char c) {
     return false;
 }
 /**
+ * SeparateLineByComma
+ * @param line
+ * @return seperate line by comma char
+ */
+string Lexer::SeparateLineByComma(string line) {
+    string concatString;
+    char space =' ';
+    int i=0;
+    int len=line.size();
+    while (i<len){
+        if(line[i]=='\"'){
+            string str;
+            str +=line[i];
+            i++;
+            while (line[i]!='\"'){
+                str+=line[i];
+                i++;
+            }
+            str+=line[i];
+            concatString+=str;
+            concatString+=",";
+        }
+        else if((line[i]==space&& !concatString.empty())){
+            concatString+=",";
+        }else if(this->IsMathOperators(line[i])||
+                (line[i]=='='&& !IsConditionOperator(line[i+1])&&
+                 !IsConditionOperator(concatString[concatString.length()-1]))){
+            concatString+=",";
+            concatString+=line[i];
+            concatString+=",";
+        }else if(i<len&& IsConditionOperator(line[i])&&IsConditionOperator(line[i+1])){
+            concatString+=",";
+            concatString+=line[i];
+            i++;
+            concatString+=line[i];
+            concatString+=",";
+        } else if(IsConditionOperator(line[i])){
+            concatString+=",";
+            concatString+=line[i];
+            concatString+=",";
+        }else  if(line[i]!= space) {
+            concatString += line[i];
+        }
+        i++;
+    }
+    return concatString;
+}
+/**
+ * ConvertStringToVector
+ * @param line
+ * @return vector of seperated string
+ */
+vector<string> Lexer::ConvertStringToVector(string line) {
+    vector<string> vec;
+    int k=0;
+    while (k<line.size()) {
+        string str;
+        while (line[k]!=','&&k<line.size()){
+            str+=line[k];
+            k++;
+        }
+        if(str.length()>0) {
+            vec.push_back(str);
+        }
+        k++;
+
+    }
+    return vec;
+}
+/**
  * SeparateLine
  * @param line
  * @return vector of strings
  * The function separate line according to known operators and spaces
  */
 vector<string> Lexer::SeparateLine(string line) {
-    string subStr;
-    vector<string> vec;
-    char space =' ';
-    int i=0;
-    for(int i=0; i<line.size();i++){
-        if(line[i]=='='&& !IsConditionOperator(line[i+1])&& !IsConditionOperator(subStr[subStr.length()-1])){
-            subStr+=",";
-        } else if(line[i]!= space){
-            subStr+=line[i];
-        }else if(line[i]==space&&(this->IsMathOperators(line[i-1]))&&(this->IsMathOperators(line[i+1]))){
-            continue;
-        }else if(line[i]==space&& !subStr.empty()){
-            subStr+=",";
-        }
-    }
-    //split substr
-    i=0;
-    std::stringstream ss(subStr);
-    string str;
-    while (ss>>i){
-        if(ss.peek()==','){
-            ss.ignore();
-            vec.push_back(str);
-            str.clear();
-        }else{
-            str+=i ;
-        }
-    }
-    return vec;
+    string seperatedLine=this->SeparateLineByComma(line);
+    return this->ConvertStringToVector(seperatedLine);
 }
