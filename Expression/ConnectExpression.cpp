@@ -47,16 +47,15 @@ double ConnectExpression::Execute() {
   }
 
 
-  std::condition_variable cv;
   /* Send message to the server */
+  while (!ready) cv.wait(lck);
   while (!deq.empty()) {
     string str = this->deq.front();
     this->deq.pop_front();
     n = write(sockfd, str.c_str(), str.length());
-  /* to do thread sleep! */
-  cv.wait()
 
   }
+  ready = false;
 
   return 0;
 }
