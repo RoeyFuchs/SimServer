@@ -6,8 +6,9 @@
 #define SIMSERVER_LEXER_H
 using namespace std;
 #include <vector>
+#include <memory>
 #include "string"
-
+#include "../Parser/Parser.h"
 
 class Lexer {
 private:
@@ -17,13 +18,15 @@ private:
     vector <char > mathOperators;
     string SeparateLineByComma(string line);
     vector<string> ConvertStringToVector(string line);
+    shared_ptr<Parser> prsr;
 
 public:
-    Lexer(){
+    Lexer(shared_ptr<Parser> prsr){
         this->mathOperators={'+','-','*','/','%','(',')','{','}'};
        this->conditionOperators=  {'>','<','=','!'};
+       this->prsr = prsr;
     }
-    vector<string> SeparateLine(string line);
+    void SeparateLine(string line);
 
 };
 

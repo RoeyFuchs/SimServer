@@ -4,32 +4,34 @@
 
 #include <fstream>
 #include <iostream>
+#include "../Lexer/Lexer.h"
 #include "regex"
 #define REGEX_PATTERN "run\\s{1,}\"([^\"]+)\""
 
 using namespace std;
 
 class Client {
-    string fileName;
-    bool readFromFile;
-//Lexer* lexer;
-public:
-    explicit Client(string& fileName) {
-        this->fileName = fileName;
-        this->readFromFile = true;
-    }
-    Client() {
-        this->readFromFile = false;
-    }
+  string fileName;
+  bool readFromFile;
+  shared_ptr<Lexer> lexer;
+ public:
+  explicit Client(string fileName, shared_ptr<Lexer> lex) {
+    this->lexer = lex;
+    this->fileName = fileName;
+    this->readFromFile = true;
+  }
+  Client(shared_ptr<Lexer> lex) {
+    this->lexer = lex;
+    this->readFromFile = false;
+  }
 
-    void Read();
+  void Read();
 
-private:
-    void ReadFromFile();
+ private:
+  void ReadFromFile();
 
-    void ReadFromCommandLine();
+  void ReadFromCommandLine();
 };
-
 
 #endif //SIMSERVER_CLIENT_H
 

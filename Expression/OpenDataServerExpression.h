@@ -31,6 +31,7 @@ class OpenDataServerExpression : public Expression {
   shared_ptr<ExpressionMaps> maps;
   unordered_map<int, string> xmlOrder;
   int sockfd;
+  int newsockfd;
 
  public:
   OpenDataServerExpression(shared_ptr<Expression> port,
@@ -43,7 +44,7 @@ class OpenDataServerExpression : public Expression {
   }
   virtual double Execute();
 
-  void ReadData(int newsockfd);
+  void ReadData();
 
   shared_ptr<Expression> GetPort() {
     return this->port;

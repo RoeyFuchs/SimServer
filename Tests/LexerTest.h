@@ -11,7 +11,7 @@ using namespace std;
 #include "string"
 #include "../Lexer/Lexer.h"
 
-static void RunLexerTests(){
+/*static void RunLexerTests(){
     int counter = 0;
     string success =  " passed";
     string failed =  " failed";
@@ -397,5 +397,5 @@ static void RunLexerTests(){
         failedCounter++;
         cout<<"test:"<<counter<<failed<<endl;
     }
-};
+};*/
 #endif //SIMSERVER_LEXERTEST_H

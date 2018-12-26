@@ -34,17 +34,18 @@ double OpenDataServerExpression::Execute() {
   clilen = sizeof(cli_addr);
 
   /* Accept actual connection from the client */
-  newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, (socklen_t *) &clilen);
-
+  int t = accept(sockfd, (struct sockaddr *) &cli_addr, (socklen_t *) &clilen);
+  this->newsockfd = t;
   if (newsockfd < 0) {
     perror("ERROR on accept");
     exit(1);
   }
-  thread t1(&OpenDataServerExpression::ReadData, this, newsockfd);
-  
+  thread t1(&OpenDataServerExpression::ReadData, this);
+  t1.detach();
+
 }
 
-void OpenDataServerExpression::ReadData(int newsockfd) {
+void OpenDataServerExpression::ReadData() {
   double samplRate = this->samplingRate->Execute();
   char buffer[BUFFER_SIZE];
   string temp;
@@ -56,7 +57,7 @@ void OpenDataServerExpression::ReadData(int newsockfd) {
     auto startTime = chrono::high_resolution_clock::now();
     bzero(buffer, BUFFER_SIZE);
     //read to buffer
-    n = read(newsockfd, buffer, BUFFER_SIZE);
+    n = read(this->newsockfd, buffer, BUFFER_SIZE);
     //take the previous rest data
     temp = rest + string(buffer);
     str = Utils::SubStringUntilChar(temp, NEW_LINE_CHAR);

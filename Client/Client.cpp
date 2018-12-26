@@ -22,9 +22,7 @@ void Client::ReadFromFile() {
     string str;
     while (getline(fileStream,str))
     {
-        /** ###################
-         * HERE SEND TO LEXER
-         */
+        this->lexer->SeparateLine(str);
     }
     fileStream.close();
 }
@@ -42,12 +40,7 @@ void Client::ReadFromCommandLine() {
            this->fileName = regMatch[1];
            ReadFromFile();
        } else {
-           /** ###################
-         * HERE SEND TO LEXER
-         */
+           this->lexer->SeparateLine(str);
        }
-
-
-
     }
 }

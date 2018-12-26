@@ -24,7 +24,7 @@
 #include <string.h>
 #include <mutex>
 
-#endif //SIMSERVER_CONNECTEXPRESSION_H
+
 
 
 
@@ -45,7 +45,8 @@ class ConnectExpression : public Expression {
     string str = string(SET_COMMAND) + " " + bind + " " + to_string(value) + string(END_LINE);
     this->lockNewCommand.lock();
     this->deq.push_back(bind);
-    thread t1(&ConnectExpression::SendData, this);
+    thread t2(&ConnectExpression::SendData, this);
+    t2.detach();
     this->lockNewCommand.unlock();
   }
 
@@ -62,3 +63,5 @@ class ConnectExpression : public Expression {
     close(this->sockfd);
   }
 };
+
+#endif //SIMSERVER_CONNECTEXPRESSION_H

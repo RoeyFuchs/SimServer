@@ -23,7 +23,7 @@
 class Parser {
  private:
   shared_ptr<ShuntingYard> shuntingYard;
-  stack <shared_ptr<ConditionParser>>currentConditionParse;
+  stack<shared_ptr<ConditionParser>> currentConditionParse;
   shared_ptr<ExpressionMaps> expressionMaps;
   shared_ptr<ValidateExpression> validateExpression;
   vector<string> operators;
@@ -40,17 +40,18 @@ class Parser {
   shared_ptr<Expression> ParseWhile(vector<string> &tokens);
   shared_ptr<ConditionExpression> CreateCondition(vector<string> &tokens);
   void PushConditionExpression(shared_ptr<ConditionParser> conditionExpression);
-    void ParseSingleLine(vector<string> &tokens);
-
+  void ParseSingleLine(vector<string> &tokens);
+  shared_ptr<OpenDataServerExpression> openDataServer;
+  shared_ptr<ConnectExpression> connectExpression;
  public:
-  Parser(shared_ptr<ExpressionMaps> expressionMaps,vector<string> operators) {
+  Parser(shared_ptr<ExpressionMaps> expressionMaps) {
     expressionArguments.insert(pair<string, int>("openDataServer", 2));
     expressionArguments.insert(pair<string, int>("connect", 2));
     expressionArguments.insert(pair<string, int>("var", 1));
     expressionArguments.insert(pair<string, int>("while", 3));
     expressionArguments.insert(pair<string, int>("print", 1));
     expressionArguments.insert(pair<string, int>("sleep", 1));
-    this->operators =operators;
+    this->operators = {">", "<", "==", "!=", ">=", "<="};
     this->expressionMaps = expressionMaps;
     this->shuntingYard = make_shared<ShuntingYard>(this->expressionMaps);
     this->utils = make_shared<Utils>(this->operators, expressionMaps);

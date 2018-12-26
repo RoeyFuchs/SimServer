@@ -11,6 +11,7 @@
 #include <regex>
 #include "string"
 #include "../Parser/Parser.h"
+/*
 static void RunParserTests(){
     int counter = 1;
     string success =  " passed";
@@ -836,5 +837,6 @@ static void RunParserTests(){
     }
 
 }
+*/
 
 #endif //SIMSERVER_PARSERTESTS_H
