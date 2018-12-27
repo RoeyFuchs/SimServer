@@ -3,9 +3,7 @@
 
 double OpenDataServerExpression::Execute() {
   int sockfd, newsockfd, portno, clilen;
-  char buffer[BUFFER_SIZE];
   struct sockaddr_in serv_addr, cli_addr;
-  ssize_t n = 1;
 
   /* First call to socket() function */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);

@@ -267,7 +267,7 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string> &tokens) {
     throw runtime_error("Error:undefined command");
   }
   if (tokens[0] == "var" || tokens[0] == "sleep" || tokens[0] == "print" || tokens[0] == "openDataServer"
-      || tokens[0] == "connect") {
+      || tokens[0] == "connect"||(this->expressionMaps->VarExists(tokens[0]) && tokens[1] == "=")) {
     if (this->currentConditionParse.size() > 0) {
       this->currentConditionParse.top()->AddExpression(exp);
     }

@@ -1,10 +1,5 @@
-//
-// Created by stav on 12/15/18.
-//
-
 #ifndef SIMSERVER_CONNECTEXPRESSION_H
 #define SIMSERVER_CONNECTEXPRESSION_H
-#define BUFFER_SIZE_OUT 128
 #define SET_COMMAND "set"
 #define END_LINE "\r\n"
 #include <string>
@@ -24,14 +19,10 @@
 #include <string.h>
 #include <mutex>
 
-
-
-
-
 class ConnectExpression : public Expression {
   shared_ptr<Expression> port;
   string ip;
-  string currentCommandl;
+  string stringCommand;
   int sockfd;
   mutex lockNewCommand;
  public:
@@ -41,10 +32,15 @@ class ConnectExpression : public Expression {
   }
   virtual double Execute();
 
+/**
+ * Get the "set" function to put in the simulator
+ * @param bind the path
+ * @param value the value to set
+ */
   void GetCommand(string bind, double value) {
     string str = string(SET_COMMAND) + " " + bind + " " + to_string(value) + string(END_LINE);
     this->lockNewCommand.lock();
-    this->currentCommandl = str;
+    this->stringCommand = str;
     thread t2(&ConnectExpression::SendData, this);
     this->lockNewCommand.unlock();
     t2.detach();

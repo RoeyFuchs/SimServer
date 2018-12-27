@@ -47,17 +47,7 @@ class ExpressionMaps {
     this->locker.unlock();
     return temp;
   }
-/**
- * get a value of bind
- * @param bind - the bind
- * @return the value
- */
-  double GetValue(string bind) {
-    this->locker.lock();
-    double temp = this->bindValueMap->at(bind);
-    this->locker.unlock();
-    return temp;
-  }
+
 /**
  * check if the map include a key
  * @tparam T type of keys
@@ -92,18 +82,6 @@ class ExpressionMaps {
 
   }
 
-
-
-/**
- * add value by bind
- * @param bind - the bind
- * @param val - the value
- */
-  void AddValue(string bind, double val) {
-    this->locker.lock();
-    this->bindValueMap->insert(pair<string, double>(bind, val));
-    this->locker.unlock();
-  }
 /**
  * edit a vlue by bind
  * @param bind - the bind
@@ -116,19 +94,6 @@ class ExpressionMaps {
   }
 
   void UpdateExpression();
-/**
- * get the all vares in the map
- * @return a vector with smatrt pointers to the vars
- */
-  vector<shared_ptr<VarExpression>> GetAllVars() {
-    this->locker.lock();
-    vector<shared_ptr<VarExpression>> vec;
-    for (auto itr = this->nameExpressionMap->begin(); itr != this->nameExpressionMap->end(); ++itr) {
-      vec.push_back((*itr).second);
-    }
-    this->locker.unlock();
-    return vec;
-  }
 
   void initializeMap();
 

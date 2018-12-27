@@ -1,12 +1,14 @@
 #include "ConnectExpression.h"
 
-
+/**
+ * open the socket
+ * @return zero if everything ok
+ */
 double ConnectExpression::Execute() {
-  int sockfd, portno, n;
+  int sockfd, portno;
   struct sockaddr_in serv_addr;
   struct hostent *server;
 
-  char buffer[BUFFER_SIZE_OUT];
 
   portno = this->GetPort()->Execute();
 
@@ -40,8 +42,12 @@ double ConnectExpression::Execute() {
   return 0;
 }
 
+/**
+ * send the data to the server
+ */
 void ConnectExpression::SendData() {
-  /* Send message to the server */
-    string str = this->currentCommandl;
-    write(this->sockfd, str.c_str(), str.length());
+
+      string str = this->stringCommand;
+      write(this->sockfd, str.c_str(), str.length());
+
 }
