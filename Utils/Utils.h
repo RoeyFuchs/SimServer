@@ -31,9 +31,6 @@ public:
     vector<string> Slice (vector<string> vec, int beginIndex, int endIndex);
 
     int GetConditionOperatorPosition(vector<string> &tokens);
-    bool IsConditionOperator(string str);
-    bool IsMathOperators(string str);
-    bool IsBracketOperators(string str);
      vector<int> GetPositionsOfExpressions(vector<string> &tokens);
 
     bool IsNumber(const string& s);

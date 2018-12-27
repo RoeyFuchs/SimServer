@@ -40,10 +40,12 @@ string Lexer::SeparateLineByComma(string line) {
   int i = 0;
   int len = line.size();
   while (i < len) {
+      //if line string contains quotation mark
     if (line[i] == '\"') {
       string str;
       str += line[i];
       i++;
+      //copy all phrase
       while (line[i] != '\"') {
         str += line[i];
         i++;
@@ -52,24 +54,29 @@ string Lexer::SeparateLineByComma(string line) {
       concatString += str;
       concatString += ",";
     } else if ((line[i] == space && !concatString.empty())) {
+        //separate spaces
       concatString += ",";
     } else if (this->IsMathOperators(line[i]) ||
         (line[i] == '=' && !IsConditionOperator(line[i + 1]) &&
             !IsConditionOperator(concatString[concatString.length() - 1]))) {
+        //separate =,math operators
       concatString += ",";
       concatString += line[i];
       concatString += ",";
     } else if (i < len && IsConditionOperator(line[i]) && IsConditionOperator(line[i + 1])) {
+        //separate condition operators
       concatString += ",";
       concatString += line[i];
       i++;
       concatString += line[i];
       concatString += ",";
     } else if (IsConditionOperator(line[i])) {
+        //separate condition operator
       concatString += ",";
       concatString += line[i];
       concatString += ",";
     } else if (line[i] != space) {
+        //copy char
       concatString += line[i];
     }
     i++;
@@ -79,7 +86,7 @@ string Lexer::SeparateLineByComma(string line) {
 /**
  * ConvertStringToVector
  * @param line
- * @return vector of seperated string
+ * @return vector of separated string
  */
 vector<string> Lexer::ConvertStringToVector(string line) {
   vector<string> vec;

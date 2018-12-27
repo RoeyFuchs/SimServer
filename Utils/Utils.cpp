@@ -25,33 +25,6 @@ int Utils::GetConditionOperatorPosition(vector<string> &tokens) {
   return -1;
 }
 /**
- * IsConditionOperator
- * @return true if current string is condition operator or false otherwise
- */
-bool Utils::IsConditionOperator(string str) {
-  for (int j = 0; j < conditionOperators.size(); ++j) {
-    if (str == conditionOperators[j]) {
-      return true;
-    }
-  }
-  return false;
-}
-/**
- * IsMathOperators
- * @return true if current string is math operator or false otherwise
- */
-bool Utils::IsMathOperators(string str) {
-  for (int j = 0; j < mathOperators.size(); ++j) {
-    if (str == mathOperators[j]) {
-      return true;
-    }
-  }
-  return false;
-}
-bool Utils::IsBracketOperators(string str) {
-  return (str==this->bracketOperators[0]|| str==this->bracketOperators[1]);
-}
-/**
  * GetPositionsOfExpressions
  * @param tokens
  * @return int vector with expression indexes
