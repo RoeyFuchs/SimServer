@@ -11,7 +11,6 @@
 #include <regex>
 #include "string"
 #include "../Parser/Parser.h"
-/*
 static void RunParserTests(){
     int counter = 1;
     string success =  " passed";
@@ -27,7 +26,7 @@ static void RunParserTests(){
     expressionMaps->AddExpression("roll",roll);
     expressionMaps->AddExpression("elevator",elevator);
     vector<string> operators={">", "<", "==", "!=", ">=", "<="};;
-    shared_ptr<Parser> parser= make_shared<Parser>(expressionMaps,operators);
+    shared_ptr<Parser> parser= make_shared<Parser>(expressionMaps);
     int countTest=0;
 
     //test 1
@@ -210,38 +209,7 @@ static void RunParserTests(){
         cout<<countTest<<failed<<endl;
         failedCounter++;
     }
-    //test 13
-    countTest++;
-    vec = new vector<string>{"connect","a"};
-    isExp=0;
-    try {
-        parser->ParseLine(*vec);
-    }catch (exception e){
-        isExp=1;
-    }
-    if(isExp){
-        cout<<countTest<<success<<endl;
-        successCounter++;
-    }else{
-        cout<<countTest<<failed<<endl;
-        failedCounter++;
-    }
-    //test 14
-    countTest++;
-    vec = new vector<string>{"connect","a","b","c"};
-    isExp=0;
-    try {
-        parser->ParseLine(*vec);
-    }catch (exception e){
-        isExp=1;
-    }
-    if(isExp){
-        cout<<countTest<<success<<endl;
-        successCounter++;
-    }else{
-        cout<<countTest<<failed<<endl;
-        failedCounter++;
-    }
+
     //test 15
     countTest++;
     vec = new vector<string>{"connect","1.2.3","50","+","3"};
@@ -837,6 +805,5 @@ static void RunParserTests(){
     }
 
 }
-*/
 
 #endif //SIMSERVER_PARSERTESTS_H
