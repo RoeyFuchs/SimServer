@@ -2,6 +2,7 @@
 // Created by stav on 12/16/18.
 //
 
+#include <iostream>
 #include "ConditionExpression.h"
 
  double ConditionExpression::Execute() {

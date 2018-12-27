@@ -5,7 +5,7 @@
 #ifndef SIMSERVER_WHILEEXPRESSION_H
 #define SIMSERVER_WHILEEXPRESSION_H
 #include "ConditionParser.h"
-
+#include <iostream>
 class WhileExpression: public ConditionParser{
 public:
     WhileExpression(shared_ptr<ConditionExpression> condition):ConditionParser(condition){}

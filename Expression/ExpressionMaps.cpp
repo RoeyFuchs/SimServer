@@ -1,14 +1,16 @@
+#include <iostream>
 #include "ExpressionMaps.h"
 
 void ExpressionMaps::UpdateExpression() {
-  this->locker.lock();
   for (auto itr = this->nameExpressionMap->begin(); itr != this->nameExpressionMap->end(); ++itr) {
     if (this->CheckMapHaveKey(*this->bindValueMap, (*itr).second->GetPath())) {
       double value = this->bindValueMap->at((*itr).second->GetPath());
+      this->locker.lock();
       (*itr).second->SetExpression(make_shared<Number>(value));
+      this->locker.unlock();
     }
   }
-  this->locker.unlock();
+
 }
 
 /**

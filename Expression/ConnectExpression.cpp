@@ -42,10 +42,6 @@ double ConnectExpression::Execute() {
 
 void ConnectExpression::SendData() {
   /* Send message to the server */
-  while (!deq.empty()) {
-    string str = this->deq.front();
-    cout << str << endl;
-    this->deq.pop_front();
+    string str = this->currentCommandl;
     write(this->sockfd, str.c_str(), str.length());
-  }
 }

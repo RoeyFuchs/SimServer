@@ -83,11 +83,13 @@ class ExpressionMaps {
     if (VarExists(name)) {
       this->locker.lock();
       this->nameExpressionMap->at(name) = exp;
+      this->locker.unlock();
     } else {
       this->locker.lock();
       this->nameExpressionMap->insert(pair<string, shared_ptr<VarExpression>>(name, exp));
+      this->locker.unlock();
     }
-    this->locker.unlock();
+
   }
 
 

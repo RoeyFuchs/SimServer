@@ -112,9 +112,9 @@ shared_ptr<Expression> Parser::ParseOpenDataServer(vector<string> &tokens) {
 shared_ptr<Expression> Parser::ParseConnect(vector<string> &tokens) {
   //slice connect and its port
   vector<string> subVec = this->utils->Slice(tokens, 2, tokens.size() - 1);
- // this->validateExpression->ValidateConnect(subVec);
+  // this->validateExpression->ValidateConnect(subVec);
   shared_ptr<ConnectExpression> connectExp = make_shared<ConnectExpression>(tokens[1],
-                                                                     this->shuntingYard->MakeExpression(subVec));
+                                                                            this->shuntingYard->MakeExpression(subVec));
   this->connectExpression = connectExp;
   return connectExp;
 }
@@ -125,18 +125,22 @@ shared_ptr<Expression> Parser::ParseConnect(vector<string> &tokens) {
  * The function parse print line into an expression
  */
 shared_ptr<Expression> Parser::ParsePrint(vector<string> &tokens) {
-  tokens = this->utils->Slice(tokens, 1, tokens.size() - 1);
+  //tokens = this->utils->Slice(tokens, 1, tokens.size() - 1);
   this->validateExpression->ValidatePrint(tokens);
   //simple print command, no need to evaluate an expression
   shared_ptr<Expression> printExp;
-  if (tokens.size() == this->expressionArguments["print"]) {
-    //check if print's arg is a string
-    if (!this->expressionMaps->VarExists(tokens[0])) {
-      //the second arg is string
-      printExp = make_shared<PrintExpression>(tokens[0]);
+  if (tokens.size() == this->expressionArguments["print"] + 1) {
+    if (tokens[1][0] == '\"') {
+      tokens[1] = tokens[1].substr(1, tokens[1].size() - 2);
     }
-  } else {
-    printExp = make_shared<PrintExpression>(this->shuntingYard->MakeExpression(tokens));
+    //check if print's arg is a string
+    if (!this->expressionMaps->VarExists(tokens[1])) {
+      //the second arg is string
+      printExp = make_shared<PrintExpression>(tokens[1]);
+    } else {
+      vector<string> subVec = this->utils->Slice(tokens, 1, tokens.size() - 1);
+      printExp = make_shared<PrintExpression>(this->shuntingYard->MakeExpression(subVec));
+    }
   }
   return printExp;
 }
@@ -229,7 +233,7 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string> &tokens) {
 
     } else {
       //bracket error input
- //     throw runtime_error("Error:Bracket input");
+      //     throw runtime_error("Error:Bracket input");
     }
   }
   if (tokens[0] == "{") {
@@ -239,7 +243,7 @@ shared_ptr<Expression> Parser::MakeAnExpression(vector<string> &tokens) {
 
     } else {
       //bracket error input
-   //   throw runtime_error("Error:Bracket input");
+      //   throw runtime_error("Error:Bracket input");
     }
   }
     //search for key words

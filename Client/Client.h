@@ -7,6 +7,7 @@
 #include "../Lexer/Lexer.h"
 #include "regex"
 #define REGEX_PATTERN "run\\s{1,}\"([^\"]+)\""
+#define EXIT_WORD "exit"
 
 using namespace std;
 

@@ -7,6 +7,7 @@
 
 #include <string>
 #include "Expression.h"
+#include "Number.h"
 
 class VarExpression : public Expression {
   string path;
@@ -14,7 +15,7 @@ class VarExpression : public Expression {
 
  public:
   VarExpression(string path) {
-    this->exp = nullptr;
+    this->exp = make_shared<Number>(0);
     this->path = path;
   }
   VarExpression(shared_ptr<Expression> exp) {

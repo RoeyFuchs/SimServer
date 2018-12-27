@@ -31,7 +31,7 @@
 class ConnectExpression : public Expression {
   shared_ptr<Expression> port;
   string ip;
-  deque<string> deq;
+  string currentCommandl;
   int sockfd;
   mutex lockNewCommand;
  public:
@@ -44,10 +44,11 @@ class ConnectExpression : public Expression {
   void GetCommand(string bind, double value) {
     string str = string(SET_COMMAND) + " " + bind + " " + to_string(value) + string(END_LINE);
     this->lockNewCommand.lock();
-    this->deq.push_back(bind);
+    this->currentCommandl = str;
     thread t2(&ConnectExpression::SendData, this);
-    t2.detach();
     this->lockNewCommand.unlock();
+    t2.detach();
+
   }
 
   void SendData();
